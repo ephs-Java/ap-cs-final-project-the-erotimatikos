@@ -1,0 +1,4 @@
+add isFlagged property to tiles
+add win condition
+change getbomb
+add constant variable for bomb chance
