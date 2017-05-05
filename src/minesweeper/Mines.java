@@ -125,7 +125,10 @@ public class Mines {
 		
 		
 		for(int r = 0;r<tiles.length;r++){
+//<<<<<<< HEAD
+//=======
 			for(int c = 0;c<tiles[0].length;c++){
+//>>>>>>> branch 'master' of https://github.com/ephs-Java/ap-cs-final-project-the-erotimatikos.git
 				if(tiles[r][c].getIsMine()){
 					tiles[r][c].show();
 				}
@@ -202,7 +205,7 @@ public class Mines {
 			}
 		}
 	}
-	
+	//
 //g5y3rqufweahasuh
 // WORK!
 

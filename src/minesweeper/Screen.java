@@ -14,6 +14,9 @@ import javax.swing.JFrame;
 
 public class Screen extends JFrame implements Runnable {
 
+	//boolean gameOver
+	private boolean isGameOver = false;
+	
 	//the mines
 	private Mines field;
 	Image bomb;
@@ -167,13 +170,20 @@ public class Screen extends JFrame implements Runnable {
 				Tile item = this.field.tiles[r][c];
 				g.setColor(Color.black);
 				//detects game over, clicking on a mine
-				if (item.getIsMine() && !item.getIsHidden()) {
+				if (item.getIsMine() && !item.getIsHidden() ) {
+					
+					//fills 
 					g.setColor(Color.red);
 					g.fillRect(15 + r * BLOCKWIDTH, 30 + c * BLOCKWIDTH, BLOCKWIDTH, BLOCKWIDTH);
 					g.drawImage(bomb,15 + r * BLOCKWIDTH, 30+c * BLOCKWIDTH, this);
 					g.setColor(Color.black);
-//					g.drawRect(15 + r * BLOCKWIDTH, 30 + c * BLOCKWIDTH, BLOCKWIDTH, BLOCKWIDTH);
+					
+					if (isGameOver) {
+						continue;
+					}
 					this.field.boom();
+					isGameOver = true;
+					g.drawRect(15 + r * BLOCKWIDTH, 30 + c * BLOCKWIDTH, BLOCKWIDTH, BLOCKWIDTH);
 					
 				}
 				//prints a gray block
