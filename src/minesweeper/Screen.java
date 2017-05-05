@@ -18,6 +18,7 @@ public class Screen extends JFrame implements Runnable {
 	private Mines field;
 	Image bomb;
 	Image flag;
+	Image explode;
 	//constant for the block width
 	private final int BLOCKWIDTH = 15;
 	
@@ -168,6 +169,10 @@ public class Screen extends JFrame implements Runnable {
 //					g.fillRect(15 + r * BLOCKWIDTH, 30 + c * BLOCKWIDTH, BLOCKWIDTH, BLOCKWIDTH);
 					g.setColor(Color.black);
 					g.drawRect(15 + r * BLOCKWIDTH, 30 + c * BLOCKWIDTH, BLOCKWIDTH, BLOCKWIDTH);
+					for (int i= 0; i< 1000; i++){
+						g.drawImage(bomb,15 + r * BLOCKWIDTH, 30+c * BLOCKWIDTH, this);
+					}
+					
 				}
 				else if(item.getIsHidden()){
 					g.setColor(Color.gray);
