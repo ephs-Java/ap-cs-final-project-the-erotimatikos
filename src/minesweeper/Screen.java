@@ -123,7 +123,7 @@ public class Screen extends JFrame implements Runnable {
 //=======
 			field.tiles[blockX][blockY].show();
 			field.updateFromPoint(blockX, blockY);
-			field.boom(field.tiles[blockX][blockY]);
+	
 //			field.select(blockX, blockY);
 //			System.out.println("Block X: " + blockX + " Block Y: " + blockY);
 //			System.out.println("Adjacent blocks: " + field.getBombs(blockX, blockY));
@@ -173,14 +173,7 @@ public class Screen extends JFrame implements Runnable {
 					g.drawImage(bomb,15 + r * BLOCKWIDTH, 30+c * BLOCKWIDTH, this);
 					g.setColor(Color.black);
 					g.drawRect(15 + r * BLOCKWIDTH, 30 + c * BLOCKWIDTH, BLOCKWIDTH, BLOCKWIDTH);
-					for (int row= 0; row<this.field.tiles.length; row++){
-						for(int col=0; col<this.field.tiles[0].length; col++){
-							if (this.field.tiles[row][col].getIsMine()){
-								field.boom(this.field.tiles[row][col]);
-							}
-						}
-					}
-	
+                   field.boom();
 				}
 				else if(item.getIsHidden()){
 					g.setColor(Color.gray);
