@@ -115,19 +115,15 @@ public class Mines {
 	//returns the tile at the given index
 	public Tile select(int r, int c){
 		this.tiles[r][c].show();
-		if(tiles[r][c].getIsMine()){
-			boom(tiles[r][c]);
-		}
-		
 		return tiles[r][c];
 		
 	}
 	
 	// Sets off all bombs. It is called each time bomb is selected 
-	public void boom(Tile ne){
+	public void boom(){
 		int off = 0;
 		
-		if(ne.getIsMine()){
+		
 		for(int r = 0;r<tiles.length;r++){
 			for(int c = 0;c<tiles[0].length;c++){
 				if(tiles[r][c].getIsMine()){
@@ -137,7 +133,7 @@ public class Mines {
 				
 			}
 		}
-		}
+		
 		System.out.println("Game over");
 	}
 

@@ -96,7 +96,7 @@ public class Screen extends JFrame implements Runnable {
 			int blockX = (mouseX - 18) / BLOCKWIDTH;
 			int blockY = (mouseY - 34) / BLOCKWIDTH;
 			
-			//prevents array index out of bounds
+			//prevents array index out of bounds for clicking on a block
 			if (blockX > field.tiles.length) {
 				blockX = field.tiles.length - 1;
 			}
@@ -123,7 +123,6 @@ public class Screen extends JFrame implements Runnable {
 //=======
 			field.tiles[blockX][blockY].show();
 			field.updateFromPoint(blockX, blockY);
-			field.boom(field.tiles[blockX][blockY]);
 //			field.select(blockX, blockY);
 //			System.out.println("Block X: " + blockX + " Block Y: " + blockY);
 //			System.out.println("Adjacent blocks: " + field.getBombs(blockX, blockY));
@@ -167,32 +166,24 @@ public class Screen extends JFrame implements Runnable {
 				
 				Tile item = this.field.tiles[r][c];
 				g.setColor(Color.black);
+				//detects game over, clicking on a mine
 				if (item.getIsMine() && !item.getIsHidden()) {
 					g.setColor(Color.red);
 					g.fillRect(15 + r * BLOCKWIDTH, 30 + c * BLOCKWIDTH, BLOCKWIDTH, BLOCKWIDTH);
 					g.drawImage(bomb,15 + r * BLOCKWIDTH, 30+c * BLOCKWIDTH, this);
 					g.setColor(Color.black);
-					g.drawRect(15 + r * BLOCKWIDTH, 30 + c * BLOCKWIDTH, BLOCKWIDTH, BLOCKWIDTH);
-					for (int row= 0; row<this.field.tiles.length; row++){
-						for(int col=0; col<this.field.tiles[row].length; col++){
-							if (this.field.tiles[row][col].getIsMine()){
-								g.setColor(Color.white);
-								g.fillRect(15 + row * BLOCKWIDTH, 30 + col * BLOCKWIDTH, BLOCKWIDTH, BLOCKWIDTH);
-								g.drawImage(bomb,15 + row * BLOCKWIDTH, 30+col * BLOCKWIDTH, this);
-								g.setColor(Color.black);
-								g.drawRect(15 + row* BLOCKWIDTH, 30 + col * BLOCKWIDTH, BLOCKWIDTH, BLOCKWIDTH);
-							}
-						}
-					}
-	
+//					g.drawRect(15 + r * BLOCKWIDTH, 30 + c * BLOCKWIDTH, BLOCKWIDTH, BLOCKWIDTH);
+					this.field.boom();
+					
 				}
+				//prints a gray block
 				else if(item.getIsHidden()){
 					g.setColor(Color.gray);
 					g.fillRect(15 + r * BLOCKWIDTH, 30 + c * BLOCKWIDTH, BLOCKWIDTH, BLOCKWIDTH);
 					g.setColor(Color.black);
 					g.drawRect(15 + r * BLOCKWIDTH, 30 + c * BLOCKWIDTH, BLOCKWIDTH, BLOCKWIDTH);
 				}
-				//
+				//prints a number on exposed blocks
 				else {
 					g.drawRect(15 + r * BLOCKWIDTH, 30 + c * BLOCKWIDTH, BLOCKWIDTH, BLOCKWIDTH);
 					if (this.field.tiles[r][c].getIsNum() != 0) {

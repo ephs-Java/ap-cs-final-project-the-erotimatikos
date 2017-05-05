@@ -9,8 +9,8 @@ public class Runner {
 		Screen scr = new Screen();
 
 
-		Thread t1 = new Thread(scr);
-		t1.start();
+//		Thread t1 = new Thread(scr);
+//		t1.start();
 		
     
 		
