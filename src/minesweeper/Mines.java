@@ -7,7 +7,7 @@ public class Mines {
 	public Tile[][] tiles;
 	
 //Enter th
-	private final double BOMBSTAT = 4;
+	private final double BOMBSTAT = 10;
 	
 	
 	//public Tile(boolean h, boolean m, int n){
@@ -77,9 +77,22 @@ public class Mines {
 		}
 		return counter;
 		
+	}
+	
+	//updates the number for every bomb on the screen
+	public void updateAllNums() {
+		
+		for (int r = 0; r < tiles.length; r++) {
+			
+			for (int c = 0; c < tiles[0].length; c++) {
+				
+				tiles[r][c].setNum(getBombs(r, c));
+				
+			}
+			
+		}
 		
 	}
-	// get bombs is done now.
 	
 	//Prints minefield of bomb status 
 	public void printMineField(){
