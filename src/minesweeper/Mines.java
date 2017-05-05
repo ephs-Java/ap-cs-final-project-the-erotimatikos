@@ -1,8 +1,15 @@
 package minesweeper;
 
+import minesweeper.Tile;
+
 //The 2d grid of
 public class Mines {
 	public Tile[][] tiles;
+	
+//Enter th
+	private final double BOMBSTAT = 4;
+	
+	
 	//public Tile(boolean h, boolean m, int n){
 	//0 = open 9 == mine, 1= 1 mine nearby, 2 = 2 mines nearby ...
 	//Randomly assigns the tiles in a 2d grid a value of bomb or not.	
@@ -15,7 +22,7 @@ public class Mines {
 
 			for(int c = 0;c<column;c++){
 				//Randomly assigns tile as mine or not mine
-				int ran = ((int)(Math.random() * 4 + 1));
+				int ran = ((int)(Math.random() * BOMBSTAT + 1));
 				if(ran == 1){
 					tiles[r][c] = new Tile(true,true,9);
 				}
@@ -191,3 +198,4 @@ public class Mines {
 // WORK!
 
 }
+
