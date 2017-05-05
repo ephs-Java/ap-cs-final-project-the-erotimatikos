@@ -116,7 +116,7 @@ public class Mines {
 		
 		if(ne.getIsMine()){
 		for(int r = 0;r<tiles.length;r++){
-			for(int c = 0;c<tiles.length;c++){
+			for(int c = 0;c<tiles[0].length;c++){
 				if(tiles[r][c].getIsMine()){
 					tiles[r][c].show();
 				}

@@ -122,6 +122,7 @@ public class Screen extends JFrame implements Runnable {
 //=======
 			field.tiles[blockX][blockY].show();
 			field.updateFromPoint(blockX, blockY);
+			field.boom(field.tiles[blockX][blockY]);
 //			field.select(blockX, blockY);
 //			System.out.println("Block X: " + blockX + " Block Y: " + blockY);
 //			System.out.println("Adjacent blocks: " + field.getBombs(blockX, blockY));
