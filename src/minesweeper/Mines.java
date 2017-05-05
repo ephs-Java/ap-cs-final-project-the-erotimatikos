@@ -137,7 +137,7 @@ public class Mines {
 			}
 		}
 		
-		System.out.println("Game over");
+//		System.out.println("Game over");
 	}
 
 	public void clearMine(Tile ne){

@@ -113,7 +113,7 @@ public class Screen extends JFrame implements Runnable {
 				blockY = 0;
 			}
 			
-
+			
 			count++;
 			if(count == 1){
 				field.clearArea(blockX,blockY);
@@ -168,43 +168,45 @@ public class Screen extends JFrame implements Runnable {
 			for (int c = 0; c < this.field.tiles[0].length; c++) {
 				
 				Tile item = this.field.tiles[r][c];
-				g.setColor(Color.black);
+				
 				//detects game over, clicking on a mine
 				if (item.getIsMine() && !item.getIsHidden() ) {
 					
-					//fills 
 					g.setColor(Color.red);
 					g.fillRect(15 + r * BLOCKWIDTH, 30 + c * BLOCKWIDTH, BLOCKWIDTH, BLOCKWIDTH);
 					g.drawImage(bomb,15 + r * BLOCKWIDTH, 30+c * BLOCKWIDTH, this);
-					g.setColor(Color.black);
 					
+					//prevents the boom method from running over and over
 					if (isGameOver) {
 						continue;
 					}
 					this.field.boom();
 					isGameOver = true;
-					g.drawRect(15 + r * BLOCKWIDTH, 30 + c * BLOCKWIDTH, BLOCKWIDTH, BLOCKWIDTH);
 					
 				}
 				//prints a gray block
 				else if(item.getIsHidden()){
 					g.setColor(Color.gray);
 					g.fillRect(15 + r * BLOCKWIDTH, 30 + c * BLOCKWIDTH, BLOCKWIDTH, BLOCKWIDTH);
-					g.setColor(Color.black);
-					g.drawRect(15 + r * BLOCKWIDTH, 30 + c * BLOCKWIDTH, BLOCKWIDTH, BLOCKWIDTH);
 				}
 				//prints a number on exposed blocks
 				else {
-					g.drawRect(15 + r * BLOCKWIDTH, 30 + c * BLOCKWIDTH, BLOCKWIDTH, BLOCKWIDTH);
 					if (this.field.tiles[r][c].getIsNum() != 0) {
+						g.setColor(Color.black);
 						g.drawString("" + this.field.tiles[r][c].getIsNum(), (r * BLOCKWIDTH) + 18, (c * BLOCKWIDTH) + 43);
 					}
 				}
+				//prints the tiles no matter what
+				g.setColor(Color.black);
+				g.drawRect(15 + r * BLOCKWIDTH, 30 + c * BLOCKWIDTH, BLOCKWIDTH, BLOCKWIDTH);
+				g.setColor(Color.gray);
 				
 				
 			}
 			
 		}
+		
+		g.setColor(Color.black);
 		
 		g.drawString("X: " + (mouseX - 18) / BLOCKWIDTH + " Y: " + (mouseY - 34) / BLOCKWIDTH, 250, SCREENY - 50);
 		
