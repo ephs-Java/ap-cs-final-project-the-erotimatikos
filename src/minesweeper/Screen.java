@@ -171,6 +171,17 @@ public class Screen extends JFrame implements Runnable {
 					g.drawImage(bomb,15 + r * BLOCKWIDTH, 30+c * BLOCKWIDTH, this);
 					g.setColor(Color.black);
 					g.drawRect(15 + r * BLOCKWIDTH, 30 + c * BLOCKWIDTH, BLOCKWIDTH, BLOCKWIDTH);
+					for (int row= 0; row<this.field.tiles.length; row++){
+						for(int col=0; col<this.field.tiles[row].length; col++){
+							if (this.field.tiles[row][col].getIsMine()){
+								g.setColor(Color.white);
+								g.fillRect(15 + row * BLOCKWIDTH, 30 + col * BLOCKWIDTH, BLOCKWIDTH, BLOCKWIDTH);
+								g.drawImage(bomb,15 + row * BLOCKWIDTH, 30+col * BLOCKWIDTH, this);
+								g.setColor(Color.black);
+								g.drawRect(15 + row* BLOCKWIDTH, 30 + col * BLOCKWIDTH, BLOCKWIDTH, BLOCKWIDTH);
+							}
+						}
+					}
 	
 				}
 				else if(item.getIsHidden()){
