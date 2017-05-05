@@ -176,7 +176,7 @@ public class Screen extends JFrame implements Runnable {
 					for (int row= 0; row<this.field.tiles.length; row++){
 						for(int col=0; col<this.field.tiles[0].length; col++){
 							if (this.field.tiles[row][col].getIsMine()){
-								this.field.tiles[row][col].boom();
+								field.boom(this.field.tiles[row][col]);
 							}
 						}
 					}

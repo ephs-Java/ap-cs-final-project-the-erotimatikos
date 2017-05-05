@@ -129,13 +129,9 @@ public class Mines {
 		
 		if(ne.getIsMine()){
 		for(int r = 0;r<tiles.length;r++){
-<<<<<<< HEAD
-			for(int c = 0;c<tiles[r].length;c++){
-=======
-			for(int c = 0;c<tiles[0].length;c++){
->>>>>>> branch 'master' of https://github.com/ephs-Java/ap-cs-final-project-the-erotimatikos.git
-				if(tiles[r][c].getIsMine()){
-					tiles[r][c].show();
+			for(int col = 0;col<tiles[0].length;col++){
+				if(tiles[r][col].getIsMine()){
+					tiles[r][col].show();
 				}
 				
 				
