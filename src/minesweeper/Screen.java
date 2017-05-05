@@ -8,13 +8,16 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
 public class Screen extends JFrame implements Runnable {
 
 	//the mines
 	private Mines field;
-	
+	Image bomb;
+	Image flag;
 	//constant for the block width
 	private final int BLOCKWIDTH = 15;
 	
@@ -34,7 +37,8 @@ public class Screen extends JFrame implements Runnable {
 	
 	//the default constructor, creates JFrame
 	public Screen() {
-		
+		ImageIcon i= new ImageIcon("bomb_PNG26.png");
+		bomb= i.getImage();
 		//creates mines object
 		field = new Mines(minesX, minesY);
 		
@@ -159,8 +163,9 @@ public class Screen extends JFrame implements Runnable {
 				Tile item = this.field.tiles[r][c];
 				g.setColor(Color.black);
 				if (item.getIsMine() && !item.getIsHidden()) {
-					g.setColor(Color.red);
-					g.fillRect(15 + r * BLOCKWIDTH, 30 + c * BLOCKWIDTH, BLOCKWIDTH, BLOCKWIDTH);
+					g.drawImage(bomb,15 + r * BLOCKWIDTH, 30+c * BLOCKWIDTH, this);
+				 //g.setColor(Color.red);
+//					g.fillRect(15 + r * BLOCKWIDTH, 30 + c * BLOCKWIDTH, BLOCKWIDTH, BLOCKWIDTH);
 					g.setColor(Color.black);
 					g.drawRect(15 + r * BLOCKWIDTH, 30 + c * BLOCKWIDTH, BLOCKWIDTH, BLOCKWIDTH);
 				}
