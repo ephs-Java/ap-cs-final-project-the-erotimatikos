@@ -160,13 +160,14 @@ public class Screen extends JFrame implements Runnable {
 	
 	//printing stuff to the screen
 	public void paintComponent(Graphics g) {
-		
+		//constantly repaints
 		for (int r = 0; r < this.field.tiles.length; r++) {
 			
 			for (int c = 0; c < this.field.tiles[0].length; c++) {
 				
 				Tile item = this.field.tiles[r][c];
 				g.setColor(Color.black);
+				//for a revealed mine
 				if (item.getIsMine() && !item.getIsHidden()) {
 					g.setColor(Color.red);
 					g.fillRect(15 + r * BLOCKWIDTH, 30 + c * BLOCKWIDTH, BLOCKWIDTH, BLOCKWIDTH);
@@ -175,13 +176,14 @@ public class Screen extends JFrame implements Runnable {
 					g.drawRect(15 + r * BLOCKWIDTH, 30 + c * BLOCKWIDTH, BLOCKWIDTH, BLOCKWIDTH);
                    field.boom();
 				}
+				// for all non-shown tiles
 				else if(item.getIsHidden()){
 					g.setColor(Color.gray);
 					g.fillRect(15 + r * BLOCKWIDTH, 30 + c * BLOCKWIDTH, BLOCKWIDTH, BLOCKWIDTH);
 					g.setColor(Color.black);
 					g.drawRect(15 + r * BLOCKWIDTH, 30 + c * BLOCKWIDTH, BLOCKWIDTH, BLOCKWIDTH);
 				}
-				//
+				//prints numbers 
 				else {
 					g.drawRect(15 + r * BLOCKWIDTH, 30 + c * BLOCKWIDTH, BLOCKWIDTH, BLOCKWIDTH);
 					if (this.field.tiles[r][c].getIsNum() != 0) {
