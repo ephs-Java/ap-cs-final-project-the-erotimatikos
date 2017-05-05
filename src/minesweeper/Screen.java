@@ -40,6 +40,8 @@ public class Screen extends JFrame implements Runnable {
 	public Screen() {
 		ImageIcon i= new ImageIcon("bomb_PNG26.png");
 		bomb= i.getImage();
+		ImageIcon j= new ImageIcon("boom.png");
+		explode= j.getImage();
 		//creates mines object
 		field = new Mines(minesX, minesY);
 		
@@ -165,14 +167,9 @@ public class Screen extends JFrame implements Runnable {
 				g.setColor(Color.black);
 				if (item.getIsMine() && !item.getIsHidden()) {
 					g.drawImage(bomb,15 + r * BLOCKWIDTH, 30+c * BLOCKWIDTH, this);
-				 //g.setColor(Color.red);
-//					g.fillRect(15 + r * BLOCKWIDTH, 30 + c * BLOCKWIDTH, BLOCKWIDTH, BLOCKWIDTH);
 					g.setColor(Color.black);
 					g.drawRect(15 + r * BLOCKWIDTH, 30 + c * BLOCKWIDTH, BLOCKWIDTH, BLOCKWIDTH);
-					for (int i= 0; i< 1000; i++){
-						g.drawImage(bomb,15 + r * BLOCKWIDTH, 30+c * BLOCKWIDTH, this);
-					}
-					
+	
 				}
 				else if(item.getIsHidden()){
 					g.setColor(Color.gray);
