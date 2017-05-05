@@ -218,7 +218,6 @@ public class Screen extends JFrame implements Runnable {
 		dbg = dbImage.getGraphics();
 		paintComponent(dbg);
 		g.drawImage(dbImage, 0, 0, this);
-		
 	}
 	
-}
+	}
