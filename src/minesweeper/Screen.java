@@ -112,6 +112,7 @@ public class Screen extends JFrame implements Runnable {
 			count++;
 			if(count == 1){
 				field.clearArea(blockX,blockY);
+				field.updateAllNums();
 			}
 			if (count > 1000) {
 				count = 1000;
@@ -183,8 +184,8 @@ public class Screen extends JFrame implements Runnable {
 				//
 				else {
 					g.drawRect(15 + r * BLOCKWIDTH, 30 + c * BLOCKWIDTH, BLOCKWIDTH, BLOCKWIDTH);
-					if (this.field.getBombs(r, c) != 0) {
-						g.drawString("" + this.field.getBombs(r, c), (r * BLOCKWIDTH) + 18, (c * BLOCKWIDTH) + 43);
+					if (this.field.tiles[r][c].getIsNum() != 0) {
+						g.drawString("" + this.field.tiles[r][c].getIsNum(), (r * BLOCKWIDTH) + 18, (c * BLOCKWIDTH) + 43);
 					}
 				}
 				
