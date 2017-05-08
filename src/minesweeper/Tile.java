@@ -6,7 +6,7 @@ public class Tile {
 	//fields
 	private boolean isHidden;
 	private boolean isMine;
-	
+	private boolean isFlagged;
 	private int num;
 	
 	
@@ -22,6 +22,20 @@ public class Tile {
 		this.isHidden = h;
 		this.isMine = m;
 		this.num = 0;
+	}
+	
+	public boolean isFlagged() {
+		return this.isFlagged;
+	}
+	
+	//toggles flag
+	public void toggleFlag() {
+		if (this.isFlagged) {
+			this.isFlagged = false;
+		}
+		else {
+			this.isFlagged = true;
+		}
 	}
 	
 	public void removeBomb() {

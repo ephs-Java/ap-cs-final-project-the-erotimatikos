@@ -1,9 +1,9 @@
-//Jframe that displays 
 package minesweeper;
 
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -12,10 +12,13 @@ import java.awt.event.MouseEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
-public class Screen extends JFrame implements Runnable {
+public class Screen extends JFrame {
 
 	//boolean gameOver
 	private boolean isGameOver = false;
+	
+	//boolean for winning the game
+	private boolean victory = false;
 	
 	//the mines
 	private Mines field;
@@ -26,10 +29,10 @@ public class Screen extends JFrame implements Runnable {
 	private final int BLOCKWIDTH = 15;
 	
 	//screen dimensions variables
-	private final int SCREENX = 800, SCREENY = 500;
+	private final int SCREENX = 1300, SCREENY = 750;//800 by 500 default
 	
-	int minesX = 50;
-	int minesY = 25;
+	int minesX = 80;//default 50
+	int minesY = 40;//default 25
 	
 	//double buffering
 	private Image dbImage;
@@ -39,12 +42,18 @@ public class Screen extends JFrame implements Runnable {
 	//mouse x and y variables
 	private int mouseX = 0, mouseY = 0;
 	
+	//how many non flag placing clicks the user has made
+	private static int count = 0;
+	
 	//the default constructor, creates JFrame
 	public Screen() {
-		ImageIcon i= new ImageIcon("bomb_PNG26.png");
-		bomb= i.getImage();
-		ImageIcon j= new ImageIcon("boom.png");
-		explode= j.getImage();
+		
+		//handles pictures
+		ImageIcon image1 = new ImageIcon("bomb_PNG26.png");
+		bomb = image1.getImage();
+		ImageIcon image2 = new ImageIcon("boom.png");
+		explode = image2.getImage();
+		
 		//creates mines object
 		field = new Mines(minesX, minesY);
 		
@@ -62,37 +71,18 @@ public class Screen extends JFrame implements Runnable {
 		
 	}
 	
-	private static int count = 0;
-	//the thread
-	public void run() {
-		
-		try {
-			
-			while (true) {
-				
-				
-				
-			}
-			
-		}
-		catch(Exception e) {
-			System.out.println("Error in thread: " + e.getMessage());
-		}
-		
-	}
-	
 	//mouse input
 	public class Mouse extends MouseAdapter {
 		
 		public void mousePressed(MouseEvent e)  {
 		
+			if (isGameOver) {
+				return;
+			}
+			
 			mouseX = e.getX();
 			mouseY = e.getY();
 			
-			//handles flag placement
-			if (e.isControlDown()) {
-				
-			}
 			
 //			System.out.println("Mouse X: " + mouseX + " Mouse Y: " + mouseY);
 			
@@ -113,27 +103,28 @@ public class Screen extends JFrame implements Runnable {
 				blockY = 0;
 			}
 			
-			
+			//handles flag placement
+			//can use right click, control click, alt click, or shift click to place a flag
+			if (e.getButton() == MouseEvent.BUTTON3 || e.isControlDown() || e.isAltDown() || e.isShiftDown()) {
+				field.tiles[blockX][blockY].toggleFlag();
+				return;
+			}
+			//adds 1 to count
 			count++;
+			//clears a 3 by 3 area on the first turn
 			if(count == 1){
 				field.clearArea(blockX,blockY);
 				field.updateAllNums();
 			}
+			//disables count stack overflow
 			if (count > 1000) {
 				count = 1000;
 			}
-//<<<<<<< HEAD
-//=======
+			
 			field.tiles[blockX][blockY].show();
 			field.updateFromPoint(blockX, blockY);
-//			field.select(blockX, blockY);
-//			System.out.println("Block X: " + blockX + " Block Y: " + blockY);
-//			System.out.println("Adjacent blocks: " + field.getBombs(blockX, blockY));
-//>>>>>>> branch 'master' of https://github.com/Jythonscript/Minesweeper.git
-
-//			System.out.println("Block X: " + blockX + " Block Y: " + blockY);
-//			System.out.println("Adjacent bombs: " + field.getBombs(blockX, blockY));
-
+			
+			victory = field.isVictory();
 			
 		}
 		
@@ -148,6 +139,12 @@ public class Screen extends JFrame implements Runnable {
 			
 			if (key == e.VK_Q) {
 				System.exit(0);
+			}
+			if (key == e.VK_R) {
+				field = new Mines(minesX, minesY);
+				isGameOver = false;
+				victory = false;
+				count = 0;
 			}
 			
 		}
@@ -187,7 +184,12 @@ public class Screen extends JFrame implements Runnable {
 				//prints a gray block
 				else if(item.getIsHidden()){
 					g.setColor(Color.gray);
+					//colors flags green
+					if (field.tiles[r][c].isFlagged()) {
+						g.setColor(Color.green);
+					}
 					g.fillRect(15 + r * BLOCKWIDTH, 30 + c * BLOCKWIDTH, BLOCKWIDTH, BLOCKWIDTH);
+					
 				}
 				//prints a number on exposed blocks
 				else {
@@ -212,6 +214,13 @@ public class Screen extends JFrame implements Runnable {
 		
 		g.drawString("Mouse X: " + mouseX + " Mouse Y: " + mouseY, 20, SCREENY - 50);
 		
+		if (victory) {
+//			System.out.println("asdfa");
+			g.setColor(Color.green);
+			g.drawString("VICTORY!!", 400, SCREENY - 50);
+			g.setColor(Color.black);
+		}
+		
 		repaint();
 		
 	}
@@ -225,4 +234,4 @@ public class Screen extends JFrame implements Runnable {
 		g.drawImage(dbImage, 0, 0, this);
 	}
 	
-	}
+}
