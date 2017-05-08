@@ -15,7 +15,6 @@ public class Screen extends JFrame implements Runnable{
 	private int SCREENX,SCREENY;
 	private int Charlocx,Charlocy;
 	Image bird; 
-	ImageIcon thisbird;
 	private String theme= new String("normal");
 	public void run (){
 			try{
@@ -42,13 +41,12 @@ public class Screen extends JFrame implements Runnable{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		if (theme.equals("normal")){
 		setBackground(Color.green);
-//		bird= new ImageIcon (File("bird.png"));
+		ImageIcon image1 = new ImageIcon("Flappy_Bird.png");
+		bird = image1.getImage();
 		}
 		
 	}
 	public void paint(Graphics g) {
-		
-		
 		
 		dbImage = createImage(getWidth(), getHeight());
 		dbg = dbImage.getGraphics();
@@ -56,8 +54,7 @@ public class Screen extends JFrame implements Runnable{
 		g.drawImage(dbImage, 0, 0, this);
 	}
 	public void paintComponent(Graphics g) {
-//	g.drawImage(bird, );
-		
+    g.drawImage(bird, 50 ,100, this );
 		
 		repaint();
 	}
