@@ -29,10 +29,10 @@ public class Screen extends JFrame {
 	private final int BLOCKWIDTH = 15;
 	
 	//screen dimensions variables
-	private final int SCREENX = 1300, SCREENY = 750;//800 by 500 default
+	private final int SCREENX = 800, SCREENY = 500;//800 by 500 default
 	
-	int minesX = 80;//default 50
-	int minesY = 40;//default 25
+	int minesX = 50;//default 50
+	int minesY = 25;//default 25
 	
 	//double buffering
 	private Image dbImage;
