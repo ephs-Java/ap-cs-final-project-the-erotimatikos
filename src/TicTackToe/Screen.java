@@ -13,14 +13,19 @@ import practice.Video4.AL;
 
 public class Screen extends JFrame {
 
-	
+	 boolean playerNum;
 	int x, y;
+	private static int numOfClicks = 0;
 	
+	private Board field = new Board();
+	
+
 	
 	private Image dbImage;
 	private Graphics dbg;
 	
 	public static void main(String[] args){
+		
 		new Screen();
 	}
 
@@ -29,16 +34,41 @@ public class Screen extends JFrame {
 		public void keyPressed(KeyEvent e){
 			int keyInput = e.getKeyCode(); //Code of each key pressed
 			if(keyInput == e.VK_LEFT){	  //Left key
+				if(x - 50 == 0){
+					x = 50;
+				}else
 				x = x - 100;
 			}
 			if(keyInput == e.VK_RIGHT){	 //Right Key
+				if(x + 50 == 300){
+					x = 250;
+				}else
 				x = x + 100;
 			}
 			if(keyInput == e.VK_UP){	//Up arrow
-				y = y -100;
+				if(y - 50 == 0){
+				y = 50;
+				}else{
+					y = y -100;
+				}
 			}
 			if(keyInput == e.VK_DOWN){	//Down Arrow
-				y = y + 100;
+				if(y + 50 == 300){
+					y = 250;
+				}else
+						y = y + 100;
+			}
+			if(keyInput == e.VK_ENTER){
+				if(field.tiles[x / 100][y / 100].get() == 0){
+				if(numOfClicks % 2 == 0){
+					field.tiles[x / 100][y / 100].setTo(1);
+				}
+				else{
+					field.tiles[x / 100][y / 100].setTo(2);
+				}
+				
+				numOfClicks++;
+				}
 			}
 		}
 	}
@@ -64,14 +94,34 @@ public class Screen extends JFrame {
 	public void paintComponent(Graphics g){
 		
 		
+	
+		
+		for(int r = 0; r <= 2;r++){
+			for(int c = 0; c<= 2;c++){
+				if(field.tiles[r][c].get() == 1){
+					
+					
+					g.setColor(Color.green);
+					g.fillRect(100 * r, 100 * c, 100, 100);
+				}
+				else if(field.tiles[r][c].get() == 2){
+						g.setColor(Color.red);
+						g.fillRect(100 * r, 100 * c, 100, 100);
+					
+				}
+				g.setColor(Color.blue);
+				g.drawRect(100 * r, 100 * c, 100, 100);
+			}
+		}
+		
 		g.setColor(Color.blue); 
 		g.drawOval(x, y, 10, 10);
-		g.drawLine(100, 0, 100, 300);
-		g.drawLine(200, 0, 200, 300);
-		g.drawLine(0, 100, 300, 100);
-		g.drawLine(0, 200, 300, 200);
-		g.drawLine(0, 300, 300, 300);
+		
+		g.setColor(Color.black);
+		g.drawString("Player 1 turn " + playerNum, 0, 350);
+		
 		repaint(); //Causes it to refresh once it reaches this point
+		
 		
 	}
 	

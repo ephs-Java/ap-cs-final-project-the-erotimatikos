@@ -10,12 +10,13 @@ public class Tile {
 		this.XO = 0;
 		
 	}
-	
-	
-	
+	public Tile(int n){
+		this.XO = n;
+		
+	}
 	
 	public int get(){
-		return XO;
+		return this.XO;
 	}
 	
 	//X is true
