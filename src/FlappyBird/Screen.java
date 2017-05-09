@@ -14,14 +14,14 @@ public class Screen extends JFrame implements Runnable{
 	private Graphics dbg;
 	private int SCREENX,SCREENY;
 	private int Charlocx,Charlocy;
-	Image bird; 
+	private int changey= 0;
+	
+	Image bird;
 	private String theme= new String("normal");
 	public void run (){
 			try{
 				while(true){
-					
-			
-					
+					move();
 					Thread.sleep(5);
 				}
 			}
@@ -32,6 +32,7 @@ public class Screen extends JFrame implements Runnable{
 		}
 	public Screen() {
 		// TODO Auto-generated constructor stub
+		addKeyListener( new AL()); 
 		SCREENX= 1300;
 		SCREENY= 700;
 		setTitle("Flappy Bird");
@@ -54,40 +55,37 @@ public class Screen extends JFrame implements Runnable{
 		g.drawImage(dbImage, 0, 0, this);
 	}
 	public void paintComponent(Graphics g) {
-    g.drawImage(bird, 50 ,100, this );
+    g.drawImage(bird, Charlocx ,Charlocy, this );
 		
 		repaint();
 	}
+	
+	public void move(){
+	Charlocy += changey;
+	}
+	public void sety(int a){
+		changey=a;
+	}
+	
 public class AL extends KeyAdapter{
 	public void keyPressed(KeyEvent e){
 		int KeyCode = e.getKeyCode();
-		if (KeyCode == e.VK_UP){
-			
+		if (KeyCode == e.VK_SPACE){
+			sety(-25);
 		}
-		if (KeyCode == e.VK_DOWN){
-			
-		} 
-			if (KeyCode == e.VK_W){
-			
-			}
-			if (KeyCode == e.VK_S){
-			
-			} 
+
 	}
 	public void keyReleased(KeyEvent e){
 		int KeyCode = e.getKeyCode();
-		if (KeyCode == e.VK_S){
-			
+		if (KeyCode == e.VK_SPACE){
+			sety(0);
 		}
-		if (KeyCode == e.VK_W){
-			
-		}
-		if (KeyCode == e.VK_UP){
-		
-		}
-		if (KeyCode == e.VK_DOWN){
-			
-		} 
+
 	}
+}
+public static void main(String[] args){
+	Screen josh= new Screen();
+	Thread t1= new Thread();
+	t1.start();
 }
 }
