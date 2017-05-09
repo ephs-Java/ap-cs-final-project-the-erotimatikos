@@ -28,6 +28,7 @@ public class Screen extends JFrame implements Runnable{
 			try{
 				while(true){
 					move();
+					collision();
 					Thread.sleep(6);
 				}
 			}
@@ -47,7 +48,7 @@ public class Screen extends JFrame implements Runnable{
 		setResizable(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		if (theme.equals("normal")){
-		setBackground(Color.green);
+		setBackground(Color.cyan);
 		ImageIcon image1 = new ImageIcon("Flappy_Bird.png");
 		bird = image1.getImage();
 		ImageIcon image2 = new ImageIcon("Wing.png");
@@ -61,7 +62,9 @@ public class Screen extends JFrame implements Runnable{
 		
 	}
 	public void collision(){
-		
+		if (Charlocy >= SCREENY){
+			Charlocy= SCREENY - 40;
+		}
 	}
 	public void paint(Graphics g) {
 		dbImage = createImage(getWidth(), getHeight());
