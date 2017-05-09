@@ -31,8 +31,8 @@ public class Screen extends JFrame {
 	//screen dimensions variables
 	private final int SCREENX = 800, SCREENY = 500;//800 by 500 default
 	
-	int minesX = 5;//default 50
-	int minesY = 5;//default 25
+	int minesX = 50;//default 50
+	int minesY = 25;//default 25
 	
 	//double buffering
 	private Image dbImage;

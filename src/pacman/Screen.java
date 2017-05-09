@@ -3,6 +3,8 @@ package pacman;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.JFrame;
 
@@ -15,6 +17,8 @@ public class Screen extends JFrame {
 	//main method
 	public Screen() {
 		
+		//keyboard listener
+		addKeyListener(new keyboard());
 		
 		//sets the properties of the screen
 		setTitle("Pac-Man");
@@ -23,6 +27,23 @@ public class Screen extends JFrame {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBackground(Color.black);
+		
+	}
+	
+	//class that handles key input
+	public class keyboard extends KeyAdapter {
+		
+		public void keyPressed(KeyEvent e) {
+			
+			int key = e.getKeyCode();
+			
+		}
+		
+		public void keyReleased(KeyEvent e) {
+			
+			int key = e.getKeyCode();
+			
+		}
 		
 	}
 	

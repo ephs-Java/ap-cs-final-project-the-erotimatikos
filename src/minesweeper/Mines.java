@@ -12,7 +12,7 @@ public class Mines {
 
 	// 10 is a good # for the default dimensions, 1 in n chance of a bomb
 	// spawning at each tile
-	private final double BOMBCHANCE = 1;
+	private final double BOMBCHANCE = 6;
 
 	// 0 = open 9 == mine, 1= 1 mine nearby, 2 = 2 mines nearby ...
 	// Randomly assigns the tiles in a 2d grid a value of bomb or not.
