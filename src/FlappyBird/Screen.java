@@ -48,20 +48,19 @@ public class Screen extends JFrame implements Runnable{
 		
 	}
 	public void paint(Graphics g) {
-		
 		dbImage = createImage(getWidth(), getHeight());
 		dbg = dbImage.getGraphics();
 		paintComponent(dbg);
 		g.drawImage(dbImage, 0, 0, this);
 	}
 	public void paintComponent(Graphics g) {
-    g.drawImage(bird, Charlocx ,Charlocy, this );
-		
-		repaint();
+    g.drawImage(bird, Charlocx ,Charlocy, this);
+	repaint();
 	}
 	
 	public void move(){
 	Charlocy += changey;
+
 	}
 	public void sety(int a){
 		changey=a;
@@ -71,7 +70,7 @@ public class AL extends KeyAdapter{
 	public void keyPressed(KeyEvent e){
 		int KeyCode = e.getKeyCode();
 		if (KeyCode == e.VK_SPACE){
-			sety(-25);
+			sety(-5);
 		}
 
 	}
@@ -85,7 +84,7 @@ public class AL extends KeyAdapter{
 }
 public static void main(String[] args){
 	Screen josh= new Screen();
-	Thread t1= new Thread();
+	Thread t1= new Thread(josh);
 	t1.start();
 }
 }
