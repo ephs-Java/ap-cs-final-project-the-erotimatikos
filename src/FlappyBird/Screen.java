@@ -20,12 +20,15 @@ public class Screen extends JFrame implements Runnable{
 	Image bird;
 	Image wing;
 	Image fly;
+	Image fall;
+	private boolean tap= true;
+	private int pixelcounter, pixelcounter2;
 	private String theme= new String("normal");
 	public void run (){
 			try{
 				while(true){
 					move();
-					Thread.sleep(10);
+					Thread.sleep(6);
 				}
 			}
 			catch(Exception e) {
@@ -51,7 +54,13 @@ public class Screen extends JFrame implements Runnable{
 		wing = image2.getImage();
 		ImageIcon image3 = new ImageIcon("flying.png");
 		fly = image3.getImage();
+		ImageIcon image4 = new ImageIcon("falling.png");
+		fall = image4.getImage();
+		birdused=bird;
 		}
+		
+	}
+	public void collision(){
 		
 	}
 	public void paint(Graphics g) {
@@ -68,6 +77,15 @@ public class Screen extends JFrame implements Runnable{
 	public void move(){
 	Charlocy += changey;
     Charlocy ++;
+    pixelcounter++;
+    pixelcounter2++;
+    if (pixelcounter2 == 30){
+    	birdused= bird;
+    }
+    if (pixelcounter == 100){
+    	birdused= fall;
+    	pixelcounter=0;
+    }
 	}
 	public void sety(int a){
 		changey=a;
@@ -77,19 +95,25 @@ public class AL extends KeyAdapter{
 	public void keyPressed(KeyEvent e){
 		int KeyCode = e.getKeyCode();
 		if (KeyCode == e.VK_SPACE){
-//			if(tap){
-			sety(-10);
+			if(tap){
+				pixelcounter=0;
+				pixelcounter2=0;
+			sety(-5);
+			for( int i=0; i<20; i++){
+			move();
+			}	
 			birdused= fly;
-			
-			
+			tap= false;
+			} 
+			sety(0);
+		
 		}
-
 	}
 	public void keyReleased(KeyEvent e){
 		int KeyCode = e.getKeyCode();
 		if (KeyCode == e.VK_SPACE){
 			sety(0);
-			birdused= bird;
+			tap= true;
 		}
 
 	}
