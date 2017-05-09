@@ -13,7 +13,8 @@ public class Screen extends JFrame implements Runnable{
 	private Image dbImage;
 	private Graphics dbg;
 	private int SCREENX,SCREENY;
-	private int Charlocx,Charlocy;
+	private int Charlocy;
+	private int Charlocx = 400;
 	private int changey= 0;
 	Image birdused;
 	Image bird;
@@ -24,7 +25,7 @@ public class Screen extends JFrame implements Runnable{
 			try{
 				while(true){
 					move();
-					Thread.sleep(8);
+					Thread.sleep(10);
 				}
 			}
 			catch(Exception e) {
@@ -61,7 +62,6 @@ public class Screen extends JFrame implements Runnable{
 	}
 	public void paintComponent(Graphics g) {
     g.drawImage(birdused, Charlocx ,Charlocy, this);
-    g.drawImage(wing, Charlocx, Charlocy, this);
 	repaint();
 	}
 	
@@ -77,8 +77,11 @@ public class AL extends KeyAdapter{
 	public void keyPressed(KeyEvent e){
 		int KeyCode = e.getKeyCode();
 		if (KeyCode == e.VK_SPACE){
-			sety(-5);
+//			if(tap){
+			sety(-10);
 			birdused= fly;
+			
+			
 		}
 
 	}
