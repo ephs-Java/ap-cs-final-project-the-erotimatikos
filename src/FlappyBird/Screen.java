@@ -15,14 +15,16 @@ public class Screen extends JFrame implements Runnable{
 	private int SCREENX,SCREENY;
 	private int Charlocx,Charlocy;
 	private int changey= 0;
-	
+	Image birdused;
 	Image bird;
+	Image wing;
+	Image fly;
 	private String theme= new String("normal");
 	public void run (){
 			try{
 				while(true){
 					move();
-					Thread.sleep(5);
+					Thread.sleep(8);
 				}
 			}
 			catch(Exception e) {
@@ -44,6 +46,10 @@ public class Screen extends JFrame implements Runnable{
 		setBackground(Color.green);
 		ImageIcon image1 = new ImageIcon("Flappy_Bird.png");
 		bird = image1.getImage();
+		ImageIcon image2 = new ImageIcon("Wing.png");
+		wing = image2.getImage();
+		ImageIcon image3 = new ImageIcon("flying.png");
+		fly = image3.getImage();
 		}
 		
 	}
@@ -54,13 +60,14 @@ public class Screen extends JFrame implements Runnable{
 		g.drawImage(dbImage, 0, 0, this);
 	}
 	public void paintComponent(Graphics g) {
-    g.drawImage(bird, Charlocx ,Charlocy, this);
+    g.drawImage(birdused, Charlocx ,Charlocy, this);
+    g.drawImage(wing, Charlocx, Charlocy, this);
 	repaint();
 	}
 	
 	public void move(){
 	Charlocy += changey;
-
+    Charlocy ++;
 	}
 	public void sety(int a){
 		changey=a;
@@ -71,6 +78,7 @@ public class AL extends KeyAdapter{
 		int KeyCode = e.getKeyCode();
 		if (KeyCode == e.VK_SPACE){
 			sety(-5);
+			birdused= fly;
 		}
 
 	}
@@ -78,6 +86,7 @@ public class AL extends KeyAdapter{
 		int KeyCode = e.getKeyCode();
 		if (KeyCode == e.VK_SPACE){
 			sety(0);
+			birdused= bird;
 		}
 
 	}
