@@ -5,10 +5,15 @@ public class Tile {
 	//the state of the current tile
 	public int state;
 	
-	//constants for the state of the tile
+	//regular click and z-click
 	public static final int BLANK = 0;
 	public static final int WALL = 1;
 	public static final int PILL = 2;
+	
+	//shift click
+	public static final int SPAWN = 3; 
+	public static final int TELEPORTER = 4;
+	public static final int TELEPORTER2 = 5;
 	
 	//creates a blank tile. default constructor
 	public Tile() {
