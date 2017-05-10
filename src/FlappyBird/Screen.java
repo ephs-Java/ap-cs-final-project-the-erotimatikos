@@ -3,6 +3,7 @@ package FlappyBird;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Rectangle;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
@@ -13,7 +14,7 @@ public class Screen extends JFrame implements Runnable{
 	private Image dbImage;
 	private Graphics dbg;
 	private int SCREENX,SCREENY;
-	private int Charlocy;
+	private int Charlocy= 500;
 	private int Charlocx = 400;
 	private int changey= 0;
 	Image birdused;
@@ -21,13 +22,19 @@ public class Screen extends JFrame implements Runnable{
 	Image wing;
 	Image fly;
 	Image fall;
+	private boolean gameover= false;
+	private boolean gameoversequence= false;
 	private boolean tap= true;
+	private int pipelocx = 700;
+	private int pipelocy = 0;
 	private int pixelcounter, pixelcounter2;
 	private String theme= new String("normal");
+	private int gravity= 1;
 	public void run (){
 			try{
 				while(true){
 					move();
+					pipes();
 					collision();
 					Thread.sleep(6);
 				}
@@ -61,10 +68,25 @@ public class Screen extends JFrame implements Runnable{
 		}
 		
 	}
+	public void pipes(){
+		pipelocx --;
+	}
 	public void collision(){
-		if (Charlocy >= SCREENY){
-			Charlocy= SCREENY - 40;
+		if (Charlocy <= 275 && (Charlocx >pipelocx || Charlocx + 36 == pipelocx)&& Charlocx<pipelocx+30){
+			Charlocy = 310;
+			Charlocx= pipelocx;
+			gameover= true;
 		}
+		if (Charlocy >= SCREENY){
+			Charlocy= 0;
+			gravity = 1;
+			pixelcounter=0;
+			pixelcounter2=0;
+		}
+		
+	}
+	public void gameoveraction(){
+//		for (int i=0; i< )
 	}
 	public void paint(Graphics g) {
 		dbImage = createImage(getWidth(), getHeight());
@@ -74,19 +96,29 @@ public class Screen extends JFrame implements Runnable{
 	}
 	public void paintComponent(Graphics g) {
     g.drawImage(birdused, Charlocx ,Charlocy, this);
+    g.fillRect(pipelocx, pipelocy, 50, 275);
+    g.fillRect(pipelocx, SCREENY- 300, 50, 275);
+    if (gameoversequence){
+    	g.fillRect(0, 0, SCREENX, SCREENY);
+    	g.setColor(Color.WHITE);
+    	g.drawString("GAME OVER", SCREENX/2, SCREENY/2);
+    }
 	repaint();
 	}
 	
 	public void move(){
 	Charlocy += changey;
-    Charlocy ++;
+    Charlocy += gravity;
+	Charlocy ++;
     pixelcounter++;
     pixelcounter2++;
-    if (pixelcounter2 == 30){
+    if (pixelcounter2 == 60){
     	birdused= bird;
+    	gravity++;
     }
-    if (pixelcounter == 100){
+    if (pixelcounter == 110){
     	birdused= fall;
+    	gravity ++;
     	pixelcounter=0;
     }
 	}
@@ -101,12 +133,13 @@ public class AL extends KeyAdapter{
 			if(tap){
 				pixelcounter=0;
 				pixelcounter2=0;
-			sety(-5);
-			for( int i=0; i<20; i++){
+			for( int i=0; i<15; i++){
+				sety(-8);
 			move();
 			}	
 			birdused= fly;
 			tap= false;
+			gravity=0;
 			} 
 			sety(0);
 		
