@@ -6,6 +6,7 @@ import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.Random;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -14,8 +15,8 @@ public class Screen extends JFrame implements Runnable{
 	private Image dbImage;
 	private Graphics dbg;
 	private int SCREENX,SCREENY;
-	private int Charlocy= 500;
-	private int Charlocx = 400;
+	private int Charlocy= SCREENY/2;
+	private int Charlocx = 100;
 	private int changey= 0;
 	Image birdused;
 	Image bird;
@@ -28,6 +29,7 @@ public class Screen extends JFrame implements Runnable{
 	private boolean gameoversequence= false;
 	private boolean tap= true;
 	private int pipeheight, pipewidth;
+	private int bottompipeh;
 	private int pipelocx = 700;
 	private int pipelocy = 0;
 	private int pixelcounter, pixelcounter2;
@@ -40,7 +42,6 @@ public class Screen extends JFrame implements Runnable{
 					move();
 					pipes();
 					collision();
-					counter();
 					gameoveraction();
 					Thread.sleep(6);
 				}
@@ -53,8 +54,8 @@ public class Screen extends JFrame implements Runnable{
 	public Screen() {
 		// TODO Auto-generated constructor stub
 		addKeyListener( new AL()); 
-		SCREENX= 1300;
-		SCREENY= 700;
+		SCREENX= 500;
+		SCREENY= 800;
 		setTitle("Flappy Bird");
 		setVisible(true);
 		setSize(SCREENX, SCREENY);
@@ -71,26 +72,22 @@ public class Screen extends JFrame implements Runnable{
 		ImageIcon image4 = new ImageIcon("falling.png");
 		fall = image4.getImage();
 		birdused=bird;
-		
-		
+		Random one= new Random();
+		bottompipeh= one.nextInt(500) + 100;
+		pipeheight= (SCREENY- 130) -bottompipeh;
 		pipewidth= 50;
-		pipeheight= 255;
 		}
 		
 	}
-	public void counter() throws InterruptedException{
-		if (pipelocx+ pipewidth < Charlocx && !passed){
-			pipecounter++;
-			passed= true;
-		} 
-		else if (pipelocx == SCREENX){
-			passed= false;
-		}
-	}
+
 	public void pipes(){
 		pipelocx --;
-		if (pipelocx <=0){
+		Random two= new Random();
+		if (pipelocx <= 0){
 			pipelocx = SCREENX;
+			pipecounter++;
+			bottompipeh= two.nextInt(500) + 100;
+			pipeheight= (SCREENY- 160) -bottompipeh;
 		}
 	}
 	public void collision(){
@@ -101,7 +98,7 @@ public class Screen extends JFrame implements Runnable{
 			Charlocx= pipelocx;
 			
 		}
-		if (Charlocy >= SCREENY-pipeheight && (Charlocx >pipelocx || Charlocx + 36 == pipelocx)&& Charlocx<pipelocx+pipewidth){
+		if (Charlocy+ 32 >= SCREENY-bottompipeh && (Charlocx >pipelocx || Charlocx + 36 == pipelocx)&& Charlocx<pipelocx+pipewidth){
 			gameover= true;
 			Charlocy = 310;
 			
@@ -138,13 +135,13 @@ public class Screen extends JFrame implements Runnable{
 	public void paintComponent(Graphics g) throws InterruptedException {
     g.drawImage(birdused, Charlocx ,Charlocy, this);
     g.fillRect(pipelocx, pipelocy, pipewidth, pipeheight);
-    g.fillRect(pipelocx, SCREENY- pipeheight, pipewidth, pipeheight);
+    g.fillRect(pipelocx, SCREENY- bottompipeh, pipewidth, bottompipeh);
     if (gameoversequence){
     	Thread.sleep(700);
     	g.fillRect(0, 0, SCREENX, SCREENY);
     	g.setColor(Color.WHITE);
-    	g.drawString("GAME OVER", 650, 350);
-    	g.drawString("You passed "+ pipecounter + " Pipes.", 650, 400);
+    	g.drawString("GAME OVER", SCREENX/2, SCREENY/2);
+    	g.drawString("You passed "+ pipecounter + " Pipes.", SCREENX/2, SCREENY/2 + 30);
     	return;
     }
 	repaint();
