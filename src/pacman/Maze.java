@@ -51,6 +51,7 @@ public class Maze {
 		
 	}
 	
+	//prints out the current maze 2d array. each item is the number value of each tile
 	public String toString() {
 		
 		String message = "";

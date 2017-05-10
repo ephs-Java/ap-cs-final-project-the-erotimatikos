@@ -1,12 +1,20 @@
 package pacman;
 
+import java.awt.AWTException;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Robot;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Scanner;
 
 import javax.swing.JFrame;
 
@@ -40,9 +48,15 @@ public class Editor extends JFrame {
 	//main method
 	public Editor() {
 		
+//		maze = new Maze(MAZEX, MAZEY);
+		try {
+			load();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		//assigns value to maze field
-		maze = new Maze(MAZEX, MAZEY);
-		System.out.println(maze);
 		
 		//keyboard listener
 		addKeyListener(new keyboard());
@@ -86,9 +100,14 @@ public class Editor extends JFrame {
 				blockY = maze.maze[0].length - 1;
 			}
 			
+			if (e.isAltDown() || e.isControlDown() || e.isShiftDown()
+					|| e.getButton() == e.BUTTON2) {
+				updateAltState(blockX, blockY);				
+			}
+			else {
+				updateState(blockX, blockY);
+			}
 			
-			
-			updateAltState(blockX, blockY);
 			
 		}
 		
@@ -96,6 +115,81 @@ public class Editor extends JFrame {
 			
 			
 			
+		}
+		
+	}
+	
+	//saves the current state into the custom.txt file
+	public void save() throws FileNotFoundException{
+		
+		File f = new File("src/pacman/custom.txt");
+		
+		try (BufferedWriter bw = new BufferedWriter(new FileWriter(f))) {
+			
+			String content = "";
+			
+			for (int c = 0; c < maze.maze[0].length; c++) {
+				for (int r = 0; r < maze.maze.length; r++) {
+					content += maze.maze[r][c].getState() + " ";
+				}
+				content += "\n";
+			}
+			
+			bw.write(content);
+			
+			// no need to close it.
+			//bw.close();
+			
+			
+		} catch (IOException e) {
+			
+			e.printStackTrace();
+			
+		}
+		
+	}
+	
+	public void load() throws FileNotFoundException{
+		
+		File f = new File("src/pacman/custom.txt");
+		
+		if (!f.exists()) {
+			System.out.println("file not found");
+			try {
+				f.createNewFile();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			System.out.println("new file created");
+			maze = new Maze(MAZEX, MAZEY);
+			save();
+			return;
+		}
+		
+		Scanner input = new Scanner(f);
+		
+		
+		
+		int totalRows = 0;
+		int totalCols = 0;
+		
+		//gets number of rows and columns
+		while (input.hasNext()) {
+			String line = input.nextLine();
+			totalCols = line.length() / 2;
+			totalRows ++;
+		}
+		maze = new Maze(totalCols, totalRows);
+		
+		Scanner update = new Scanner(new File("src/pacman/custom.txt"));
+		int row = 0;
+		while (update.hasNext()) {
+			String line = update.nextLine();
+			for (int i = 0; i < totalCols; i++) {
+				maze.maze[i][row].setState(Integer.parseInt(line.substring(i * 2, i * 2 + 1)));
+			}
+			row ++;
 		}
 		
 	}
@@ -110,20 +204,33 @@ public class Editor extends JFrame {
 			blockState = Tile.BLANK;
 		}
 		maze.maze[r][c].setState(blockState);
+		try {
+			save();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			System.out.println(e.getMessage());
+		}
 		
 	}
 	
 	//updates the state from the given point using the alt items
 	public void updateAltState(int r, int c) {
 		
+		
 		int blockState = maze.maze[r][c].getState();
 		blockState ++;
 		
-		if (blockState < Tile.SPAWN || blockState > Tile.TELEPORTER2) {
+		if (blockState > Tile.TELEPORTER2 || blockState < Tile.SPAWN) {
 			blockState = Tile.SPAWN;
 		}
 		
 		maze.maze[r][c].setState(blockState);
+		try {
+			save();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			System.out.println(e.getMessage());
+		}
 		
 	}
 	
@@ -137,6 +244,15 @@ public class Editor extends JFrame {
 			if (key == e.VK_Q) {
 				System.exit(0);
 			}
+			if (key == e.VK_R) {
+				maze = new Maze(MAZEX, MAZEY);
+				try {
+					save();
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
 			if (key == e.VK_LEFT) {
 				if (blockX > 0) {
 					blockX --;
@@ -148,17 +264,20 @@ public class Editor extends JFrame {
 				}
 			}
 			if (key == e.VK_RIGHT) {
-				if (blockX < maze.maze.length) {
+				if (blockX < maze.maze.length - 1) {
 					blockX ++;
 				}
 			}
 			if (key == e.VK_DOWN) {
-				if (blockY < maze.maze[0].length) {
+				if (blockY < maze.maze[0].length - 1) {
 					blockY ++;
 				}
 			}
 			if (key == e.VK_Z) {
 				updateState(blockX, blockY);
+			}
+			if (key == e.VK_X) {
+				updateAltState(blockX, blockY);
 			}
 			
 		}
@@ -225,8 +344,38 @@ public class Editor extends JFrame {
 				BLOCKWIDTH + 4, BLOCKWIDTH + 4);
 		
 		g.setColor(Color.white);
-		g.drawString("Mouse X: " + mouseX + " Mouse Y: " + mouseY, 50, SCREENY - 50);
+		
+		
 		g.drawString("Block X: " + blockX + " Block Y: " + blockY, 50, SCREENY - 30);
+		String statestring = "";
+		
+		try {
+			switch(maze.maze[blockX][blockY].getState()) {
+			case Tile.BLANK:
+				statestring = "Blank";
+				break;
+			case Tile.WALL:
+				statestring = "Wall";
+				break;
+			case Tile.PILL:
+				statestring = "Pill";
+				break;
+			case Tile.SPAWN:
+				statestring = "Spawn";
+				break;
+			case Tile.TELEPORTER:
+				statestring = "Teleporter";
+				break;
+			case Tile.TELEPORTER2:
+				statestring = "Teleporter 2";
+				break;
+			}
+		} catch(Exception e) {
+			System.out.println("cannot draw statestring");
+			repaint();
+		}
+		
+		g.drawString(statestring, 50, SCREENY - 50);
 		
 		repaint();
 		
@@ -240,8 +389,5 @@ public class Editor extends JFrame {
 		paintComponent(dbg);
 		g.drawImage(dbImage, 0, 0, this);
 	}
-	
-	
-	
-	
+		
 }

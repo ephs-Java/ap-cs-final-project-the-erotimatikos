@@ -10,7 +10,7 @@ public class Tile {
 	public static final int WALL = 1;
 	public static final int PILL = 2;
 	
-	//shift click
+	//alt click
 	public static final int SPAWN = 3; 
 	public static final int TELEPORTER = 4;
 	public static final int TELEPORTER2 = 5;
@@ -26,8 +26,8 @@ public class Tile {
 		if (s < 0) {
 			this.state = BLANK;
 		}
-		else if (s > PILL) {
-			this.state = PILL;
+		else if (s > TELEPORTER2) {
+			this.state = TELEPORTER2;
 		}
 		else {
 			this.state = s;
@@ -45,8 +45,8 @@ public class Tile {
 		if (s < 0) {
 			this.state = BLANK;
 		}
-		else if (s > PILL) {
-			this.state = PILL;
+		else if (s > TELEPORTER2) {
+			this.state = TELEPORTER2;
 		}
 		else {
 			this.state = s;
