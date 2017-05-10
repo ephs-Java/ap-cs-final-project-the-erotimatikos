@@ -9,7 +9,7 @@ public class Board {
 	
 	
 	
-	
+	//Creates a 3x3 board
 	public Board(){
 		tiles = new Tile[3][3];
 		for(int r = 0; r<3;r++){
@@ -18,13 +18,9 @@ public class Board {
 			}
 		}
 	}
-	public boolean isCats(int numOfClicks){
-		if(numOfClicks > 9){
-			return true;
-		}
-		return false;
-	}
 	
+
+	//Decides if someone gets 3 in a row
 	public String isWinner(int numOfClicks){
 		
 		if(tiles[0][0].get() == 1 && tiles[1][0].get() == 1 && tiles[2][0].get() == 1){
@@ -82,14 +78,6 @@ public class Board {
 		
 	}
 	
-	public void print(){
-		for(int r = 0;r<3;r++){
-			for(int c = 0; c<3;c++){
-				System.out.print(tiles[r][c] + " ");
-					
-				}
-			System.out.println();
-			}
-		}
+	
 	}
 
