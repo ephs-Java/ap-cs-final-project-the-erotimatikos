@@ -35,6 +35,7 @@ public class Screen extends JFrame implements Runnable{
 	private int gravity= 1;
 	public void run (){
 			try{
+				Thread.sleep(600);
 				while(true){
 					move();
 					pipes();
@@ -78,8 +79,12 @@ public class Screen extends JFrame implements Runnable{
 		
 	}
 	public void counter() throws InterruptedException{
-		if (pipelocx < Charlocx){
+		if (pipelocx+ pipewidth < Charlocx && !passed){
 			pipecounter++;
+			passed= true;
+		} 
+		else if (pipelocx == SCREENX){
+			passed= false;
 		}
 	}
 	public void pipes(){
@@ -139,7 +144,7 @@ public class Screen extends JFrame implements Runnable{
     	g.fillRect(0, 0, SCREENX, SCREENY);
     	g.setColor(Color.WHITE);
     	g.drawString("GAME OVER", 650, 350);
-    	g.drawString("You passed"+ pipecounter + " Pipes.", 650, 400);
+    	g.drawString("You passed "+ pipecounter + " Pipes.", 650, 400);
     	return;
     }
 	repaint();
