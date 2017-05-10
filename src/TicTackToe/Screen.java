@@ -119,7 +119,7 @@ public class Screen extends JFrame {
 		
 		g.setColor(Color.black);
 		g.drawString("Player 1 turn " + playerNum, 0, 350);
-	
+		g.drawString(field.isWinner(numOfClicks), 10, 370);
 		repaint(); //Causes it to refresh once it reaches this point
 		
 		

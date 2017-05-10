@@ -27,8 +27,55 @@ public class Board {
 	
 	public String isWinner(int numOfClicks){
 		
-		if(tiles[0][0].get() == 1 && tiles[0][1].get() == 1 && tiles[0][2].get() == 1){
+		if(tiles[0][0].get() == 1 && tiles[1][0].get() == 1 && tiles[2][0].get() == 1){
 			return "Green Wins";
+		}
+		else if(tiles[0][1].get() == 1 && tiles[1][1].get() == 1 && tiles[2][1].get() == 1){
+			return "Green Wins";
+		}
+		else if(tiles[0][2].get() == 1 && tiles[1][2].get() == 1 && tiles[2][2].get() == 1){
+			return "Green Wins";
+		}
+		else if(tiles[0][0].get() == 1 && tiles[0][1].get() == 1 && tiles[0][2].get() == 1){
+			return "Green Wins";
+		}
+		else if(tiles[1][0].get() == 1 && tiles[1][1].get() == 1 && tiles[1][2].get() == 1){
+			return "Green Wins";
+		}
+		else if(tiles[2][0].get() == 1 && tiles[2][1].get() == 1 && tiles[2][2].get() == 1){
+			return "Green Wins";
+		}
+		else if(tiles[2][0].get() == 1 && tiles[1][1].get() == 1 && tiles[0][2].get() == 1){
+			return "Green Wins";
+		} 
+		else if(tiles[0][0].get() == 1 && tiles[1][1].get() == 1 && tiles[2][2].get() == 1){
+			return "Green Wins";
+		}
+		
+		//Player 2
+		else if(tiles[0][0].get() == 2 && tiles[1][0].get() == 2 && tiles[2][0].get() == 2){
+			return "Red Wins";
+		}
+		else if(tiles[0][1].get() == 2 && tiles[1][1].get() == 2 && tiles[2][1].get() == 2){
+			return "Red Wins";
+		}
+		else if(tiles[0][2].get() == 2 && tiles[1][2].get() == 2 && tiles[2][2].get() == 2){
+			return "Red Wins";
+		}
+		else if(tiles[0][0].get() == 2 && tiles[0][1].get() == 2 && tiles[0][2].get() == 2){
+			return "Red Wins";
+		}
+		else if(tiles[1][0].get() == 2 && tiles[1][1].get() == 2 && tiles[1][2].get() == 2){
+			return "Red Wins";
+		}
+		else if(tiles[2][0].get() == 2 && tiles[2][1].get() == 2 && tiles[2][2].get() == 2){
+			return "Red Wins";
+		}
+		else if(tiles[2][0].get() == 2 && tiles[1][1].get() == 2 && tiles[0][2].get() == 2){
+			return "Red Wins";
+		} 
+		else if(tiles[0][0].get() == 2 && tiles[1][1].get() == 2 && tiles[2][2].get() == 2){
+			return "Red Wins";
 		}
 		return "No Winner";
 		
