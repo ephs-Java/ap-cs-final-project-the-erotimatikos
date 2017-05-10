@@ -22,9 +22,12 @@ public class Screen extends JFrame implements Runnable{
 	Image wing;
 	Image fly;
 	Image fall;
+	private int pipecounter=0;
 	private boolean gameover= false;
+	private boolean passed= false;
 	private boolean gameoversequence= false;
 	private boolean tap= true;
+	private int pipeheight, pipewidth;
 	private int pipelocx = 700;
 	private int pipelocy = 0;
 	private int pixelcounter, pixelcounter2;
@@ -36,6 +39,7 @@ public class Screen extends JFrame implements Runnable{
 					move();
 					pipes();
 					collision();
+					counter();
 					gameoveraction();
 					Thread.sleep(6);
 				}
@@ -66,8 +70,17 @@ public class Screen extends JFrame implements Runnable{
 		ImageIcon image4 = new ImageIcon("falling.png");
 		fall = image4.getImage();
 		birdused=bird;
+		
+		
+		pipewidth= 50;
+		pipeheight= 255;
 		}
 		
+	}
+	public void counter() throws InterruptedException{
+		if (pipelocx < Charlocx){
+			pipecounter++;
+		}
 	}
 	public void pipes(){
 		pipelocx --;
@@ -76,10 +89,19 @@ public class Screen extends JFrame implements Runnable{
 		}
 	}
 	public void collision(){
-		if (Charlocy <= 275 && (Charlocx >pipelocx || Charlocx + 36 == pipelocx)&& Charlocx<pipelocx+30){
-			Charlocy = 310;
-			Charlocx= pipelocx;
+		if (Charlocy <= pipeheight && (Charlocx >pipelocx || Charlocx + 36 == pipelocx)&& Charlocx<pipelocx+pipewidth){
 			gameover= true;
+			Charlocy = 310;
+			
+			Charlocx= pipelocx;
+			
+		}
+		if (Charlocy >= SCREENY-pipeheight && (Charlocx >pipelocx || Charlocx + 36 == pipelocx)&& Charlocx<pipelocx+pipewidth){
+			gameover= true;
+			Charlocy = 310;
+			
+			Charlocx= pipelocx;
+			
 		}
 		if (Charlocy >= SCREENY){
 			Charlocy= 0;
@@ -92,27 +114,32 @@ public class Screen extends JFrame implements Runnable{
 	}
 	public void gameoveraction(){
 	if (gameover){
-		for (int i=0; i< SCREENY; i++){
-		sety(1);
-		move();
-	}
+        Charlocy= SCREENY/2;
+        Charlocx= pipelocx;
 		gameoversequence=true;
 	}
 	}
 	public void paint(Graphics g) {
 		dbImage = createImage(getWidth(), getHeight());
 		dbg = dbImage.getGraphics();
-		paintComponent(dbg);
+		try {
+			paintComponent(dbg);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		g.drawImage(dbImage, 0, 0, this);
 	}
-	public void paintComponent(Graphics g) {
+	public void paintComponent(Graphics g) throws InterruptedException {
     g.drawImage(birdused, Charlocx ,Charlocy, this);
-    g.fillRect(pipelocx, pipelocy, 50, 285);
-    g.fillRect(pipelocx, SCREENY- 285, 50, 285);
+    g.fillRect(pipelocx, pipelocy, pipewidth, pipeheight);
+    g.fillRect(pipelocx, SCREENY- pipeheight, pipewidth, pipeheight);
     if (gameoversequence){
+    	Thread.sleep(700);
     	g.fillRect(0, 0, SCREENX, SCREENY);
     	g.setColor(Color.WHITE);
-    	g.drawString("GAME OVER", SCREENX/2, SCREENY/2);
+    	g.drawString("GAME OVER", 650, 350);
+    	g.drawString("You passed"+ pipecounter + " Pipes.", 650, 400);
     	return;
     }
 	repaint();
