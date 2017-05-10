@@ -36,6 +36,7 @@ public class Screen extends JFrame implements Runnable{
 					move();
 					pipes();
 					collision();
+					gameoveraction();
 					Thread.sleep(6);
 				}
 			}
@@ -70,6 +71,9 @@ public class Screen extends JFrame implements Runnable{
 	}
 	public void pipes(){
 		pipelocx --;
+		if (pipelocx <=0){
+			pipelocx = SCREENX;
+		}
 	}
 	public void collision(){
 		if (Charlocy <= 275 && (Charlocx >pipelocx || Charlocx + 36 == pipelocx)&& Charlocx<pipelocx+30){
@@ -82,11 +86,18 @@ public class Screen extends JFrame implements Runnable{
 			gravity = 1;
 			pixelcounter=0;
 			pixelcounter2=0;
+			gameover= true;
 		}
 		
 	}
 	public void gameoveraction(){
-//		for (int i=0; i< )
+	if (gameover){
+		for (int i=0; i< SCREENY; i++){
+		sety(1);
+		move();
+	}
+		gameoversequence=true;
+	}
 	}
 	public void paint(Graphics g) {
 		dbImage = createImage(getWidth(), getHeight());
@@ -96,12 +107,13 @@ public class Screen extends JFrame implements Runnable{
 	}
 	public void paintComponent(Graphics g) {
     g.drawImage(birdused, Charlocx ,Charlocy, this);
-    g.fillRect(pipelocx, pipelocy, 50, 275);
-    g.fillRect(pipelocx, SCREENY- 300, 50, 275);
+    g.fillRect(pipelocx, pipelocy, 50, 285);
+    g.fillRect(pipelocx, SCREENY- 285, 50, 285);
     if (gameoversequence){
     	g.fillRect(0, 0, SCREENX, SCREENY);
     	g.setColor(Color.WHITE);
     	g.drawString("GAME OVER", SCREENX/2, SCREENY/2);
+    	return;
     }
 	repaint();
 	}
@@ -109,6 +121,7 @@ public class Screen extends JFrame implements Runnable{
 	public void move(){
 	Charlocy += changey;
     Charlocy += gravity;
+    if (!gameover){
 	Charlocy ++;
     pixelcounter++;
     pixelcounter2++;
@@ -120,6 +133,7 @@ public class Screen extends JFrame implements Runnable{
     	birdused= fall;
     	gravity ++;
     	pixelcounter=0;
+    }
     }
 	}
 	public void sety(int a){
