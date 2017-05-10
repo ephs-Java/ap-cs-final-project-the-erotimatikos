@@ -13,21 +13,22 @@ import practice.Video4.AL;
 
 public class Screen extends JFrame {
 
-	 boolean playerNum;
+	//Varaible that says if it is player 1's turn
+	 boolean player1Turn;
+	 
+	 //Selecter coordinates coordinates
 	int x, y;
+	//The number of clicks
 	private static int numOfClicks = 0;
 	
+	//The board that contains the tiles. Player one is green, player 2 is red.
 	private Board field = new Board();
 	
-
-	
+	//Variables used for double buffering
 	private Image dbImage;
 	private Graphics dbg;
 	
-	public static void main(String[] args){
-		
-		new Screen();
-	}
+	
 
 	public class AL extends KeyAdapter{
 		
@@ -118,8 +119,16 @@ public class Screen extends JFrame {
 		g.drawOval(x, y, 10, 10);
 		
 		g.setColor(Color.black);
-		g.drawString("Player 1 turn " + playerNum, 0, 350);
 		
+		if(numOfClicks % 2 == 0){
+			player1Turn = true;
+		}
+		else{
+			player1Turn = false;
+		}
+		g.drawString("Player 1 turn " + player1Turn, 0, 350);
+		g.drawString("Player 2 turn " + !player1Turn,0, 362);
+		g.drawString(field.isWinner(numOfClicks), 10, 374);
 		repaint(); //Causes it to refresh once it reaches this point
 		
 		
