@@ -13,7 +13,7 @@ import practice.Video4.AL;
 
 public class Screen extends JFrame {
 
-	 boolean playerNum;
+	 boolean player1Turn;
 	int x, y;
 	private static int numOfClicks = 0;
 	
@@ -118,8 +118,16 @@ public class Screen extends JFrame {
 		g.drawOval(x, y, 10, 10);
 		
 		g.setColor(Color.black);
-		g.drawString("Player 1 turn " + playerNum, 0, 350);
-		g.drawString(field.isWinner(numOfClicks), 10, 370);
+		
+		if(numOfClicks % 2 == 0){
+			player1Turn = true;
+		}
+		else{
+			player1Turn = false;
+		}
+		g.drawString("Player 1 turn " + player1Turn, 0, 350);
+		g.drawString("Player 2 turn " + !player1Turn,0, 362);
+		g.drawString(field.isWinner(numOfClicks), 10, 374);
 		repaint(); //Causes it to refresh once it reaches this point
 		
 		
