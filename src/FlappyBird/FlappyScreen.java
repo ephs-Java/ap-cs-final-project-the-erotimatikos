@@ -70,21 +70,21 @@ public class FlappyScreen extends JFrame implements Runnable{
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		if (theme.equals("normal")){
-		ImageIcon image0 = new ImageIcon("back.png");
+		ImageIcon image0 = new ImageIcon("src/Flappybird/back.png");
 		background= image0.getImage();
-		ImageIcon image1 = new ImageIcon("Flappy_Bird.png");
+		ImageIcon image1 = new ImageIcon("src/Flappybird/Flappy_Bird.png");
 		bird = image1.getImage();
-		ImageIcon image2 = new ImageIcon("Wing.png");
+		ImageIcon image2 = new ImageIcon("src/Flappybird/Wing.png");
 		wing = image2.getImage();
-		ImageIcon image3 = new ImageIcon("flying.png");
+		ImageIcon image3 = new ImageIcon("src/Flappybird/flying.png");
 		fly = image3.getImage();
-		ImageIcon image4 = new ImageIcon("falling.png");
+		ImageIcon image4 = new ImageIcon("src/Flappybird/falling.png");
 		fall = image4.getImage();
-		ImageIcon image5 = new ImageIcon("sprite1.png");
+		ImageIcon image5 = new ImageIcon("src/Flappybird/sprite1.png");
 		first = image5.getImage();
-		ImageIcon image6 = new ImageIcon("sprite2.png");
+		ImageIcon image6 = new ImageIcon("src/Flappybird/sprite2.png");
 		second = image6.getImage();
-		ImageIcon image7 = new ImageIcon("sprite3.png");
+		ImageIcon image7 = new ImageIcon("src/Flappybird/sprite3.png");
 		third = image7.getImage();
 		birdused=bird;
 		Random one= new Random();
