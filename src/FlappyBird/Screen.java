@@ -161,8 +161,6 @@ public class Screen extends JFrame implements Runnable{
 	g.drawImage(background, 0, 0, this);
 	Font josh= new Font("Bloody", Font.PLAIN, 26);
 		if (!hasstarted){
-			
-			
 	g.setColor(Color.black);
 	g.fillRect(SCREENX/2- 50, SCREENY/2 -110, 120, 50);
 	g.setColor(Color.white);
