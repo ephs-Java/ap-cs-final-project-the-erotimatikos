@@ -21,10 +21,11 @@ public class Screen extends JFrame implements Runnable{
 	private int changey= 0;
 	Image first, second, third;
 	Image birdused;
-	Image bird;
+	Image bird, background;
 	Image wing;
 	Image fly;
 	Image fall;
+	Image movingBottom;
 	private int pipecounter=0;
 	private boolean gameover= false;
 	private boolean passed= false;
@@ -41,7 +42,7 @@ public class Screen extends JFrame implements Runnable{
 	private int gravity= 1;
 	public void run (){
 			try{
-				
+				while(true){
 				startsequence();
 				while(start){
 					move();
@@ -49,6 +50,7 @@ public class Screen extends JFrame implements Runnable{
 					collision();
 					gameoveraction();
 					Thread.sleep(6);
+				}
 				}
 			}
 			catch(Exception e) {
@@ -60,14 +62,16 @@ public class Screen extends JFrame implements Runnable{
 		// TODO Auto-generated constructor stub
 		addKeyListener( new AL()); 
 		SCREENX= 500;
-		SCREENY= 800;
+		SCREENY= 885;
 		setTitle("Flappy Bird");
 		setVisible(true);
 		setSize(SCREENX, SCREENY);
 		setResizable(false);
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		if (theme.equals("normal")){
-		setBackground(Color.cyan);
+		ImageIcon image0 = new ImageIcon("back.png");
+		background= image0.getImage();
 		ImageIcon image1 = new ImageIcon("Flappy_Bird.png");
 		bird = image1.getImage();
 		ImageIcon image2 = new ImageIcon("Wing.png");
@@ -91,12 +95,15 @@ public class Screen extends JFrame implements Runnable{
 		
 	}
 
-	public void startsequence(){
-		
-		
-		
-		
-		
+	public void startsequence() throws InterruptedException{
+		birdused= first;
+		Thread.sleep(200);
+		birdused= second;
+		Thread.sleep(200);
+		birdused= third;
+		Thread.sleep(200);
+		birdused= second;
+		Thread.sleep(200);
 	}
 	
 	public void pipes(){
@@ -152,18 +159,21 @@ public class Screen extends JFrame implements Runnable{
 		g.drawImage(dbImage, 0, 0, this);
 	}
 	public void paintComponent(Graphics g) throws InterruptedException {
+	g.drawImage(background, 0, 0, this);
 		if (!hasstarted){
 			Font josh= new Font("Bloody", Font.PLAIN, 26);
+			
 	g.setColor(Color.black);
-	g.fillRect(SCREENX/2- 50, SCREENY/2 -50, 120, 50);
+	g.fillRect(SCREENX/2- 50, SCREENY/2 -110, 120, 50);
 	g.setColor(Color.white);
-	g.fillRect(SCREENX/2- 45, SCREENY/2 -45, 110, 38);
+	g.fillRect(SCREENX/2- 45, SCREENY/2 -105, 110, 38);
 	g.setColor(Color.orange);
-	g.fillRect(SCREENX/2- 43, SCREENY/2 -43, 105, 34);
+	g.fillRect(SCREENX/2- 43, SCREENY/2 -103, 105, 34);
 	g.setFont(josh);
 	g.setColor(Color.WHITE);
-	g.drawString("Start", SCREENX/2- 25, SCREENY/2 -18);
-	
+	g.drawString("Start", SCREENX/2- 25, SCREENY/2 -80);
+	g.drawString("Press Space to Start", SCREENX/2- 115, SCREENY/2 - 10);
+	g.drawImage(birdused,SCREENX/2 , SCREENY/2 - 200, this);
 }
 else if (hasstarted){
 	g.drawImage(birdused, Charlocx ,Charlocy, this);
@@ -181,7 +191,7 @@ else if (hasstarted){
 	repaint();
 	}
 	
-	public void move(){
+	public void move() throws InterruptedException{
 	Charlocy += changey;
     Charlocy += gravity;
     if (!gameover){
@@ -207,12 +217,27 @@ public class AL extends KeyAdapter{
 	public void keyPressed(KeyEvent e){
 		int KeyCode = e.getKeyCode();
 		if (KeyCode == e.VK_SPACE){
+			    if (!hasstarted){
+			    	hasstarted= true;
+			    	start= true;
+			    }
 			if(tap){
 				pixelcounter=0;
 				pixelcounter2=0;
 			for( int i=0; i<15; i++){
+				try {
+					Thread.sleep(1);
+				} catch (InterruptedException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
 				sety(-8);
-			move();
+			try {
+				move();
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			}	
 			birdused= fly;
 			tap= false;
