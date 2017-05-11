@@ -24,6 +24,9 @@ public class Screen extends JFrame implements Runnable {
 	//maze field
 	Maze maze;
 	
+	//ghosts field
+	Ghosts ghosts;
+	
 	//queue field
 	Queue queue;
 	
@@ -83,6 +86,7 @@ public class Screen extends JFrame implements Runnable {
 	//main method
 	public Screen() {
 		
+		ghosts = new Ghosts();
 		queue = new Queue(QUEUESIZE);
 		maze = new Maze(MAZEX, MAZEY);
 		//loads maze
@@ -146,8 +150,7 @@ public class Screen extends JFrame implements Runnable {
 		
 		//checks for x axis alignment
 		if ((pacmanX - 25) % BLOCKWIDTH <= 0) {
-//			movingLeft = false;
-//			movingRight = false;
+			
 		}
 		else {
 			movingUp = false;
@@ -156,8 +159,7 @@ public class Screen extends JFrame implements Runnable {
 		}
 		//checks for y axis alignment
 		if ((pacmanY - 50) % BLOCKWIDTH <= 0) {
-//			movingUp = false;
-//			movingDown = false;
+			
 		}
 		else {
 			movingLeft = false;
@@ -166,31 +168,22 @@ public class Screen extends JFrame implements Runnable {
 		}
 		
 		updateVars();
-//		System.out.println("X: " + pacmanXindex + " Y: " + pacmanYindex);
 		
 		//checks for wall collision
 		if (movingLeft && maze.maze[pacmanXindex][pacmanYindex].getState() == Tile.WALL) {
 			movingLeft = false;
 			pacmanX = 25 + pacmanXindex * BLOCKWIDTH + BLOCKWIDTH;
-			System.out.println("left");
-//			pacmanY = 50 + pacmanYindex * BLOCKWIDTH;
 		}
 		if (movingRight && maze.maze[pacmanXindex + 1][pacmanYindex].getState() == Tile.WALL) {
 			movingRight = false;
 			pacmanX = 25 + pacmanXindex * BLOCKWIDTH;
-			System.out.println("right");
-//			pacmanY = 50 + pacmanYindex * BLOCKWIDTH;
 		}
 		if (movingUp && maze.maze[pacmanXindex][pacmanYindex].getState() == Tile.WALL) {
 			movingUp = false;
-//			pacmanX = 25 + pacmanXindex * BLOCKWIDTH;
 			pacmanY = 50 + pacmanYindex * BLOCKWIDTH + BLOCKWIDTH;
-			System.out.println("up");
 		}
 		if (movingDown && maze.maze[pacmanXindex][pacmanYindex + 1].getState() == Tile.WALL) {
-			movingDown = false;
-//			pacmanX = 25 + pacmanXindex * BLOCKWIDTH;
-			System.out.println("down");
+			movingDown = false;;
 			pacmanY = 50 + pacmanYindex * BLOCKWIDTH;
 		}
 		
@@ -254,7 +247,7 @@ public class Screen extends JFrame implements Runnable {
 		
 	}
 	
-	//sets up the pac man location for starting up the game
+	//sets up the pac man location for starting up the game and sets up ghost positions
 	public void setup() {
 		
 		for (int r = 0; r < maze.maze.length; r++) {

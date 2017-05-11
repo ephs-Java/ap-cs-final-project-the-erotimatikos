@@ -169,8 +169,6 @@ public class Editor extends JFrame {
 		
 		Scanner input = new Scanner(f);
 		
-		
-		
 		int totalRows = 0;
 		int totalCols = 0;
 		
@@ -281,6 +279,12 @@ public class Editor extends JFrame {
 			}
 			if (key == e.VK_C) {
 				maze.maze[blockX][blockY].setState(Tile.GHOSTSPAWN);
+				try {
+					save();
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 			
 		}
@@ -376,7 +380,10 @@ public class Editor extends JFrame {
 			case Tile.TELEPORTER2:
 				statestring = "Teleporter 2";
 				break;
+			case Tile.GHOSTSPAWN:
+				statestring = "Ghost spawn";
 			}
+			
 		} catch(Exception e) {
 			System.out.println("cannot draw statestring");
 			repaint();

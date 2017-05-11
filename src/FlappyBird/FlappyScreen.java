@@ -41,12 +41,13 @@ public class FlappyScreen extends JFrame implements Runnable{
 	private String theme= new String("normal");
 	private int gravity= 1;
 	int yVelocity = 0;
-	int yVelocityUpdate = 30;
+	int yVelocityUpdate = 10;
 	public void run (){
 			try{
 				while(true){
 				startsequence();
 				while(start){
+					System.out.println(Charlocy + " " + yVelocity);
 					yVelocity -= 1;
 					update();
 					pipes();
@@ -238,7 +239,7 @@ public class AL extends KeyAdapter{
 			tap= false;
 			gravity=0;
 			} 
-			yVelocity=0;
+//			yVelocity=0;
 		    update();
 		}
 	}
