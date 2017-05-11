@@ -5,10 +5,15 @@ public class Tile {
 	//the state of the current tile
 	public int state;
 	
-	//constants for the state of the tile
+	//regular click and z-click
 	public static final int BLANK = 0;
 	public static final int WALL = 1;
 	public static final int PILL = 2;
+	
+	//alt click
+	public static final int SPAWN = 3; 
+	public static final int TELEPORTER = 4;
+	public static final int TELEPORTER2 = 5;
 	
 	//creates a blank tile. default constructor
 	public Tile() {
@@ -21,8 +26,8 @@ public class Tile {
 		if (s < 0) {
 			this.state = BLANK;
 		}
-		else if (s > PILL) {
-			this.state = PILL;
+		else if (s > TELEPORTER2) {
+			this.state = TELEPORTER2;
 		}
 		else {
 			this.state = s;
@@ -40,8 +45,8 @@ public class Tile {
 		if (s < 0) {
 			this.state = BLANK;
 		}
-		else if (s > PILL) {
-			this.state = PILL;
+		else if (s > TELEPORTER2) {
+			this.state = TELEPORTER2;
 		}
 		else {
 			this.state = s;

@@ -1,7 +1,12 @@
-/FlappyBird/
+/.DS_Store
+/practice/
 /TicTackToe/
 /minesweeper/
-/notes/
 /pacman/
+<<<<<<< HEAD
+/custom.txt
+=======
 /practice/
 /RobotMouse/
+>>>>>>> branch 'master' of https://github.com/ephs-Java/ap-cs-final-project-the-erotimatikos.git
+/FlappyBird/
