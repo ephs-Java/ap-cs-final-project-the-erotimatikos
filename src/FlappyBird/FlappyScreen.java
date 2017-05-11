@@ -33,6 +33,7 @@ public class FlappyScreen extends JFrame implements Runnable{
 	private int pipeheight, pipewidth;
 	private int bottompipeh;
 	private boolean start = false;
+	private boolean done= false;
 	private boolean hasstarted= false;
 	private int pipelocx = 700;
 	private int pipelocy = 0;
@@ -175,16 +176,23 @@ public class FlappyScreen extends JFrame implements Runnable{
 }
 else if (hasstarted){
 	g.drawImage(birdused, Charlocx ,Charlocy, this);
+	g.setColor(Color.green);
     g.fillRect(pipelocx, pipelocy, pipewidth, pipeheight);
     g.fillRect(pipelocx, SCREENY- bottompipeh, pipewidth, bottompipeh);
     g.setColor(Color.GRAY);
     g.setFont(josh);
     g.drawString(""+pipecounter, SCREENX/2, 100);
     if (gameoversequence){
+       while(!done){
+    	g.setColor(Color.BLACK);
     	g.drawString("GAME OVER", SCREENX/2-75, SCREENY/2-70);
     	g.drawString("You passed "+ pipecounter + " Pipes.", SCREENX/2-75, SCREENY/2 -30);
+    	Thread.sleep(5000);
+    	done= true;
+       }
+    }
+    if (gameoversequence){
     	start=false;
-    	Thread.sleep(3000);
     	Charlocy= SCREENY/2;
     	Charlocx= 100;
     	pipecounter= 0;

@@ -21,6 +21,12 @@ public class Menu extends JFrame implements Runnable {
     private int MOUSEX, MOUSEY;
 	public Menu() {
 		// TODO Auto-generated constructor stub
+		for(int i=0; i<6; i++){
+		ImageIcon image0= new ImageIcon("src/Menu/minesweeper.png");
+		minesweeper= image0.getImage();
+		ImageIcon image1= new ImageIcon("src/Menu/Flappy_Bird_icon.png");
+		flappy= image1.getImage();
+		}
 		addMouseListener(new mouse());
 		SCREENX= 1000;
 		SCREENY= 1000;
@@ -97,10 +103,6 @@ public class mouse extends MouseAdapter {
 	public void run() {
 		// TODO Auto-generated method stub
 		try{
-			ImageIcon image0= new ImageIcon("src/Menu/minesweeper.png");
-			minesweeper= image0.getImage();
-			ImageIcon image1= new ImageIcon("src/Menu/Flappy_Bird_icon.png");
-			flappy= image1.getImage();
 			while(true){
 				gameStarter();
 				Thread.sleep(3);
