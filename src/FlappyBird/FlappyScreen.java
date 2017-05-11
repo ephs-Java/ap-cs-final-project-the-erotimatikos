@@ -216,12 +216,12 @@ else if (hasstarted){
 	
     }
 	}
-public void update() {
+	public void update() {
 		
 	Charlocy -= yVelocity;
 		
 	}
-public class AL extends KeyAdapter{
+	public class AL extends KeyAdapter{
 	public void keyPressed(KeyEvent e){
 		int KeyCode = e.getKeyCode();
 		if (KeyCode == e.VK_SPACE){
@@ -252,9 +252,9 @@ public class AL extends KeyAdapter{
 
 	}
 }
-public static void main(String[] args){
+	public static void main(String[] args){
 	FlappyScreen josh= new FlappyScreen();
 	Thread t1= new Thread(josh);
 	t1.start();
 }
-}
+    }
