@@ -40,16 +40,19 @@ public class FlappyScreen extends JFrame implements Runnable{
 	private int pixelcounter, pixelcounter2;
 	private String theme= new String("normal");
 	private int gravity= 1;
+	int yVelocity = 0;
+	int yVelocityUpdate = 30;
 	public void run (){
 			try{
 				while(true){
 				startsequence();
 				while(start){
-					move();
+					yVelocity -= 1;
+					update();
 					pipes();
 					collision();
 					gameoveraction();
-					Thread.sleep(6);
+					Thread.sleep(45);
 				}
 				}
 			}
@@ -107,7 +110,7 @@ public class FlappyScreen extends JFrame implements Runnable{
 	}
 	
 	public void pipes(){
-		pipelocx --;
+		pipelocx -=5 ;
 		Random two= new Random();
 		if (pipelocx <= 0){
 			pipelocx = SCREENX;
@@ -210,24 +213,14 @@ else if (hasstarted){
 	Charlocy += changey;
     Charlocy += gravity;
     if (!gameover){
-	Charlocy ++;
-    pixelcounter++;
-    pixelcounter2++;
-    if (pixelcounter2 == 60){
-    	birdused= bird;
-    	gravity++;
-    }
-    if (pixelcounter == 110){
-    	birdused= fall;
-    	gravity ++;
-    	pixelcounter=0;
-    }
-    }
-	}
-	public void sety(int a){
-		changey=a;
-	}
 	
+    }
+	}
+public void update() {
+		
+	Charlocy -= yVelocity;
+		
+	}
 public class AL extends KeyAdapter{
 	public void keyPressed(KeyEvent e){
 		int KeyCode = e.getKeyCode();
@@ -237,29 +230,23 @@ public class AL extends KeyAdapter{
 			    	start= true;
 			    }
 			if(tap){
+				yVelocity = yVelocityUpdate;
+				update();
 				pixelcounter=0;
 				pixelcounter2=0;
-			for( int i=0; i<15; i++){
-				sety(-8);
-			try {
-				move();
-			} catch (InterruptedException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			}	
 			birdused= fly;
 			tap= false;
 			gravity=0;
 			} 
-			sety(0);
-		
+			yVelocity=0;
+		    update();
 		}
 	}
 	public void keyReleased(KeyEvent e){
 		int KeyCode = e.getKeyCode();
 		if (KeyCode == e.VK_SPACE){
-			sety(0);
+		
+			update();
 			tap= true;
 		}
 
