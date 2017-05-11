@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.Rectangle;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.Random;
@@ -88,8 +87,8 @@ public class Screen extends JFrame implements Runnable{
 		third = image7.getImage();
 		birdused=bird;
 		Random one= new Random();
-		bottompipeh= one.nextInt(500) + 100;
-		pipeheight= (SCREENY- 140) -bottompipeh;
+		bottompipeh= one.nextInt(500) + 200;
+		pipeheight= (SCREENY- 160) -bottompipeh;
 		pipewidth= 50;
 		}
 		
@@ -112,8 +111,8 @@ public class Screen extends JFrame implements Runnable{
 		if (pipelocx <= 0){
 			pipelocx = SCREENX;
 			pipecounter++;
-			bottompipeh= two.nextInt(500) + 100;
-			pipeheight= (SCREENY- 140) -bottompipeh;
+			bottompipeh= two.nextInt(500) + 200;
+			pipeheight= (SCREENY- 160) -bottompipeh;
 		}
 	}
 	public void collision(){
@@ -160,8 +159,9 @@ public class Screen extends JFrame implements Runnable{
 	}
 	public void paintComponent(Graphics g) throws InterruptedException {
 	g.drawImage(background, 0, 0, this);
+	Font josh= new Font("Bloody", Font.PLAIN, 26);
 		if (!hasstarted){
-			Font josh= new Font("Bloody", Font.PLAIN, 26);
+			
 			
 	g.setColor(Color.black);
 	g.fillRect(SCREENX/2- 50, SCREENY/2 -110, 120, 50);
@@ -179,13 +179,22 @@ else if (hasstarted){
 	g.drawImage(birdused, Charlocx ,Charlocy, this);
     g.fillRect(pipelocx, pipelocy, pipewidth, pipeheight);
     g.fillRect(pipelocx, SCREENY- bottompipeh, pipewidth, bottompipeh);
+    g.setColor(Color.GRAY);
+    g.setFont(josh);
+    g.drawString(""+pipecounter, SCREENX/2, 100);
     if (gameoversequence){
-    	Thread.sleep(700);
-    	g.fillRect(0, 0, SCREENX, SCREENY);
-    	g.setColor(Color.WHITE);
-    	g.drawString("GAME OVER", SCREENX/2, SCREENY/2);
-    	g.drawString("You passed "+ pipecounter + " Pipes.", SCREENX/2, SCREENY/2 + 30);
-    	return;
+    	g.drawString("GAME OVER", SCREENX/2-75, SCREENY/2-70);
+    	g.drawString("You passed "+ pipecounter + " Pipes.", SCREENX/2-75, SCREENY/2 -30);
+    	start=false;
+    	Thread.sleep(3000);
+    	Charlocy= SCREENY/2;
+    	Charlocx= 100;
+    	pipecounter= 0;
+    	pipelocx=SCREENX;
+    	gameoversequence=false;
+    	gameover= false;
+    	hasstarted= false;
+    	
     }
    }
 	repaint();
@@ -225,12 +234,6 @@ public class AL extends KeyAdapter{
 				pixelcounter=0;
 				pixelcounter2=0;
 			for( int i=0; i<15; i++){
-				try {
-					Thread.sleep(1);
-				} catch (InterruptedException e2) {
-					// TODO Auto-generated catch block
-					e2.printStackTrace();
-				}
 				sety(-8);
 			try {
 				move();
