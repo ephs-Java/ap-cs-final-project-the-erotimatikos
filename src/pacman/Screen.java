@@ -141,46 +141,53 @@ public class Screen extends JFrame implements Runnable {
 	//checks which direction to go in
 	public void checkMovement() {
 		
+		boolean xAligned = true;
+		boolean yAligned = true;
+		
+		//checks for x axis alignment
 		if ((pacmanX - 25) % BLOCKWIDTH <= 0) {
-			movingLeft = false;
-			movingRight = false;
+//			movingLeft = false;
+//			movingRight = false;
 		}
 		else {
 			movingUp = false;
 			movingDown = false;
+			xAligned = false;
 		}
+		//checks for y axis alignment
 		if ((pacmanY - 50) % BLOCKWIDTH <= 0) {
-			movingUp = false;
-			movingDown = false;
+//			movingUp = false;
+//			movingDown = false;
 		}
 		else {
 			movingLeft = false;
 			movingRight = false;
+			yAligned = false;
 		}
 		
 		updateVars();
 //		System.out.println("X: " + pacmanXindex + " Y: " + pacmanYindex);
 		
 		//checks for wall collision
-		if (maze.maze[pacmanXindex][pacmanYindex].getState() == Tile.WALL) {
+		if (movingLeft && maze.maze[pacmanXindex][pacmanYindex].getState() == Tile.WALL) {
 			movingLeft = false;
 			pacmanX = 25 + pacmanXindex * BLOCKWIDTH + BLOCKWIDTH;
 			System.out.println("left");
 //			pacmanY = 50 + pacmanYindex * BLOCKWIDTH;
 		}
-		if (maze.maze[pacmanXindex + 1][pacmanYindex].getState() == Tile.WALL) {
+		if (movingRight && maze.maze[pacmanXindex + 1][pacmanYindex].getState() == Tile.WALL) {
 			movingRight = false;
 			pacmanX = 25 + pacmanXindex * BLOCKWIDTH;
 			System.out.println("right");
 //			pacmanY = 50 + pacmanYindex * BLOCKWIDTH;
 		}
-		if (maze.maze[pacmanXindex][pacmanYindex - 1].getState() == Tile.WALL) {
+		if (movingUp && maze.maze[pacmanXindex][pacmanYindex].getState() == Tile.WALL) {
 			movingUp = false;
 //			pacmanX = 25 + pacmanXindex * BLOCKWIDTH;
 			pacmanY = 50 + pacmanYindex * BLOCKWIDTH + BLOCKWIDTH;
 			System.out.println("up");
 		}
-		if (maze.maze[pacmanXindex][pacmanYindex + 1].getState() == Tile.WALL) {
+		if (movingDown && maze.maze[pacmanXindex][pacmanYindex + 1].getState() == Tile.WALL) {
 			movingDown = false;
 //			pacmanX = 25 + pacmanXindex * BLOCKWIDTH;
 			System.out.println("down");
@@ -188,14 +195,14 @@ public class Screen extends JFrame implements Runnable {
 		}
 		
 		//checks if you can move up
-		if (queue.indexOf("UP") != -1) {
+		if (queue.indexOf("UP") != -1 && xAligned) {
 //			pacmanY --;
 			halt();
 			movingUp = true;
 			queue.remove(queue.indexOf("UP"));
 		}
 		//checks if you can move left
-		else if (queue.indexOf("LEFT") != -1) {
+		else if (queue.indexOf("LEFT") != -1 && yAligned) {
 			
 //			pacmanX --;
 //			System.out.println((pacmanX - 25) % BLOCKWIDTH);
@@ -205,14 +212,14 @@ public class Screen extends JFrame implements Runnable {
 			
 		}
 		//checks if you can move down
-		else if (queue.indexOf("DOWN") != -1) {
+		else if (queue.indexOf("DOWN") != -1 && xAligned) {
 //			pacmanY ++;
 			halt();
 			movingDown = true;
 			queue.remove(queue.indexOf("DOWN"));
 		}
 		//checks if you can move right
-		else if (queue.indexOf("RIGHT") != -1) {
+		else if (queue.indexOf("RIGHT") != -1 && yAligned) {
 //			pacmanX ++;
 			halt();
 			movingRight = true;
@@ -220,16 +227,16 @@ public class Screen extends JFrame implements Runnable {
 		}
 		
 		//updates the index
-		if (movingRight) {
+		if (movingRight && yAligned) {
 			pacmanX ++;
 		}
-		if (movingLeft) {
+		if (movingLeft && yAligned) {
 			pacmanX --;
 		}
-		if (movingUp) {
+		if (movingUp && xAligned) {
 			pacmanY --;
 		}
-		if (movingDown) {
+		if (movingDown && xAligned) {
 			pacmanY ++;
 		}
 		
@@ -444,8 +451,5 @@ public class Screen extends JFrame implements Runnable {
 		paintComponent(dbg);
 		g.drawImage(dbImage, 0, 0, this);
 	}
-	
-	
-	
 	
 }

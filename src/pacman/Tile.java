@@ -15,6 +15,9 @@ public class Tile {
 	public static final int TELEPORTER = 4;
 	public static final int TELEPORTER2 = 5;
 	
+	//c press
+	public static final int GHOSTSPAWN = 6;
+	
 	//creates a blank tile. default constructor
 	public Tile() {
 		this.state = 0;
@@ -26,8 +29,8 @@ public class Tile {
 		if (s < 0) {
 			this.state = BLANK;
 		}
-		else if (s > TELEPORTER2) {
-			this.state = TELEPORTER2;
+		else if (s > GHOSTSPAWN) {
+			this.state = GHOSTSPAWN;
 		}
 		else {
 			this.state = s;
@@ -45,8 +48,8 @@ public class Tile {
 		if (s < 0) {
 			this.state = BLANK;
 		}
-		else if (s > TELEPORTER2) {
-			this.state = TELEPORTER2;
+		else if (s > GHOSTSPAWN) {
+			this.state = GHOSTSPAWN;
 		}
 		else {
 			this.state = s;

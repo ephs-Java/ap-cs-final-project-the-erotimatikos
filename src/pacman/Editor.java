@@ -279,6 +279,9 @@ public class Editor extends JFrame {
 			if (key == e.VK_X) {
 				updateAltState(blockX, blockY);
 			}
+			if (key == e.VK_C) {
+				maze.maze[blockX][blockY].setState(Tile.GHOSTSPAWN);
+			}
 			
 		}
 		
@@ -329,7 +332,11 @@ public class Editor extends JFrame {
 					g.fillOval(xloc + BLOCKWIDTH / 4,
 							yloc + BLOCKWIDTH / 4, BLOCKWIDTH / 2, BLOCKWIDTH / 2);
 				}
-				
+				else if (state == Tile.GHOSTSPAWN) {
+					g.setColor(Color.CYAN);
+					g.fillOval(xloc + BLOCKWIDTH / 4,
+							yloc + BLOCKWIDTH / 4, BLOCKWIDTH / 2, BLOCKWIDTH / 2);
+				}
 				g.setColor(Color.blue);
 				g.drawRect(xloc, yloc, BLOCKWIDTH, BLOCKWIDTH);
 				
