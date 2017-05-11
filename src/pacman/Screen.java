@@ -15,7 +15,7 @@ import java.util.Scanner;
 
 import javax.swing.JFrame;
 
-public class Screen extends JFrame {
+public class Screen extends JFrame implements Runnable {
 	
 	//double buffering
 	Image dbImage;
@@ -24,9 +24,11 @@ public class Screen extends JFrame {
 	//maze field
 	Maze maze;
 	
-	//maze dimensions
-	final static int MAZEX = 30;
-	final static int MAZEY = 15;
+	//queue field
+	Queue queue;
+	
+	//queue size
+	final int QUEUESIZE = 100;
 	
 	//width of each block
 	final int BLOCKWIDTH = 30;
@@ -35,15 +37,53 @@ public class Screen extends JFrame {
 	int mouseX = 100;
 	int mouseY = 100;
 	
-	final static int SCREENX = MAZEX * 33;
-	final static int SCREENY = MAZEY * 33;
+	//pac man x and y coordinates
+	int pacmanX;
+	int pacmanY;
+	
+	//pac man x and y index
+	int pacmanXindex;
+	int pacmanYindex;
+	
+	//pacman moving direction
+	boolean movingUp = false;
+	boolean movingRight = false;
+	boolean movingDown = false;
+	boolean movingLeft = false;
+	
+	//maze dimensions
+	final static int MAZEX = 30;
+	final static int MAZEY = 15;
+	
+	//screen dimensions
+	int screenX = MAZEX * 33;
+	int screenY = MAZEY * 33;
 	
 	//current level that the user is on
 	int level = 1;
 	
+	//the thread
+	public void run() {
+		
+		try {
+			
+			while (true) {
+				
+				checkMovement();
+				Thread.sleep(10);
+				queue.update();
+			}
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
 	//main method
 	public Screen() {
 		
+		queue = new Queue(QUEUESIZE);
 		maze = new Maze(MAZEX, MAZEY);
 		//loads maze
 		try {
@@ -52,6 +92,10 @@ public class Screen extends JFrame {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		setup();
+		screenX = maze.maze.length * 33;
+		screenY = maze.maze[0].length * 35;
+		
 		
 //		System.out.println(maze);
 		
@@ -61,11 +105,172 @@ public class Screen extends JFrame {
 		//sets the properties of the screen
 		setTitle("Pac-Man");
 		setVisible(true);
-		setSize(SCREENX, SCREENY);
+		setSize(screenX, screenY);
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBackground(Color.black);
 		
+	}
+	
+	public void updateVars() {
+		
+		//updates pac man x and y index vars
+		for (int r = 0; r < maze.maze.length; r++) {
+			for (int c = 0; c < maze.maze[0].length; c++) {
+				
+				int xdif = Math.abs((r * BLOCKWIDTH + 25) - pacmanX);
+				int ydif = Math.abs((c * BLOCKWIDTH + 50) - pacmanY);
+				
+//				System.out.println(xdif + " " + ydif + "r= " + r + " c= " + c);
+				
+				
+				if (xdif < BLOCKWIDTH && ydif < BLOCKWIDTH) {
+					pacmanXindex = r;
+					pacmanYindex = c;
+					return;
+				}
+				
+			}
+		}
+		pacmanXindex = 0;
+		pacmanYindex = 0;
+		
+		
+	}
+	
+	//checks which direction to go in
+	public void checkMovement() {
+		
+		if ((pacmanX - 25) % BLOCKWIDTH <= 0) {
+			movingLeft = false;
+			movingRight = false;
+		}
+		else {
+			movingUp = false;
+			movingDown = false;
+		}
+		if ((pacmanY - 50) % BLOCKWIDTH <= 0) {
+			movingUp = false;
+			movingDown = false;
+		}
+		else {
+			movingLeft = false;
+			movingRight = false;
+		}
+		
+		updateVars();
+//		System.out.println("X: " + pacmanXindex + " Y: " + pacmanYindex);
+		
+		//checks for wall collision
+		if (maze.maze[pacmanXindex][pacmanYindex].getState() == Tile.WALL) {
+			movingLeft = false;
+			pacmanX = 25 + pacmanXindex * BLOCKWIDTH + BLOCKWIDTH;
+			System.out.println("left");
+//			pacmanY = 50 + pacmanYindex * BLOCKWIDTH;
+		}
+		if (maze.maze[pacmanXindex + 1][pacmanYindex].getState() == Tile.WALL) {
+			movingRight = false;
+			pacmanX = 25 + pacmanXindex * BLOCKWIDTH;
+			System.out.println("right");
+//			pacmanY = 50 + pacmanYindex * BLOCKWIDTH;
+		}
+		if (maze.maze[pacmanXindex][pacmanYindex - 1].getState() == Tile.WALL) {
+			movingUp = false;
+//			pacmanX = 25 + pacmanXindex * BLOCKWIDTH;
+			pacmanY = 50 + pacmanYindex * BLOCKWIDTH + BLOCKWIDTH;
+			System.out.println("up");
+		}
+		if (maze.maze[pacmanXindex][pacmanYindex + 1].getState() == Tile.WALL) {
+			movingDown = false;
+//			pacmanX = 25 + pacmanXindex * BLOCKWIDTH;
+			System.out.println("down");
+			pacmanY = 50 + pacmanYindex * BLOCKWIDTH;
+		}
+		
+		//checks if you can move up
+		if (queue.indexOf("UP") != -1) {
+//			pacmanY --;
+			halt();
+			movingUp = true;
+			queue.remove(queue.indexOf("UP"));
+		}
+		//checks if you can move left
+		else if (queue.indexOf("LEFT") != -1) {
+			
+//			pacmanX --;
+//			System.out.println((pacmanX - 25) % BLOCKWIDTH);
+			halt();
+			movingLeft = true;
+			queue.remove(queue.indexOf("LEFT"));
+			
+		}
+		//checks if you can move down
+		else if (queue.indexOf("DOWN") != -1) {
+//			pacmanY ++;
+			halt();
+			movingDown = true;
+			queue.remove(queue.indexOf("DOWN"));
+		}
+		//checks if you can move right
+		else if (queue.indexOf("RIGHT") != -1) {
+//			pacmanX ++;
+			halt();
+			movingRight = true;
+			queue.remove(queue.indexOf("RIGHT"));
+		}
+		
+		//updates the index
+		if (movingRight) {
+			pacmanX ++;
+		}
+		if (movingLeft) {
+			pacmanX --;
+		}
+		if (movingUp) {
+			pacmanY --;
+		}
+		if (movingDown) {
+			pacmanY ++;
+		}
+		
+		
+		
+	}
+	
+	//stops all movement
+	public void halt() {
+		
+		movingRight = false;
+		movingLeft = false;
+		movingUp = false;
+		movingDown = false;
+		
+	}
+	
+	//sets up the pac man location for starting up the game
+	public void setup() {
+		
+		for (int r = 0; r < maze.maze.length; r++) {
+			for (int c = 0; c < maze.maze[0].length; c++) {
+				
+				if (maze.maze[r][c].getState() == Tile.SPAWN) {
+					
+					//sets the pac man index and location on screen
+					pacmanX = r * BLOCKWIDTH + 25;
+					pacmanY = c * BLOCKWIDTH + 50;
+					pacmanXindex = r;
+					pacmanYindex = c;
+					return;
+					
+				}
+				
+			}
+		}		
+		pacmanX = 0 * BLOCKWIDTH + 25;
+		pacmanY = 0 * BLOCKWIDTH + 50;
+		
+		pacmanXindex = 0;
+		pacmanYindex = 0;
 	}
 	
 	//loads the given file into the current state
@@ -150,10 +355,23 @@ public class Screen extends JFrame {
 		public void keyPressed(KeyEvent e) {
 			
 			int key = e.getKeyCode();
-			
+//			System.out.println(queue);
 			if (key == e.VK_Q) {
 				System.exit(0);
 			}
+			else if (key == e.VK_UP) {
+				queue.add("UP");
+			}
+			else if (key == e.VK_RIGHT) {
+				queue.add("RIGHT");
+			}
+			else if (key == e.VK_DOWN) {
+				queue.add("DOWN");
+			}
+			else if (key == e.VK_LEFT) {
+				queue.add("LEFT");
+			}
+			
 			
 		}
 		
@@ -165,7 +383,7 @@ public class Screen extends JFrame {
 		
 	}
 	
-	//paints stuff to the jframe
+	//paints stuff to the screen
 	public void paintComponent(Graphics g) {
 		
 		for (int r = 0; r < maze.maze.length; r++) {
@@ -210,6 +428,9 @@ public class Screen extends JFrame {
 				
 			}
 		}
+		
+		g.setColor(Color.yellow);
+		g.fillOval(pacmanX, pacmanY, 30, 30);
 		
 		repaint();
 		

@@ -9,7 +9,6 @@ import java.awt.event.InputEvent;
 
 import javax.swing.JFrame;
 
-
 public class MouseScreen extends JFrame{
 
 	

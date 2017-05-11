@@ -1,0 +1,80 @@
+package pacman;
+
+import java.util.ArrayList;
+
+public class Queue {
+
+	//fields
+	private ArrayList<String> queue;
+	private ArrayList<Integer> nums;
+	private int buffer;
+	
+	//initializes queue object with the given buffer
+	public Queue(int b) {
+		queue = new ArrayList<String>();
+		nums = new ArrayList<Integer>();
+		buffer = b;
+	}
+	
+	//adds an item to both lists. starts a new corresponding counter
+	public void add(String s) {
+		queue.add(s);
+		nums.add(0);
+	}
+	
+	//removes the given index from both arrays, if it exists
+	public void remove(int i) {
+		if (i > queue.size() - 1) {
+			return;
+		}
+		queue.remove(i);
+		nums.remove(i);
+	}
+	
+	//reurns the index of the string in the arraylist, if it exists
+	public int indexOf(String s) {
+		
+		for (int i = 0; i < queue.size(); i++) {
+			if (queue.get(i).equals(s)) {
+				return i;
+			}
+		}
+		return -1;
+		
+	}
+	
+	
+	//returns true if the given string is in the list. returns false otherwise
+	public boolean exists(String s) {
+		
+		for (int i = 0; i < queue.size(); i++) {
+			if (queue.get(i).equals(s)) {
+				return true;
+			}
+		}
+		return false;
+		
+	}
+	
+	//adds 1 to every number in nums
+	//also removes things over the buffer size
+	public void update() {
+		for (int i = 0; i < nums.size(); i++) {
+			nums.set(i, nums.get(i) + 1);
+			if (nums.get(i) >= buffer) {
+				remove(i);
+			}
+		}
+//		System.out.println("sasdf");
+	}
+	
+	public String toString() {
+		
+		String message = "";
+		for (int i = 0; i < queue.size(); i++) {
+			message += queue.get(i) + " : " + nums.get(i) + ", ";
+		}
+		return message;
+		
+	}
+}
