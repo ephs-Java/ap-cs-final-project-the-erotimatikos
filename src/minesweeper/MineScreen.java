@@ -12,7 +12,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
-public class Screen extends JFrame {
+public class MineScreen extends JFrame {
 
 	//boolean gameOver
 	private boolean isGameOver = false;
@@ -46,7 +46,7 @@ public class Screen extends JFrame {
 	private static int count = 0;
 	
 	//the default constructor, creates JFrame
-	public Screen() {
+	public MineScreen() {
 		
 		//handles pictures
 		ImageIcon image1 = new ImageIcon("bomb_PNG26.png");
