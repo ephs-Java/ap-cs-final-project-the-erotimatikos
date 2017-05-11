@@ -11,7 +11,7 @@ import java.util.Random;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
-public class Screen extends JFrame implements Runnable{
+public class FlappyScreen extends JFrame implements Runnable{
 	private Image dbImage;
 	private Graphics dbg;
 	private int SCREENX,SCREENY;
@@ -57,7 +57,7 @@ public class Screen extends JFrame implements Runnable{
 			}
 			
 		}
-	public Screen() {
+	public FlappyScreen() {
 		// TODO Auto-generated constructor stub
 		addKeyListener( new AL()); 
 		SCREENX= 500;
@@ -258,7 +258,7 @@ public class AL extends KeyAdapter{
 	}
 }
 public static void main(String[] args){
-	Screen josh= new Screen();
+	FlappyScreen josh= new FlappyScreen();
 	Thread t1= new Thread(josh);
 	t1.start();
 }
