@@ -1,6 +1,7 @@
 package FlappyBird;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Rectangle;
@@ -18,6 +19,7 @@ public class Screen extends JFrame implements Runnable{
 	private int Charlocy= 250;
 	private int Charlocx = 100;
 	private int changey= 0;
+	Image first, second, third;
 	Image birdused;
 	Image bird;
 	Image wing;
@@ -30,6 +32,8 @@ public class Screen extends JFrame implements Runnable{
 	private boolean tap= true;
 	private int pipeheight, pipewidth;
 	private int bottompipeh;
+	private boolean start = false;
+	private boolean hasstarted= false;
 	private int pipelocx = 700;
 	private int pipelocy = 0;
 	private int pixelcounter, pixelcounter2;
@@ -37,8 +41,9 @@ public class Screen extends JFrame implements Runnable{
 	private int gravity= 1;
 	public void run (){
 			try{
-				Thread.sleep(600);
-				while(true){
+				
+				startsequence();
+				while(start){
 					move();
 					pipes();
 					collision();
@@ -59,7 +64,7 @@ public class Screen extends JFrame implements Runnable{
 		setTitle("Flappy Bird");
 		setVisible(true);
 		setSize(SCREENX, SCREENY);
-		setResizable(true);
+		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		if (theme.equals("normal")){
 		setBackground(Color.cyan);
@@ -71,6 +76,12 @@ public class Screen extends JFrame implements Runnable{
 		fly = image3.getImage();
 		ImageIcon image4 = new ImageIcon("falling.png");
 		fall = image4.getImage();
+		ImageIcon image5 = new ImageIcon("sprite1.png");
+		first = image5.getImage();
+		ImageIcon image6 = new ImageIcon("sprite2.png");
+		second = image6.getImage();
+		ImageIcon image7 = new ImageIcon("sprite3.png");
+		third = image7.getImage();
 		birdused=bird;
 		Random one= new Random();
 		bottompipeh= one.nextInt(500) + 100;
@@ -80,6 +91,14 @@ public class Screen extends JFrame implements Runnable{
 		
 	}
 
+	public void startsequence(){
+		
+		
+		
+		
+		
+	}
+	
 	public void pipes(){
 		pipelocx --;
 		Random two= new Random();
@@ -133,7 +152,21 @@ public class Screen extends JFrame implements Runnable{
 		g.drawImage(dbImage, 0, 0, this);
 	}
 	public void paintComponent(Graphics g) throws InterruptedException {
-    g.drawImage(birdused, Charlocx ,Charlocy, this);
+		if (!hasstarted){
+			Font josh= new Font("Bloody", Font.PLAIN, 26);
+	g.setColor(Color.black);
+	g.fillRect(SCREENX/2- 50, SCREENY/2 -50, 120, 50);
+	g.setColor(Color.white);
+	g.fillRect(SCREENX/2- 45, SCREENY/2 -45, 110, 38);
+	g.setColor(Color.orange);
+	g.fillRect(SCREENX/2- 43, SCREENY/2 -43, 105, 34);
+	g.setFont(josh);
+	g.setColor(Color.WHITE);
+	g.drawString("Start", SCREENX/2- 25, SCREENY/2 -18);
+	
+}
+else if (hasstarted){
+	g.drawImage(birdused, Charlocx ,Charlocy, this);
     g.fillRect(pipelocx, pipelocy, pipewidth, pipeheight);
     g.fillRect(pipelocx, SCREENY- bottompipeh, pipewidth, bottompipeh);
     if (gameoversequence){
@@ -144,6 +177,7 @@ public class Screen extends JFrame implements Runnable{
     	g.drawString("You passed "+ pipecounter + " Pipes.", SCREENX/2, SCREENY/2 + 30);
     	return;
     }
+   }
 	repaint();
 	}
 	
