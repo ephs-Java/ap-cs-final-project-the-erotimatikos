@@ -15,7 +15,7 @@ public class Screen extends JFrame implements Runnable{
 	private Image dbImage;
 	private Graphics dbg;
 	private int SCREENX,SCREENY;
-	private int Charlocy= SCREENY/2;
+	private int Charlocy= 250;
 	private int Charlocx = 100;
 	private int changey= 0;
 	Image birdused;
@@ -74,7 +74,7 @@ public class Screen extends JFrame implements Runnable{
 		birdused=bird;
 		Random one= new Random();
 		bottompipeh= one.nextInt(500) + 100;
-		pipeheight= (SCREENY- 130) -bottompipeh;
+		pipeheight= (SCREENY- 140) -bottompipeh;
 		pipewidth= 50;
 		}
 		
@@ -87,18 +87,18 @@ public class Screen extends JFrame implements Runnable{
 			pipelocx = SCREENX;
 			pipecounter++;
 			bottompipeh= two.nextInt(500) + 100;
-			pipeheight= (SCREENY- 160) -bottompipeh;
+			pipeheight= (SCREENY- 140) -bottompipeh;
 		}
 	}
 	public void collision(){
-		if (Charlocy <= pipeheight && (Charlocx >pipelocx || Charlocx + 36 == pipelocx)&& Charlocx<pipelocx+pipewidth){
+		if (Charlocy <= pipeheight && (Charlocx >pipelocx || Charlocx + 30 == pipelocx)&& Charlocx<pipelocx+pipewidth){
 			gameover= true;
 			Charlocy = 310;
 			
 			Charlocx= pipelocx;
 			
 		}
-		if (Charlocy+ 32 >= SCREENY-bottompipeh && (Charlocx >pipelocx || Charlocx + 36 == pipelocx)&& Charlocx<pipelocx+pipewidth){
+		if (Charlocy+ 30 >= SCREENY-bottompipeh && (Charlocx >pipelocx || Charlocx + 30 == pipelocx)&& Charlocx<pipelocx+pipewidth){
 			gameover= true;
 			Charlocy = 310;
 			
