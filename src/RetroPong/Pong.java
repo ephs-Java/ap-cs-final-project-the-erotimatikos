@@ -105,8 +105,8 @@ public class Pong extends JFrame implements Runnable{
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
          Pong ping= new Pong();
-         Thread t1= new Thread(ping);
-         t1.start();
+         Thread t2= new Thread(ping);
+         t2.start();
 	}
 
 	@Override

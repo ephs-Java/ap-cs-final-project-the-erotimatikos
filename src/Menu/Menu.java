@@ -10,6 +10,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
 import FlappyBird.FlappyScreen;
+import RetroPong.Pong;
 import TicTackToe.Screen;
 import minesweeper.MineScreen;
 import pacman.Editor.mouse;
@@ -27,7 +28,7 @@ public class Menu extends JFrame implements Runnable {
 		minesweeper= image0.getImage();
 		ImageIcon image1= new ImageIcon("src/Menu/Flappy_Bird_icon.png");
 		flappy= image1.getImage();
-		ImageIcon image2= new ImageIcon("src/Menu/Flappy_Bird_icon.png");
+		ImageIcon image2= new ImageIcon("src/Menu/pong.png");
 		pong= image2.getImage();
 		ImageIcon image3= new ImageIcon("src/Menu/tic.png");
 		tic= image3.getImage();
@@ -86,6 +87,12 @@ public class mouse extends MouseAdapter {
 			MOUSEY=0;
 			Screen ok= new Screen();
 		}
+		if ((MOUSEX>50 && MOUSEX<270) && (MOUSEY>150 && MOUSEY<500)){
+			MOUSEX=0;
+			MOUSEY=0;
+			Pong josh= new Pong();
+			
+		}
 	}
 	
 	public void paintComponent(Graphics g) throws InterruptedException {
@@ -103,6 +110,11 @@ public class mouse extends MouseAdapter {
 		g.setColor(Color.WHITE);
 		g.fillRect(755, 55, 200, 190);
 		g.drawImage(tic, 770, 60, this);
+		g.setColor(Color.black);
+		g.fillRect(50, 300, 210, 200);
+		g.setColor(Color.WHITE);
+		g.fillRect(55, 305, 200, 190);
+		g.drawImage(pong, 70, 310, this);
 	}
 	
 	
