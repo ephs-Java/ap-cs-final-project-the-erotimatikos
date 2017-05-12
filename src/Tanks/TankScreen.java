@@ -18,6 +18,13 @@ public class TankScreen extends JFrame{
 	
 	TankTile tankOne = new TankTile(10,10);
 	TankTile tankTwo = new TankTile(10,10);
+	boolean isWallS = false;
+	
+	
+	
+	
+	int oneNumBomb = 10;
+	int twoNumBomb = 10;
 	
 	private Image dbImage;
 	private Graphics dbg;
@@ -28,31 +35,56 @@ public class TankScreen extends JFrame{
 
 	public class AL extends KeyAdapter{
 		
+		
+		
+		
+		
 		public void keyPressed(KeyEvent e){
+			
+			
+			
 			int keyInput = e.getKeyCode(); //Code of each key pressed
+			
+			
+			//The bomb setter for tank one
+			if(oneNumBomb > 0 && keyInput == e.VK_SHIFT && !field.tiles[tankOneX/10][tankOneY/10].getIsWall()){
+				field.tiles[tankOneX/10][tankOneY/10].SetMine();
+				oneNumBomb--;
+				
+			}
+			if(twoNumBomb > 0 && keyInput == e.VK_Q && !field.tiles[tankTwoX/10][tankTwoY/10].getIsWall()){
+				field.tiles[tankTwoX/10][tankTwoY/10].SetMine();
+				twoNumBomb--;
+				
+			}
+			
+			
+			
+			
+			
 			if(keyInput == e.VK_LEFT){	  //Left key
 				if(tankOneX - 10 <= 0){
 					tankOneX = 0;
-				}else
+				}else if(!field.tiles[(tankOneX / 10) -1][tankOneY/10].getIsWall())
 					tankOneX = tankOneX - 10;
 			}
 			if(keyInput == e.VK_RIGHT){	 //Right Key
 				if(tankOneX + 10 >= 1000){
 					tankOneX = 990;
-				}else
+				}else if(!field.tiles[(tankOneX / 10) +1][tankOneY/10].getIsWall())
 					tankOneX = tankOneX + 10;
 			}
 			if(keyInput == e.VK_UP){	//Up arrow
 				if(tankOneY - 20 <= 0){
 					tankOneY = 20;
-				}else{
+				}else 
 					tankOneY = tankOneY -10;
 				}
-			}
+			
 			if(keyInput == e.VK_DOWN){	//Down Arrow
 				if(tankOneY + 10 > 290){
 					tankOneY = 290;
-				}else
+				}else 
 					tankOneY = tankOneY + 10;
 			}
 		
@@ -63,26 +95,26 @@ public class TankScreen extends JFrame{
 		
 
 		
-		if(keyInput == e.VK_LEFT){	  //Left key
+		if(keyInput == e.VK_A){	  //Left key
 			if(tankTwoX - 10 <= 0){
 				tankTwoX = 0;
 			}else
 				tankTwoX = tankTwoX - 10;
 		}
-		if(keyInput == e.VK_RIGHT){	 //Right Key
+		if(keyInput == e.VK_D){	 //Right Key
 			if(tankTwoX + 10 >= 1000){
 				tankTwoX = 990;
 			}else
 				tankTwoX = tankTwoX + 10;
 		}
-		if(keyInput == e.VK_UP){	//Up arrow
+		if(keyInput == e.VK_W){	//Up arrow
 			if(tankTwoY - 20 <= 0){
 				tankTwoY = 20;
 			}else{
 				tankTwoY = tankTwoY -10;
 			}
 		}
-		if(keyInput == e.VK_DOWN){	//Down Arrow
+		if(keyInput == e.VK_S){	//Down Arrow
 			if(tankTwoY + 10 > 290){
 				tankTwoY = 290;
 			}else
@@ -99,7 +131,7 @@ public class TankScreen extends JFrame{
 		tankTwoY = 100;
 		addKeyListener(new AL());
 		setTitle("Video4");
-		setSize(2000,1000);
+		setSize(1000,1000);
 		setResizable(false);
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -116,21 +148,16 @@ public class TankScreen extends JFrame{
 	public void paintComponent(Graphics g){
 		
 		
-		
-		
-		
-//		g.setColor(Color.blue); 
-//	//	g.drawOval(x, y, 10, 10);
-//		g.setColor(Color.orange); 
-//		g.drawRect(100, 100, 200, 200);
-//		g.setColor(Color.blue);
-//		g.fillRect(100,100, 10, 10);
-		
 		for(int r = 0;r<100;r++){
 			for(int c = 0;c<30;c++){
+				
 				if(field.tiles[r][c].getIsWall() == true){
-					g.setColor(Color.red);
-					g.drawRect(10 * r, 10 * c, 10, 10);
+					g.setColor(Color.black);
+					g.fillRect(10 * r, 10 * c, 10, 10);
+				}
+				else if(field.tiles[r][c].getMine()){
+				g.setColor(Color.GRAY);
+				g.fillRect(10 * r, 10 * c, 10, 10);
 				}
 				else{
 					g.setColor(Color.blue);
@@ -142,6 +169,9 @@ public class TankScreen extends JFrame{
 		g.setColor(Color.red);
 		g.fillRect(tankTwoX, tankTwoY, 10, 10);
 		
+		g.setColor(Color.black);
+		g.drawString("Tank one has " + oneNumBomb + " bombs left", 100, 320);
+		g.drawString("Tank one has " + twoNumBomb + " bombs left", 100, 340);
 		repaint(); //Causes it to refresh once it reaches this point
 		
 	}
