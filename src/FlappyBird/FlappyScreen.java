@@ -17,8 +17,8 @@ public class FlappyScreen extends JFrame implements Runnable{
 	private Image dbImage;
 	private Graphics dbg;
 	private int SCREENX,SCREENY;
-	private int Charlocy= 350;
-	private int Charlocx = 100;
+	private int Charlocy= 300;
+	private int Charlocx = 50;
 	Image first, second, third, birdused, bird, background, wing, fly, fall, movingBottom;
 	private boolean gameover= false;
 	private boolean gameoversequence= false;
@@ -80,8 +80,8 @@ public class FlappyScreen extends JFrame implements Runnable{
 		third = image7.getImage();
 		birdused=bird;
 		Random one= new Random();
-		bottompipeh= one.nextInt(500) + 200;
-		pipeheight= (SCREENY- 160) -bottompipeh;
+		bottompipeh= one.nextInt(450) + 300;
+		pipeheight= (SCREENY- 120) -bottompipeh;
 		pipewidth= 50;
 		}
 		
@@ -102,8 +102,8 @@ public class FlappyScreen extends JFrame implements Runnable{
 		if (pipelocx <= 0){
 			pipelocx = SCREENX;
 			pipecounter++;
-			bottompipeh= two.nextInt(500) + 200;
-			pipeheight= (SCREENY- 160) -bottompipeh;
+			bottompipeh= two.nextInt(450) + 300;
+			pipeheight= (SCREENY- 120) -bottompipeh;
 		}
 	}
 	public void collision(){
@@ -114,7 +114,7 @@ public class FlappyScreen extends JFrame implements Runnable{
 			Charlocx= pipelocx;
 			
 		}
-		if (Charlocy+ 30 >= SCREENY-bottompipeh && (Charlocx >pipelocx || Charlocx + 30 == pipelocx)&& Charlocx<pipelocx+pipewidth){
+		if (Charlocy+ 40 >= SCREENY-bottompipeh && (Charlocx >pipelocx || Charlocx + 30 == pipelocx)&& Charlocx<pipelocx+pipewidth){
 			gameover= true;
 			Charlocy = 310;
 			
