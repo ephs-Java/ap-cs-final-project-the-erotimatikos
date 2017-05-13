@@ -111,7 +111,7 @@ public class FlappyScreen extends JFrame implements Runnable{
 	}
 	
 	public void pipes(){
-		pipelocx -=5 ;
+		pipelocx -=17 ;
 		Random two= new Random();
 		if (pipelocx <= 0){
 			pipelocx = SCREENX;
