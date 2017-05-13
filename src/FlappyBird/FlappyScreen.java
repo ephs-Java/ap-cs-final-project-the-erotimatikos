@@ -87,13 +87,13 @@ public class FlappyScreen extends JFrame implements Runnable{
 	}
 	public void startsequence() throws InterruptedException{
 		birdused= first;
-		Thread.sleep(200);
+		Thread.sleep(155);
 		birdused= second;
-		Thread.sleep(200);
+		Thread.sleep(155);
 		birdused= third;
-		Thread.sleep(200);
+		Thread.sleep(155);
 		birdused= second;
-		Thread.sleep(200);
+		Thread.sleep(155);
 	}
 	public void pipes(){
 		pipelocx -=10 ;
@@ -113,10 +113,10 @@ public class FlappyScreen extends JFrame implements Runnable{
 //			Charlocx= pipelocx;
 //			
 //		}
-		if (Charlocy <= pipeheight - 2 &&  (Charlocx + 40 >= pipelocx && Charlocx <= pipelocx+pipewidth-3)){
+		if (Charlocy <= pipeheight - 2 &&  (Charlocx + 30 >= pipelocx && Charlocx <= pipelocx+pipewidth-3)){
 			gameover=true;
 		}
-		if (Charlocy+ 30 >= SCREENY-bottompipeh + 3 &&  (Charlocx + 40 >= pipelocx && Charlocx <= pipelocx+pipewidth-3)){
+		if (Charlocy+ 30 >= SCREENY-bottompipeh + 3 &&  (Charlocx + 30 >= pipelocx && Charlocx <= pipelocx+pipewidth-3)){
 			gameover=true;
 		}
 
@@ -159,7 +159,7 @@ public class FlappyScreen extends JFrame implements Runnable{
 	g.setColor(Color.WHITE);
 	g.drawString("Start", SCREENX/2- 25, SCREENY/2 -80);
 	g.drawString("Press Space to Start", SCREENX/2- 115, SCREENY/2 - 10);
-	g.drawImage(birdused,SCREENX/2 , SCREENY/2 - 200, this);
+	g.drawImage(birdused,SCREENX/2- 10 , SCREENY/2 - 175, this);
 }
 else if (hasstarted){
 	g.drawImage(birdused, Charlocx ,Charlocy, this);
@@ -180,7 +180,7 @@ else if (hasstarted){
     	gameoversequence=false;
     	gameover= false;
     	hasstarted= false;
-    	
+    	Thread.sleep(1500);
     }
    }
 	repaint();
