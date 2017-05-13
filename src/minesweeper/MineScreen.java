@@ -31,8 +31,8 @@ public class MineScreen extends JFrame {
 	//screen dimensions variables
 	private final int SCREENX = 800, SCREENY = 500;//800 by 500 default
 	
-	int minesX = 50;//default 50
-	int minesY = 25;//default 25
+	int minesX = 20;//default 50
+	int minesY = 20;//default 25
 	
 	//double buffering
 	private Image dbImage;
@@ -189,7 +189,6 @@ public class MineScreen extends JFrame {
 						g.setColor(Color.green);
 					}
 					g.fillRect(15 + r * BLOCKWIDTH, 30 + c * BLOCKWIDTH, BLOCKWIDTH, BLOCKWIDTH);
-					g.setColor(Color.LIGHT_GRAY);
 					g.fill3DRect(15 + r * BLOCKWIDTH, 30 + c * BLOCKWIDTH, BLOCKWIDTH, BLOCKWIDTH, true);
 				}
 				//prints a number on exposed blocks
