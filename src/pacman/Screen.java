@@ -1,6 +1,5 @@
 package pacman;
 
-import java.awt.AWTException;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -29,9 +28,11 @@ public class Screen extends JFrame implements Runnable {
 	
 	//queue field
 	Queue queue;
+	Queue tpwait;
 	
 	//queue size
-	final int QUEUESIZE = 100;
+	final int QUEUESIZE = 50;
+	final int TPQUEUE = 100;
 	
 	//width of each block
 	final int BLOCKWIDTH = 30;
@@ -59,11 +60,11 @@ public class Screen extends JFrame implements Runnable {
 	final static int MAZEY = 15;
 	
 	//screen dimensions
-	int screenX = MAZEX * 33;
-	int screenY = MAZEY * 33;
+	int screenX = MAZEX * (BLOCKWIDTH + 3);
+	int screenY = MAZEY * (BLOCKWIDTH + 3);
 	
 	//current level that the user is on
-	int level = 1;
+	int level = 5;
 	
 	//the thread
 	public void run() {
@@ -71,10 +72,12 @@ public class Screen extends JFrame implements Runnable {
 		try {
 			
 			while (true) {
-				
 				checkMovement();
 				Thread.sleep(10);
+//				ghosts.updateAll(maze.maze, pacmanXindex, pacmanYindex, BLOCKWIDTH);
 				queue.update();
+				tpwait.update();
+				lose();
 			}
 			
 		} catch(Exception e) {
@@ -86,19 +89,10 @@ public class Screen extends JFrame implements Runnable {
 	//main method
 	public Screen() {
 		
-		ghosts = new Ghosts();
-		queue = new Queue(QUEUESIZE);
-		maze = new Maze(MAZEX, MAZEY);
-		//loads maze
-		try {
-			load("src/pacman/level" + level + ".txt");
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
 		setup();
-		screenX = maze.maze.length * 33;
-		screenY = maze.maze[0].length * 35;
+		screenX = maze.maze.length * (BLOCKWIDTH + 3);
+		screenY = maze.maze[0].length * (BLOCKWIDTH + 5);
 		
 		
 //		System.out.println(maze);
@@ -116,6 +110,7 @@ public class Screen extends JFrame implements Runnable {
 		
 	}
 	
+	//updates pacman x and y index
 	public void updateVars() {
 		
 		//updates pac man x and y index vars
@@ -142,6 +137,23 @@ public class Screen extends JFrame implements Runnable {
 		
 	}
 	
+	//checks if the ghosts have intersected with the pac man
+	public boolean lose() {
+		
+		for (int i = 0; i < ghosts.length(); i++) {
+			int xdif = Math.abs(ghosts.get(i).getX() - pacmanX);
+			int ydif = Math.abs(ghosts.get(i).getY() - pacmanY);
+			
+			if (xdif < BLOCKWIDTH && ydif < BLOCKWIDTH) {
+//				System.out.println("evnoerqeqruwqwenivqvewinou");
+			}
+			
+		}
+		
+		return false;
+		
+	}
+	
 	//checks which direction to go in
 	public void checkMovement() {
 		
@@ -149,22 +161,18 @@ public class Screen extends JFrame implements Runnable {
 		boolean yAligned = true;
 		
 		//checks for x axis alignment
-		if ((pacmanX - 25) % BLOCKWIDTH <= 0) {
-			
-		}
-		else {
+		if ((pacmanX - 25) % BLOCKWIDTH > 0) {
 			movingUp = false;
 			movingDown = false;
 			xAligned = false;
 		}
+		
 		//checks for y axis alignment
-		if ((pacmanY - 50) % BLOCKWIDTH <= 0) {
-			
-		}
-		else {
+		if ((pacmanY - 50) % BLOCKWIDTH > 0) {
 			movingLeft = false;
 			movingRight = false;
 			yAligned = false;
+			
 		}
 		
 		updateVars();
@@ -187,33 +195,45 @@ public class Screen extends JFrame implements Runnable {
 			pacmanY = 50 + pacmanYindex * BLOCKWIDTH;
 		}
 		
+		//checks for pills
+		if (maze.maze[pacmanXindex][pacmanYindex + 1].getState() == Tile.PILL && !yAligned) {
+			maze.maze[pacmanXindex][pacmanYindex + 1].setState(Tile.BLANK);
+		}
+		if (maze.maze[pacmanXindex][pacmanYindex].getState() == Tile.PILL) {
+			maze.maze[pacmanXindex][pacmanYindex].setState(Tile.BLANK);
+		}
+		if (maze.maze[pacmanXindex + 1][pacmanYindex].getState() == Tile.PILL && !xAligned) {
+			maze.maze[pacmanXindex + 1][pacmanYindex].setState(Tile.BLANK);
+		}
+		
+		//checks for teleporters
+		checkTeleport(xAligned, yAligned);
+		
 		//checks if you can move up
-		if (queue.indexOf("UP") != -1 && xAligned) {
-//			pacmanY --;
+		if (queue.indexOf("UP") != -1 && xAligned && pacmanYindex > 0
+				&& maze.maze[pacmanXindex][pacmanYindex - 1].getState() != Tile.WALL) {
 			halt();
 			movingUp = true;
 			queue.remove(queue.indexOf("UP"));
 		}
 		//checks if you can move left
-		else if (queue.indexOf("LEFT") != -1 && yAligned) {
-			
-//			pacmanX --;
-//			System.out.println((pacmanX - 25) % BLOCKWIDTH);
+		else if (queue.indexOf("LEFT") != -1 && yAligned && pacmanXindex > 0
+				&& maze.maze[pacmanXindex - 1][pacmanYindex].getState() != Tile.WALL) {
 			halt();
 			movingLeft = true;
 			queue.remove(queue.indexOf("LEFT"));
 			
 		}
 		//checks if you can move down
-		else if (queue.indexOf("DOWN") != -1 && xAligned) {
-//			pacmanY ++;
+		else if (queue.indexOf("DOWN") != -1 && xAligned
+				&& maze.maze[pacmanXindex][pacmanYindex + 1].getState() != Tile.WALL) {
 			halt();
 			movingDown = true;
 			queue.remove(queue.indexOf("DOWN"));
 		}
 		//checks if you can move right
-		else if (queue.indexOf("RIGHT") != -1 && yAligned) {
-//			pacmanX ++;
+		else if (queue.indexOf("RIGHT") != -1 && yAligned
+				&& maze.maze[pacmanXindex + 1][pacmanYindex].getState() != Tile.WALL) {
 			halt();
 			movingRight = true;
 			queue.remove(queue.indexOf("RIGHT"));
@@ -237,6 +257,78 @@ public class Screen extends JFrame implements Runnable {
 		
 	}
 	
+	//checks for teleportation
+	public void checkTeleport(boolean xAligned, boolean yAligned) {
+		
+		if (maze.maze[pacmanXindex][pacmanYindex + 1].getState() == Tile.TELEPORTER && !yAligned
+				&& tpwait.indexOf("teleport") == -1) {
+			teleportFrom(pacmanXindex, pacmanYindex + 1);
+		}
+		if (maze.maze[pacmanXindex][pacmanYindex].getState() == Tile.TELEPORTER
+				&& tpwait.indexOf("teleport") == -1) {
+			teleportFrom(pacmanXindex, pacmanYindex);
+		}
+		if (maze.maze[pacmanXindex + 1][pacmanYindex].getState() == Tile.TELEPORTER && !xAligned
+				&& tpwait.indexOf("teleport") == -1) {
+			teleportFrom(pacmanXindex + 1, pacmanYindex);
+		}
+		//teleporter2
+		if (maze.maze[pacmanXindex][pacmanYindex + 1].getState() == Tile.TELEPORTER2 && !yAligned
+				&& tpwait.indexOf("teleport2") == -1) {
+			teleportFrom(pacmanXindex, pacmanYindex + 1);
+		}
+		if (maze.maze[pacmanXindex][pacmanYindex].getState() == Tile.TELEPORTER2
+				&& tpwait.indexOf("teleport2") == -1) {
+			teleportFrom(pacmanXindex, pacmanYindex);
+		}
+		if (maze.maze[pacmanXindex + 1][pacmanYindex].getState() == Tile.TELEPORTER2 && !xAligned
+				&& tpwait.indexOf("teleport2") == -1) {
+			teleportFrom(pacmanXindex + 1, pacmanYindex);
+		}
+		
+	}
+
+	//teleport using teleporter1
+	public void teleportFrom(int pacXindex, int pacYindex) {
+//		System.out.println(pacXindex + " " + pacYindex);
+		boolean is1 = maze.maze[pacXindex][pacYindex].getState() == Tile.TELEPORTER;
+//		System.out.println(is1);
+		
+		int homeX = 0;
+		int homeY = 0;
+		
+		for (int r = 0; r < maze.maze.length; r++) {
+			for (int c = 0; c < maze.maze[0].length; c++) {
+				
+				if (maze.maze[r][c].getState() == Tile.SPAWN) {
+					homeX = r;
+					homeY = c;
+				}
+				
+				if (maze.maze[r][c].getState() == Tile.TELEPORTER && (r != pacXindex || c != pacYindex) && is1
+						&& tpwait.indexOf("teleport") == -1) {
+					
+//					System.out.println(r + " " + c);
+					pacmanX = r * BLOCKWIDTH + 25;
+					pacmanY = c * BLOCKWIDTH + 50;
+					tpwait.add("teleport");
+					return;
+				}
+				else if (maze.maze[r][c].getState() == Tile.TELEPORTER2 && (r != pacXindex || c != pacYindex) && !is1
+						&& tpwait.indexOf("teleport2") == -1) {
+					pacmanX = r * BLOCKWIDTH + 25;
+					pacmanY = c * BLOCKWIDTH + 50;
+					tpwait.add("teleport2");
+					return;
+				}
+				
+			}
+		}
+		pacmanX = homeX * BLOCKWIDTH + 25;
+		pacmanY = homeY * BLOCKWIDTH + 50;
+		
+	}
+	
 	//stops all movement
 	public void halt() {
 		
@@ -250,27 +342,43 @@ public class Screen extends JFrame implements Runnable {
 	//sets up the pac man location for starting up the game and sets up ghost positions
 	public void setup() {
 		
+		tpwait = new Queue(TPQUEUE);
+		ghosts = new Ghosts();
+		queue = new Queue(QUEUESIZE);
+		maze = new Maze(MAZEX, MAZEY);
+		//loads maze
+		try {
+			load("src/pacman/level" + level + ".txt");
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		for (int r = 0; r < maze.maze.length; r++) {
 			for (int c = 0; c < maze.maze[0].length; c++) {
 				
 				if (maze.maze[r][c].getState() == Tile.SPAWN) {
-					
 					//sets the pac man index and location on screen
 					pacmanX = r * BLOCKWIDTH + 25;
 					pacmanY = c * BLOCKWIDTH + 50;
 					pacmanXindex = r;
 					pacmanYindex = c;
-					return;
 					
+				}
+				if (maze.maze[r][c].getState() == Tile.GHOSTSPAWN) {
+					Ghost g = new Ghost(r * BLOCKWIDTH + 25, c * BLOCKWIDTH + 50);
+					ghosts.add(g);
 				}
 				
 			}
-		}		
-		pacmanX = 0 * BLOCKWIDTH + 25;
-		pacmanY = 0 * BLOCKWIDTH + 50;
+		}	
 		
-		pacmanXindex = 0;
-		pacmanYindex = 0;
+//		System.out.println(ghosts);
+//		pacmanX = 0 * BLOCKWIDTH + 25;
+//		pacmanY = 0 * BLOCKWIDTH + 50;
+//		
+//		pacmanXindex = 0;
+//		pacmanYindex = 0;
 	}
 	
 	//loads the given file into the current state
@@ -316,6 +424,8 @@ public class Screen extends JFrame implements Runnable {
 			}
 			row ++;
 		}
+		input.close();
+		update.close();
 		
 	}
 	
@@ -358,6 +468,9 @@ public class Screen extends JFrame implements Runnable {
 //			System.out.println(queue);
 			if (key == e.VK_Q) {
 				System.exit(0);
+			}
+			else if (key == e.VK_R) {
+				setup();
 			}
 			else if (key == e.VK_UP) {
 				queue.add("UP");
@@ -429,8 +542,15 @@ public class Screen extends JFrame implements Runnable {
 			}
 		}
 		
+		//prints the ghosts
+		for (int i = 0; i < ghosts.length(); i++) {
+			
+			g.fillRect(ghosts.get(i).getX(), ghosts.get(i).getY(), BLOCKWIDTH - 4, BLOCKWIDTH - 4);
+			
+		}
+		
 		g.setColor(Color.yellow);
-		g.fillOval(pacmanX, pacmanY, 30, 30);
+		g.fillOval(pacmanX, pacmanY, BLOCKWIDTH, BLOCKWIDTH);
 		
 		repaint();
 		

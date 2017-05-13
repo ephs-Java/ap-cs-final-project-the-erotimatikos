@@ -49,6 +49,21 @@ public class Maze {
 			}
 		}
 		
+	} 
+	
+	//checks for victory
+	public boolean isVictory() {
+		
+		for (int r = 0; r < maze.length; r++) {
+			for (int c = 0; c < maze[0].length; c++) {
+				if (maze[r][c].getState() == Tile.PILL) {
+					return false;
+				}
+			}
+		}
+		
+		return true;
+		
 	}
 	
 	//prints out the current maze 2d array. each item is the number value of each tile
