@@ -1,5 +1,4 @@
 package FlappyBird;
-
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -10,44 +9,32 @@ import java.util.Random;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-
 public class FlappyScreen extends JFrame implements Runnable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Image dbImage;
 	private Graphics dbg;
 	private int SCREENX,SCREENY;
-	private int Charlocy= 250;
-	private int Charlocx = 100;
-	private int changey= 0;
-	Image first, second, third;
-	Image birdused;
-	Image bird, background;
-	Image wing;
-	Image fly;
-	Image fall;
-	Image movingBottom;
-	private int pipecounter=0;
+	private int Charlocy= 300;
+	private int Charlocx = 50;
+	Image first, second, third, birdused, bird, background, wing, fly, fall, movingBottom;
 	private boolean gameover= false;
-	private boolean passed= false;
 	private boolean gameoversequence= false;
 	private boolean tap= true;
-	private int pipeheight, pipewidth;
-	private int bottompipeh;
+	private int pipeheight, pipewidth, bottompipeh, pipelocy,pipecounter;
 	private boolean start = false;
-	private boolean done= false;
 	private boolean hasstarted= false;
 	private int pipelocx = 700;
-	private int pipelocy = 0;
-	private int pixelcounter, pixelcounter2;
 	private String theme= new String("normal");
-	private int gravity= 1;
 	int yVelocity = 0;
 	int yVelocityUpdate = 10;
 	public void run (){
 			try{
 				while(true){
-				startsequence();
+					startsequence();
 				while(start){
-					System.out.println(Charlocy + " " + yVelocity);
 					yVelocity -= 1;
 					update();
 					pipes();
@@ -92,54 +79,54 @@ public class FlappyScreen extends JFrame implements Runnable{
 		third = image7.getImage();
 		birdused=bird;
 		Random one= new Random();
-		bottompipeh= one.nextInt(500) + 200;
-		pipeheight= (SCREENY- 160) -bottompipeh;
+		bottompipeh= one.nextInt(400) + 325;
+		pipeheight= (SCREENY- 120) -bottompipeh;
 		pipewidth= 50;
 		}
 		
 	}
-
 	public void startsequence() throws InterruptedException{
 		birdused= first;
-		Thread.sleep(200);
+		Thread.sleep(155);
 		birdused= second;
-		Thread.sleep(200);
+		Thread.sleep(155);
 		birdused= third;
-		Thread.sleep(200);
+		Thread.sleep(155);
 		birdused= second;
-		Thread.sleep(200);
+		Thread.sleep(155);
 	}
-	
 	public void pipes(){
+<<<<<<< HEAD
 		pipelocx -=17 ;
+=======
+		pipelocx -=10 ;
+>>>>>>> branch 'master' of https://github.com/ephs-Java/ap-cs-final-project-the-erotimatikos.git
 		Random two= new Random();
 		if (pipelocx <= 0){
 			pipelocx = SCREENX;
 			pipecounter++;
-			bottompipeh= two.nextInt(500) + 200;
-			pipeheight= (SCREENY- 160) -bottompipeh;
+			bottompipeh= two.nextInt(400) + 325;
+			pipeheight= (SCREENY- 120) -bottompipeh;
 		}
 	}
 	public void collision(){
-		if (Charlocy <= pipeheight && (Charlocx >pipelocx || Charlocx + 30 == pipelocx)&& Charlocx<pipelocx+pipewidth){
-			gameover= true;
-			Charlocy = 310;
-			
-			Charlocx= pipelocx;
-			
+//		if (Charlocy <= pipeheight && (Charlocx >pipelocx || Charlocx + 30 == pipelocx)&& Charlocx<pipelocx+pipewidth){
+//			gameover= true;
+//			Charlocy = 310;
+//			
+//			Charlocx= pipelocx;
+//			
+//		}
+		if (Charlocy <= pipeheight - 2 &&  (Charlocx + 30 >= pipelocx && Charlocx <= pipelocx+pipewidth-3)){
+			gameover=true;
 		}
-		if (Charlocy+ 30 >= SCREENY-bottompipeh && (Charlocx >pipelocx || Charlocx + 30 == pipelocx)&& Charlocx<pipelocx+pipewidth){
-			gameover= true;
-			Charlocy = 310;
-			
-			Charlocx= pipelocx;
-			
+		if (Charlocy+ 30 >= SCREENY-bottompipeh + 3 &&  (Charlocx + 30 >= pipelocx && Charlocx <= pipelocx+pipewidth-3)){
+			gameover=true;
 		}
+
 		if (Charlocy >= SCREENY){
 			Charlocy= 0;
-			gravity = 1;
-			pixelcounter=0;
-			pixelcounter2=0;
+			
 			gameover= true;
 		}
 		
@@ -176,7 +163,7 @@ public class FlappyScreen extends JFrame implements Runnable{
 	g.setColor(Color.WHITE);
 	g.drawString("Start", SCREENX/2- 25, SCREENY/2 -80);
 	g.drawString("Press Space to Start", SCREENX/2- 115, SCREENY/2 - 10);
-	g.drawImage(birdused,SCREENX/2 , SCREENY/2 - 200, this);
+	g.drawImage(birdused,SCREENX/2- 10 , SCREENY/2 - 175, this);
 }
 else if (hasstarted){
 	g.drawImage(birdused, Charlocx ,Charlocy, this);
@@ -184,18 +171,11 @@ else if (hasstarted){
     g.fillRect(pipelocx, pipelocy, pipewidth, pipeheight);
     g.fillRect(pipelocx, SCREENY- bottompipeh, pipewidth, bottompipeh);
     g.setColor(Color.GRAY);
-    g.setFont(josh);
+    Font joshone= new Font("Times new roman", Font.PLAIN, 90);
+    g.setFont(joshone);
     g.drawString(""+pipecounter, SCREENX/2, 100);
     if (gameoversequence){
-       while(!done){
-    	g.setColor(Color.BLACK);
-    	g.drawString("GAME OVER", SCREENX/2-75, SCREENY/2-70);
-    	g.drawString("You passed "+ pipecounter + " Pipes.", SCREENX/2-75, SCREENY/2 -30);
-    	Thread.sleep(5000);
-    	done= true;
-       }
-    }
-    if (gameoversequence){
+
     	start=false;
     	Charlocy= SCREENY/2;
     	Charlocx= 100;
@@ -204,21 +184,12 @@ else if (hasstarted){
     	gameoversequence=false;
     	gameover= false;
     	hasstarted= false;
-    	
+    	Thread.sleep(1500);
     }
    }
 	repaint();
 	}
-	
-	public void move() throws InterruptedException{
-	Charlocy += changey;
-    Charlocy += gravity;
-    if (!gameover){
-	
-    }
-	}
 	public void update() {
-		
 	Charlocy -= yVelocity;
 		
 	}
@@ -226,27 +197,25 @@ else if (hasstarted){
 	public void keyPressed(KeyEvent e){
 		int KeyCode = e.getKeyCode();
 		if (KeyCode == e.VK_SPACE){
-			    if (!hasstarted){
+
+			if (!hasstarted){
 			    	hasstarted= true;
 			    	start= true;
 			    }
 			if(tap){
 				yVelocity = yVelocityUpdate;
 				update();
-				pixelcounter=0;
-				pixelcounter2=0;
-			birdused= fly;
+				birdused=first;
 			tap= false;
-			gravity=0;
+			
 			} 
-//			yVelocity=0;
 		    update();
 		}
 	}
 	public void keyReleased(KeyEvent e){
 		int KeyCode = e.getKeyCode();
 		if (KeyCode == e.VK_SPACE){
-		
+		    birdused= second;
 			update();
 			tap= true;
 		}
