@@ -18,7 +18,7 @@ import pacman.Editor.mouse;
 public class Menu extends JFrame implements Runnable {
     private int SCREENX, SCREENY;
 	private Image dbImage;
-	private Image minesweeper, flappy, pong, tic;
+	private Image minesweeper, flappy, pong, tic, pac;
 	private Graphics dbg;
     private int MOUSEX, MOUSEY;
 	public Menu() {
@@ -32,6 +32,8 @@ public class Menu extends JFrame implements Runnable {
 		pong= image2.getImage();
 		ImageIcon image3= new ImageIcon("src/Menu/tic.png");
 		tic= image3.getImage();
+		ImageIcon image4= new ImageIcon("src/Menu/pacman.png");
+		pac= image4.getImage();
 		}
 		addMouseListener(new mouse());
 		SCREENX= 1000;
@@ -91,7 +93,8 @@ public class mouse extends MouseAdapter {
 			MOUSEX=0;
 			MOUSEY=0;
 			Pong josh= new Pong();
-			
+			Thread t1= new Thread(josh);
+			t1.start();
 		}
 	}
 	
@@ -110,11 +113,18 @@ public class mouse extends MouseAdapter {
 		g.setColor(Color.WHITE);
 		g.fillRect(755, 55, 200, 190);
 		g.drawImage(tic, 770, 60, this);
+		//
 		g.setColor(Color.black);
 		g.fillRect(50, 300, 210, 200);
 		g.setColor(Color.WHITE);
 		g.fillRect(55, 305, 200, 190);
 		g.drawImage(pong, 70, 310, this);
+		//
+		g.setColor(Color.black);
+		g.fillRect(400, 300, 210, 200);
+		g.setColor(Color.WHITE);
+		g.fillRect(405, 305, 200, 190);
+		g.drawImage(pac, 420 , 310, this);
 	}
 	
 	

@@ -189,7 +189,8 @@ public class MineScreen extends JFrame {
 						g.setColor(Color.green);
 					}
 					g.fillRect(15 + r * BLOCKWIDTH, 30 + c * BLOCKWIDTH, BLOCKWIDTH, BLOCKWIDTH);
-					
+					g.setColor(Color.LIGHT_GRAY);
+					g.fill3DRect(15 + r * BLOCKWIDTH, 30 + c * BLOCKWIDTH, BLOCKWIDTH, BLOCKWIDTH, true);
 				}
 				//prints a number on exposed blocks
 				else {
