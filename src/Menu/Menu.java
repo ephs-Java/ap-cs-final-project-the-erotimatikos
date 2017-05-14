@@ -13,7 +13,6 @@ import FlappyBird.FlappyScreen;
 import RetroPong.Pong;
 import TicTackToe.Screen;
 import minesweeper.MineScreen;
-import java.util.jar.*;
 public class Menu extends JFrame implements Runnable {
     private int SCREENX, SCREENY;
 	private Image dbImage;

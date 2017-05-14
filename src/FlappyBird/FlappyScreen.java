@@ -96,11 +96,7 @@ public class FlappyScreen extends JFrame implements Runnable{
 		Thread.sleep(155);
 	}
 	public void pipes(){
-<<<<<<< HEAD
-		pipelocx -=17 ;
-=======
 		pipelocx -=10 ;
->>>>>>> branch 'master' of https://github.com/ephs-Java/ap-cs-final-project-the-erotimatikos.git
 		Random two= new Random();
 		if (pipelocx <= 0){
 			pipelocx = SCREENX;
