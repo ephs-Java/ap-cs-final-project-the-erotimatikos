@@ -1,4 +1,9 @@
 package FlappyBird;
+
+// "imports" methods from other classes.
+
+
+// gets things like Color, font, pictures, graphics , and painting methods.
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -6,14 +11,23 @@ import java.awt.Image;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.Random;
-
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+// the start of my new class "Flappy Screen"
+
+//extends JFrame, inheriting the data contained in the JFrame class. (creates a popup window)
+
+//implements "runnable", allowing me to use threads.
+
 public class FlappyScreen extends JFrame implements Runnable{
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
+	
+	// Fields, or "private variables".
+	// These can only be accessed through the methods in this class.
 	private Image dbImage;
 	private Graphics dbg;
 	private int SCREENX,SCREENY;
@@ -30,16 +44,20 @@ public class FlappyScreen extends JFrame implements Runnable{
 	private String theme= new String("normal");
 	int yVelocity = 0;
 	int yVelocityUpdate = 10;
+	//The try/catch loop that the thread continuously runs 
 	public void run (){
 			try{
 				while(true){
+					// while the game has not started
 					startsequence();
 				while(start){
+					//when the game starts, these run nearly simultaneously
 					yVelocity -= 1;
 					update();
 					pipes();
 					collision();
 					gameoveraction();
+					//Thread.sleep allows the thread to pause for 45 milliseconds every time so it doesn't run insanely fast.
 					Thread.sleep(45);
 				}
 				}
@@ -49,6 +67,7 @@ public class FlappyScreen extends JFrame implements Runnable{
 			}
 			
 		}
+	//implements all basic JFrame graphics, initializes images, some variables
 	public FlappyScreen() {
 		// TODO Auto-generated constructor stub
 		addKeyListener( new AL()); 
@@ -58,8 +77,8 @@ public class FlappyScreen extends JFrame implements Runnable{
 		setVisible(true);
 		setSize(SCREENX, SCREENY);
 		setResizable(false);
-		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//initiation of all sprites with a "theme" variable, allowing possible later sprite customization
 		if (theme.equals("normal")){
 		ImageIcon image0 = new ImageIcon("src/Flappybird/back.png");
 		background= image0.getImage();
@@ -78,14 +97,15 @@ public class FlappyScreen extends JFrame implements Runnable{
 		ImageIcon image7 = new ImageIcon("src/Flappybird/sprite3.png");
 		third = image7.getImage();
 		birdused=bird;
+		}
 		Random one= new Random();
 		bottompipeh= one.nextInt(400) + 325;
 		pipeheight= (SCREENY- 120) -bottompipeh;
 		pipewidth= 50;
-		}
-		
 	}
+	//makes the bird flap around on the start screen
 	public void startsequence() throws InterruptedException{
+		//makes the illusion of the bird flapping his wings
 		birdused= first;
 		Thread.sleep(155);
 		birdused= second;
@@ -95,9 +115,12 @@ public class FlappyScreen extends JFrame implements Runnable{
 		birdused= second;
 		Thread.sleep(155);
 	}
+    //makes the "course" for the bird to travel through
 	public void pipes(){
+		//moves the pipe forward
 		pipelocx -=10 ;
 		Random two= new Random();
+		//when the pipe touches the left end of the screen, it randomizes the height and brings it back to the right.
 		if (pipelocx <= 0){
 			pipelocx = SCREENX;
 			pipecounter++;
@@ -105,14 +128,11 @@ public class FlappyScreen extends JFrame implements Runnable{
 			pipeheight= (SCREENY- 120) -bottompipeh;
 		}
 	}
+	//basic pipe hit detection
 	public void collision(){
-//		if (Charlocy <= pipeheight && (Charlocx >pipelocx || Charlocx + 30 == pipelocx)&& Charlocx<pipelocx+pipewidth){
-//			gameover= true;
-//			Charlocy = 310;
-//			
-//			Charlocx= pipelocx;
-//			
-//		}
+
+		// a lot of semi-functional "if" statements for hit detection of bird VS pipe
+		
 		if (Charlocy <= pipeheight - 2 &&  (Charlocx + 30 >= pipelocx && Charlocx <= pipelocx+pipewidth-3)){
 			gameover=true;
 		}
@@ -127,16 +147,21 @@ public class FlappyScreen extends JFrame implements Runnable{
 		}
 		
 	}
+    //gameover steps
 	public void gameoveraction(){
-	if (gameover){
+	// i don't remember what i made this for. this method is very redundant.
+		if (gameover){
         Charlocy= SCREENY/2;
         Charlocx= pipelocx;
 		gameoversequence=true;
 	}
 	}
+	//graphics
 	public void paint(Graphics g) {
+		//dbImage is very complicated, basically erases the trail that sprites moving would leave behind.
 		dbImage = createImage(getWidth(), getHeight());
 		dbg = dbImage.getGraphics();
+		//constantly paints to screen
 		try {
 			paintComponent(dbg);
 		} catch (InterruptedException e) {
@@ -145,7 +170,9 @@ public class FlappyScreen extends JFrame implements Runnable{
 		}
 		g.drawImage(dbImage, 0, 0, this);
 	}
+	//graphics methods
 	public void paintComponent(Graphics g) throws InterruptedException {
+	// the graphics of the starting screen
 	g.drawImage(background, 0, 0, this);
 	Font josh= new Font("Bloody", Font.PLAIN, 26);
 		if (!hasstarted){
@@ -162,6 +189,7 @@ public class FlappyScreen extends JFrame implements Runnable{
 	g.drawImage(birdused,SCREENX/2- 10 , SCREENY/2 - 175, this);
 }
 else if (hasstarted){
+	//the "gameplay" graphics
 	g.drawImage(birdused, Charlocx ,Charlocy, this);
 	g.setColor(Color.green);
     g.fillRect(pipelocx, pipelocy, pipewidth, pipeheight);
@@ -171,7 +199,7 @@ else if (hasstarted){
     g.setFont(joshone);
     g.drawString(""+pipecounter, SCREENX/2, 100);
     if (gameoversequence){
-
+       //what happens when you touch a pipe, the "reset"
     	start=false;
     	Charlocy= SCREENY/2;
     	Charlocx= 100;
@@ -183,22 +211,29 @@ else if (hasstarted){
     	Thread.sleep(1500);
     }
    }
+	//constant painting
 	repaint();
 	}
+	//fluid motion
 	public void update() {
-	Charlocy -= yVelocity;
-		
+	    //position updating of the sprite. decievingly complex.
+		Charlocy -= yVelocity;
 	}
+	//implements keyboard
 	public class AL extends KeyAdapter{
 	public void keyPressed(KeyEvent e){
 		int KeyCode = e.getKeyCode();
 		if (KeyCode == e.VK_SPACE){
-
+            //when the mouse is pressed:
+			
+			//has the game started
 			if (!hasstarted){
+				    //start the game
 			    	hasstarted= true;
 			    	start= true;
 			    }
-			if(tap){
+			// else, make him jump!
+			else if(tap){
 				yVelocity = yVelocityUpdate;
 				update();
 				birdused=first;
@@ -208,9 +243,11 @@ else if (hasstarted){
 		    update();
 		}
 	}
+	//ALSO, BOOLEAN "TAP" IS ESSENTIAL. MAKES IT SO YOU CAN'T HOLD SQUARE, ONLY A TAP REGISTERS.
 	public void keyReleased(KeyEvent e){
 		int KeyCode = e.getKeyCode();
 		if (KeyCode == e.VK_SPACE){
+			//makes it so he doesn't shoot off the screen when you press space once
 		    birdused= second;
 			update();
 			tap= true;
@@ -218,7 +255,9 @@ else if (hasstarted){
 
 	}
 }
+	//in-class runner
 	public static void main(String[] args){
+	//Runs the Program.
 	FlappyScreen josh= new FlappyScreen();
 	Thread t1= new Thread(josh);
 	t1.start();
