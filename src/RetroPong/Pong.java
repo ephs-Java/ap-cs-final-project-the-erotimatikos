@@ -54,6 +54,7 @@ public class Pong extends JFrame implements Runnable{
 		    changex= -2;
 		    changey=0;
 		    oney= 250;
+		    twoy=250;
 		    Thread.sleep(900);
 		}
 		    else if (ballx + 30 >= SCREENX){
@@ -64,13 +65,14 @@ public class Pong extends JFrame implements Runnable{
 	    	changex=-2;
 	    	changey=0;
 	    	oney= 250;
+	    	twoy =250;
 	    	Thread.sleep(900);
 		    }
-		if (bally <=0){
+		if (bally <=30){
 			bally=30;
 			changey = -changey;
 		}
-		else if (bally >=SCREENY){
+		else if (bally >=SCREENY-30){
 			bally=SCREENY- 30;
 			changey = -changey ;
 		}
@@ -89,7 +91,7 @@ public class Pong extends JFrame implements Runnable{
 	public void paintComponent(Graphics g) throws InterruptedException {
 		g.setColor(Color.white);
 		g.fillRect(onex, oney, onew, oneh);
-		g.fillRect(twox, oney, onew, oneh);
+		g.fillRect(twox, twoy, onew, oneh);
 		g.fillOval(ballx, bally, 30, 30);
 		Font joshone= new Font("Times new roman", Font.PLAIN, 90);
 	    g.setFont(joshone);
@@ -110,9 +112,9 @@ public class Pong extends JFrame implements Runnable{
 		repaint();
 	}
 	public void collision(){
-		if(oney <= 25){
+		if(oney <= 24){
 			Ymove(0);
-			oney = 26;
+			oney = 25;
 	}
 		if (oney + oneh >= SCREENY){
 			oney= SCREENY-oneh;
@@ -120,38 +122,41 @@ public class Pong extends JFrame implements Runnable{
 		if (ballx <= onex + onew && (bally<= oney+oneh && bally + 30 >= oney)){
 			ballx= onex+onew+1;
 			changex= -changex;
-		     if (bally >= oney && bally +30 <= oneh/2 -50){
-		    	 ballY(-2);
+			 if (bally +30 >= oney && bally +30 <= oney+ oneh/2 ){
+		    	   changey++;
+		    	   changey= -changey;
+		    	 System.out.println("a");
 		     }
-		     else  if (bally > oneh/2 -50 && bally +30 <= oneh/2 -50){
-		    	 ballY(0);
-		     } else {
-		    	 ballY(2);
+			 else if (bally > oney +oneh/2 && bally <= oney +oneh){
+				 changey--;
+		    	   changey= -changey;
+		    	 System.out.println("c");
 		     }
-			if (changex < 9){
+			if (changex < 3){
 			changex ++;
 			} else {
 				changex--;
 			}
 		    
 		}
-		if (ballx+ 33 >= twox  && (bally<= oney+oneh && bally + 30 >= oney)){
+		if (ballx+ 33 >= twox  && (bally<= twoy+oneh && bally + 30 >= twoy)){
 			changex= -changex;
 			ballx= twox-30;
-			if (changex < 9){
+			if (changex < 3){
 				changex --;
 				} else {
 					changex++;
 				}
-			 if (bally >= oney && bally +30 <= oneh/2 -50){
-		    	 ballY(-2);
+			 if (bally +30 >= twoy && bally +30 <= twoy+ oneh/2 ){
+		    	   changey++;
+		    	   changey= -changey;
+		    	 System.out.println("a");
 		     }
-		     else  if (bally > oneh/2 -50 && bally +30 <= oneh/2 -50){
-		    	 ballY(0);
-		     } else {
-		    	 ballY(2);
+			 else if (bally > twoy +oneh/2 && bally <= twoy +oneh){
+				 changey--;
+		    	   changey= -changey;
+		    	 System.out.println("c");
 		     }
-		    
 		}
 	}
 	public void move() throws InterruptedException{
@@ -165,11 +170,11 @@ public class Pong extends JFrame implements Runnable{
 			int KeyCode = e.getKeyCode();
 			if (KeyCode == e.VK_UP){
 			     if(oney >25)
-				Ymove(-6);
+				Ymove(-2);
 			 
 			}
 			if (KeyCode == e.VK_DOWN){
-			     Ymove(6);
+			     Ymove(2);
 			}
 		}
 	
@@ -191,6 +196,30 @@ public class Pong extends JFrame implements Runnable{
 	public void ballY(int b){	
 		changey= b;
 	}
+	public void ai() throws InterruptedException{
+		if (changey >0){
+			if (bally < twoy){
+			twoy-= 3;
+			} else {
+			twoy +=3;
+			}
+		}
+		if (changey< 0){
+			if (bally > twoy){
+			twoy+= 3;
+			} else {
+				twoy -=3;
+			}
+		}
+		 if(twoy <= 24){
+			twoy = 25;
+			twoy-= 4;
+	}
+		if (twoy + oneh >= SCREENY){
+			twoy= SCREENY-oneh - 4;
+			twoy +=4;
+}
+	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
          Pong ping= new Pong();
@@ -202,13 +231,14 @@ public class Pong extends JFrame implements Runnable{
 	public void run (){
 		try{
 			ballX(-2);
-			Thread.sleep(1200);
+			Thread.sleep(1900);
 			while(true){
 			collision();
+			ai();
 			move();
 			Scorer();
 			ballmove();
-			Thread.sleep(10);
+			Thread.sleep(3);
 			}
 		}
 		catch(Exception e) {
