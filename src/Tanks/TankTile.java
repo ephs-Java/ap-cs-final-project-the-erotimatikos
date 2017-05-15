@@ -5,8 +5,10 @@ public class TankTile {
 	private boolean isMine;
 	private boolean isWall;
 	private boolean isTank;
+	private boolean isAlive;
 	private int row;
 	private int col;
+	
 	
 	
 	
@@ -15,6 +17,7 @@ public class TankTile {
 		isMine = false;
 		isWall = false;
 		isTank = false;
+		isAlive = true;
 	}
 	
 	public TankTile(int row, int col){
@@ -23,6 +26,7 @@ public class TankTile {
 		isTank = true;
 		this.row = row;
 		this.col = col;
+		isAlive = true;
 	}
 	
 	
@@ -41,9 +45,15 @@ public class TankTile {
 		this.isMine = true;
 	}
 	
-public boolean isMine(){
+	public boolean isMine(){
 	return this.isMine;
-}
-
+	}
+	
+	public void died(){
+		isAlive = false;
+	}
+	public boolean isAlive(){
+		return isAlive;
+	}
 	
 }
