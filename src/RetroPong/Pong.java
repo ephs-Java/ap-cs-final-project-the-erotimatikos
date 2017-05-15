@@ -170,11 +170,11 @@ public class Pong extends JFrame implements Runnable{
 			int KeyCode = e.getKeyCode();
 			if (KeyCode == e.VK_UP){
 			     if(oney >25)
-				Ymove(-2);
+				Ymove(-3);
 			 
 			}
 			if (KeyCode == e.VK_DOWN){
-			     Ymove(2);
+			     Ymove(3);
 			}
 		}
 	
@@ -199,25 +199,25 @@ public class Pong extends JFrame implements Runnable{
 	public void ai() throws InterruptedException{
 		if (changey >0){
 			if (bally < twoy){
-			twoy-= 3;
+			twoy-= 2;
 			} else {
-			twoy +=3;
+			twoy +=2;
 			}
 		}
 		if (changey< 0){
 			if (bally > twoy){
-			twoy+= 3;
+			twoy+= 2;
 			} else {
-				twoy -=3;
+				twoy -= 2;
 			}
 		}
 		 if(twoy <= 24){
 			twoy = 25;
-			twoy-= 4;
+			twoy-= 2;
 	}
 		if (twoy + oneh >= SCREENY){
-			twoy= SCREENY-oneh - 4;
-			twoy +=4;
+			twoy= SCREENY-oneh - 2;
+			twoy +=2;
 }
 	}
 	public static void main(String[] args) {
