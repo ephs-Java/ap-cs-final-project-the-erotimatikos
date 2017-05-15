@@ -55,7 +55,7 @@ public class Editor extends JFrame {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+		maze.fillEdges();
 		//assigns value to maze field
 		
 		//keyboard listener

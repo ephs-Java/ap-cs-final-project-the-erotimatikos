@@ -16,7 +16,7 @@ import javax.swing.JFrame;
 
 public class Screen extends JFrame implements Runnable {
 	
-	//double buffering
+	//double buffering variables
 	Image dbImage;
 	Graphics dbg;
 	
@@ -45,6 +45,9 @@ public class Screen extends JFrame implements Runnable {
 	int pacmanX;
 	int pacmanY;
 	
+	//pac man speed 
+	int pacmanSpeed = 1;
+	
 	//pac man x and y index
 	int pacmanXindex;
 	int pacmanYindex;
@@ -64,7 +67,7 @@ public class Screen extends JFrame implements Runnable {
 	int screenY = MAZEY * (BLOCKWIDTH + 3);
 	
 	//current level that the user is on
-	int level = 5;
+	int level = 6;
 	
 	//the thread
 	public void run() {
@@ -74,7 +77,7 @@ public class Screen extends JFrame implements Runnable {
 			while (true) {
 				checkMovement();
 				Thread.sleep(10);
-//				ghosts.updateAll(maze.maze, pacmanXindex, pacmanYindex, BLOCKWIDTH);
+				ghosts.updateAll(maze.maze, pacmanXindex, pacmanYindex, BLOCKWIDTH);
 				queue.update();
 				tpwait.update();
 				lose();
@@ -145,7 +148,7 @@ public class Screen extends JFrame implements Runnable {
 			int ydif = Math.abs(ghosts.get(i).getY() - pacmanY);
 			
 			if (xdif < BLOCKWIDTH && ydif < BLOCKWIDTH) {
-//				System.out.println("evnoerqeqruwqwenivqvewinou");
+				System.out.println("you lose");
 			}
 			
 		}
@@ -191,7 +194,7 @@ public class Screen extends JFrame implements Runnable {
 			pacmanY = 50 + pacmanYindex * BLOCKWIDTH + BLOCKWIDTH;
 		}
 		if (movingDown && maze.maze[pacmanXindex][pacmanYindex + 1].getState() == Tile.WALL) {
-			movingDown = false;;
+			movingDown = false;
 			pacmanY = 50 + pacmanYindex * BLOCKWIDTH;
 		}
 		
@@ -215,6 +218,7 @@ public class Screen extends JFrame implements Runnable {
 			halt();
 			movingUp = true;
 			queue.remove(queue.indexOf("UP"));
+			queue.remove(queue.indexOf("DOWN"));
 		}
 		//checks if you can move left
 		else if (queue.indexOf("LEFT") != -1 && yAligned && pacmanXindex > 0
@@ -222,6 +226,7 @@ public class Screen extends JFrame implements Runnable {
 			halt();
 			movingLeft = true;
 			queue.remove(queue.indexOf("LEFT"));
+			queue.remove(queue.indexOf("RIGHT"));
 			
 		}
 		//checks if you can move down
@@ -230,6 +235,7 @@ public class Screen extends JFrame implements Runnable {
 			halt();
 			movingDown = true;
 			queue.remove(queue.indexOf("DOWN"));
+			queue.remove(queue.indexOf("UP"));
 		}
 		//checks if you can move right
 		else if (queue.indexOf("RIGHT") != -1 && yAligned
@@ -237,20 +243,21 @@ public class Screen extends JFrame implements Runnable {
 			halt();
 			movingRight = true;
 			queue.remove(queue.indexOf("RIGHT"));
+			queue.remove(queue.indexOf("LEFT"));
 		}
 		
 		//updates the index
 		if (movingRight && yAligned) {
-			pacmanX ++;
+			pacmanX += pacmanSpeed;
 		}
 		if (movingLeft && yAligned) {
-			pacmanX --;
+			pacmanX -= pacmanSpeed;
 		}
 		if (movingUp && xAligned) {
-			pacmanY --;
+			pacmanY -= pacmanSpeed;
 		}
 		if (movingDown && xAligned) {
-			pacmanY ++;
+			pacmanY += pacmanSpeed;
 		}
 		
 		
@@ -474,15 +481,19 @@ public class Screen extends JFrame implements Runnable {
 			}
 			else if (key == e.VK_UP) {
 				queue.add("UP");
+				queue.remove("DOWN");
 			}
 			else if (key == e.VK_RIGHT) {
 				queue.add("RIGHT");
+				queue.remove("LEFT");
 			}
 			else if (key == e.VK_DOWN) {
 				queue.add("DOWN");
+				queue.remove("UP");
 			}
 			else if (key == e.VK_LEFT) {
 				queue.add("LEFT");
+				queue.remove("RIGHT");
 			}
 			
 			
