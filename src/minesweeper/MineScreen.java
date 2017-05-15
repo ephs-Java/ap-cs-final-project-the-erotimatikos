@@ -26,7 +26,7 @@ public class MineScreen extends JFrame {
 	Image flag;
 	Image explode;
 	//constant for the block width
-	private final int BLOCKWIDTH = 15;
+	private final int BLOCKWIDTH = 20;
 	
 	//screen dimensions variables
 	private final int SCREENX = 800, SCREENY = 500;//800 by 500 default

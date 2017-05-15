@@ -7,6 +7,9 @@ public class Ghosts {
 	//ghosts field
 	private ArrayList<Ghost> ghosts;
 	
+	//1 in this number is the chance that a ghost will go the opposite way
+	private int oppositechance = 20; 
+	
 	//default constructor
 	public Ghosts() {
 		ghosts = new ArrayList<Ghost>();
@@ -39,80 +42,200 @@ public class Ghosts {
 			
 			Ghost g = get(i);
 			
-			if (g.movingRight) {
-				g.setLocation(g.getX() + 1, g.getY());
-				g.movingDown = false;
-				g.movingUp = false;
-			}
-			if (g.movingLeft) {
-				g.setLocation(g.getX() - 1, g.getY());
-				g.movingDown = false;
-				g.movingUp = false;
-			}
-			if (g.movingDown) {
-				g.setLocation(g.getX(), g.getY() + 1);
-				g.movingLeft = false;
-				g.movingRight = false;
-			}
-			if (g.movingUp) {
-				g.setLocation(g.getX(), g.getY() - 1);
-				g.movingLeft = false;
-				g.movingRight = false;
-			}
+			//update the ghost location based on its direction
+			update(field, g, blockwidth);
 			
+			//gets the index of each ghost
 			int Xindex = (g.getX() - 25) / blockwidth;
 			int Yindex = (g.getY() - 50) / blockwidth;
 			
 //			System.out.println(Xindex + " " + Yindex);
 			
-			int chance = (int) (Math.random() * 3) + 1;
+			//if the ghost is not aligned, skip this ghost
+			if ((g.getX() - 25) % blockwidth != 0) {
+				continue;
+			}
+			if ((g.getY() - 50) % blockwidth != 0) {
+				continue;
+			}
+			else {
+//				System.out.println("X:  " + Xindex + " Y: " + Yindex + " aligned");
+			}
+//			else if ((g.getY() - 50) % blockwidth != 0) {
+//				System.out.println("Not aligned y " + i);
+//				continue;
+//			}
+			
+			//random chance variable
+			int chance = (int) (Math.random() * oppositechance) + 1;
+			
+			//stops the ghost
+			g.setDirection(Ghost.STILL);
+			
+			int xdif;
+			int ydif;
+			System.out.println(pacX + " " + g.getX());
+			if (pacX > g.getX()) {
+				xdif = pacX - g.getX();
+			}
+			else {
+				xdif = g.getX() - pacX;
+			}
+			
+			if (pacY > g.getY()) {
+				ydif = pacY - g.getY();
+			}
+			else {
+				ydif = g.getY() - pacY;
+			}
 			
 			//moves towards the player
-			if (chance <= 2 && neighbors(field, i, blockwidth) < 2) {
-				halt(g);
-				//moving right
-				if (pacX > Xindex && field[Xindex + 1][Yindex].getState() != Tile.WALL) {
-					g.movingRight = true;
-				}
-				//moving left
-				if (pacX < Xindex && field[Xindex - 1][Yindex].getState() != Tile.WALL) {
-					g.movingLeft = true;
+			if (chance <= oppositechance - 1) {
+				
+				if (xdif > ydif) {
+					//moving right
+					if (pacX > Xindex && field[Xindex + 1][Yindex].getState() != Tile.WALL) {
+						g.setDirection(Ghost.RIGHT);
+					}
+					//moving left
+					else if (pacX < Xindex && field[Xindex - 1][Yindex].getState() != Tile.WALL) {
+						g.setDirection(Ghost.LEFT);
+					}
+					//otherwise moving up
+					else if (field[Xindex][Yindex - 1].getState() != Tile.WALL) {
+						g.setDirection(Ghost.UP);
+						System.out.println("up " + xdif + " " + ydif);
+					}
+					//otherwise moving down
+					else if (field[Xindex][Yindex + 1].getState() != Tile.WALL) {
+						g.setDirection(Ghost.DOWN);
+//						System.out.println("down");
+						System.out.println("down " + xdif + " " + ydif);
+					}
 				}
 				
-				//moving up
-				if (pacY < Yindex && field[Xindex][Yindex - 1].getState() != Tile.WALL) {
-					g.movingUp = true;
+				else if (ydif > xdif){
+					
+					//moving up
+					if (pacY < Yindex && field[Xindex][Yindex - 1].getState() != Tile.WALL) {
+						g.setDirection(Ghost.UP);
+					}
+					//moving down
+					else if (pacY > Yindex && field[Xindex][Yindex + 1].getState() != Tile.WALL) {
+						g.setDirection(Ghost.DOWN);
+//						System.out.println("dow");
+					}
+					//otherwise moving right
+					else if (field[Xindex + 1][Yindex].getState() != Tile.WALL){
+						g.setDirection(Ghost.RIGHT);
+					}
+					//otherwise moving left
+					else if (field[Xindex - 1][Yindex].getState() != Tile.WALL){
+						g.setDirection(Ghost.LEFT);
+					}
+				}
+			}
+			//1 in oppositechance of going the opposite direction from the pac man
+			else {
+				
+				//moving left, normally right
+				if (pacX > Xindex && field[Xindex - 1][Yindex].getState() != Tile.WALL) {
+					g.setDirection(Ghost.LEFT);
+				}
+				//moving right, normally left
+				if (pacX < Xindex && field[Xindex + 1][Yindex].getState() != Tile.WALL) {
+					g.setDirection(Ghost.RIGHT);
 				}
 				
-				//moving down
-				if (pacY > Yindex && field[Xindex][Yindex + 1].getState() != Tile.WALL) {
-					g.movingDown = true;
+				//moving down, normally up
+				if (pacY < Yindex && field[Xindex][Yindex + 1].getState() != Tile.WALL) {
+					g.setDirection(Ghost.DOWN);
 				}
 				
+				//moving up, normally down
+				if (pacY > Yindex && field[Xindex][Yindex - 1].getState() != Tile.WALL) {
+					g.setDirection(Ghost.UP);
+				}
+				
+			}
+			int corner = detectCorner(field, g, blockwidth);
+			if (corner != 0) {
+				g.setDirection(corner);
 			}
 			
 		}
 		
 	}
 	
+	//updates the location of the parameter ghost based on which direction they are going
+	public void update(Tile[][] field, Ghost g, int blockwidth) {
+		
+		//updates the location of the ghost based on which direction they are going
+		if (g.getDirection() == Ghost.RIGHT) {
+			g.setLocation(g.getX() + 1, g.getY());
+		}
+		if (g.getDirection() == Ghost.LEFT) {
+			g.setLocation(g.getX() - 1, g.getY());
+		}
+		if (g.getDirection() == Ghost.DOWN) {
+			g.setLocation(g.getX(), g.getY() + 1);
+		}
+		if (g.getDirection() == Ghost.UP) {
+			g.setLocation(g.getX(), g.getY() - 1);
+		}
+		
+	}
+	
+	//detects a corner (3 adjacent blocks), returns the direction to go in, 0 if not a corner
+	public int detectCorner(Tile[][] field, Ghost g, int blockwidth) {
+		
+		int Xindex = (g.getX() - 25) / blockwidth;
+		int Yindex = (g.getY() - 50) / blockwidth;
+		
+		if (neighbors(field, g, blockwidth) != 3) {
+			return 0;
+		}
+		
+		//detects upwards opening corner
+		if (field[Xindex][Yindex - 1].getState() == Tile.BLANK){
+//			System.out.println("up");
+			return Ghost.UP;
+		}
+		//left
+		if (field[Xindex - 1][Yindex].getState() == Tile.BLANK){
+//			System.out.println("left");
+			return Ghost.LEFT;
+		}
+		//right
+		if (field[Xindex + 1][Yindex].getState() == Tile.BLANK){
+//			System.out.println("right");
+			return Ghost.RIGHT;
+		}
+		//down
+		if (field[Xindex][Yindex + 1].getState() == Tile.BLANK){
+//			System.out.println("down " + Xindex + " " + Yindex);
+			return Ghost.DOWN;
+			
+		}
+		
+		return Ghost.STILL;
+		
+	}
+	
 	//stops the momentum of the parameter ghost
 	public void halt(Ghost g) {
 		
-		g.movingRight = false;
-		g.movingLeft = false;
-		g.movingUp = false;
-		g.movingDown = false;
+		g.setDirection(Ghost.STILL);
 		
 	}
 	
 	//returns the number of blocks adjacent to the ghost at the given index in the field array
-	public int neighbors(Tile[][] field, int index, int blockwidth) {
+	public int neighbors(Tile[][] field, Ghost g, int blockwidth) {
 		
 		int neighbors = 0;
-		Ghost g = ghosts.get(index);
 		
-		int Xindex = (ghosts.get(index).getX() - 25) / blockwidth;
-		int Yindex = (ghosts.get(index).getY() - 50) / blockwidth;
+		int Xindex = (g.getX() - 25) / blockwidth;
+		int Yindex = (g.getY() - 50) / blockwidth;
 		
 		if (field[Xindex - 1][Yindex].getState() == Tile.WALL) {
 			neighbors ++;
