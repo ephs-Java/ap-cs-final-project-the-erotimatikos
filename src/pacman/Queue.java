@@ -18,17 +18,33 @@ public class Queue {
 	
 	//adds an item to both lists. starts a new corresponding counter
 	public void add(String s) {
-		queue.add(s);
-		nums.add(0);
+		
+		if (queue.indexOf(s) == -1) {
+			queue.add(s);
+			nums.add(0);
+		}
+		else {
+			nums.set(queue.indexOf(s), 0);
+		}
 	}
 	
 	//removes the given index from both arrays, if it exists
 	public void remove(int i) {
-		if (i > queue.size() - 1) {
+		if (i > queue.size() - 1 || i < 0) {
 			return;
 		}
 		queue.remove(i);
 		nums.remove(i);
+	}
+	
+	//removes the string from the lists, if it exists
+	public void remove(String s) {
+		int index = indexOf(s);
+		if (index >= 0) {
+			queue.remove(index);
+			nums.remove(index);
+			return;
+		}
 	}
 	
 	//reurns the index of the string in the arraylist, if it exists
