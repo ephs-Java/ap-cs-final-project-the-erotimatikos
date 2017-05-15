@@ -37,19 +37,27 @@ public class Ghosts {
 		//updates each ghost
 		for (int i = 0; i < ghosts.size(); i++) {
 			
-			Ghost g = ghosts.get(i);
+			Ghost g = get(i);
 			
 			if (g.movingRight) {
-				ghosts.get(i).setLocation(g.getX() + 1, g.getY());
+				g.setLocation(g.getX() + 1, g.getY());
+				g.movingDown = false;
+				g.movingUp = false;
 			}
 			if (g.movingLeft) {
-				ghosts.get(i).setLocation(g.getX() - 1, g.getY());
+				g.setLocation(g.getX() - 1, g.getY());
+				g.movingDown = false;
+				g.movingUp = false;
 			}
 			if (g.movingDown) {
-				ghosts.get(i).setLocation(g.getX(), g.getY() + 1);
+				g.setLocation(g.getX(), g.getY() + 1);
+				g.movingLeft = false;
+				g.movingRight = false;
 			}
 			if (g.movingUp) {
-				ghosts.get(i).setLocation(g.getX(), g.getY() - 1);
+				g.setLocation(g.getX(), g.getY() - 1);
+				g.movingLeft = false;
+				g.movingRight = false;
 			}
 			
 			int Xindex = (g.getX() - 25) / blockwidth;
@@ -57,38 +65,28 @@ public class Ghosts {
 			
 //			System.out.println(Xindex + " " + Yindex);
 			
-			int chance = (int) Math.random() * 3 + 1;
+			int chance = (int) (Math.random() * 3) + 1;
+			
 			//moves towards the player
 			if (chance <= 2 && neighbors(field, i, blockwidth) < 2) {
+				halt(g);
 				//moving right
 				if (pacX > Xindex && field[Xindex + 1][Yindex].getState() != Tile.WALL) {
 					g.movingRight = true;
 				}
-				else {
-					g.movingRight = false;
-				}
 				//moving left
 				if (pacX < Xindex && field[Xindex - 1][Yindex].getState() != Tile.WALL) {
 					g.movingLeft = true;
-				}
-				else {
-					g.movingLeft = false;
 				}
 				
 				//moving up
 				if (pacY < Yindex && field[Xindex][Yindex - 1].getState() != Tile.WALL) {
 					g.movingUp = true;
 				}
-				else {
-					g.movingUp = false;
-				}
 				
 				//moving down
 				if (pacY > Yindex && field[Xindex][Yindex + 1].getState() != Tile.WALL) {
 					g.movingDown = true;
-				}
-				else {
-					g.movingDown = false;
 				}
 				
 			}
@@ -97,13 +95,24 @@ public class Ghosts {
 		
 	}
 	
+	//stops the momentum of the parameter ghost
+	public void halt(Ghost g) {
+		
+		g.movingRight = false;
+		g.movingLeft = false;
+		g.movingUp = false;
+		g.movingDown = false;
+		
+	}
+	
+	//returns the number of blocks adjacent to the ghost at the given index in the field array
 	public int neighbors(Tile[][] field, int index, int blockwidth) {
 		
 		int neighbors = 0;
 		Ghost g = ghosts.get(index);
 		
-		int Xindex = (g.getX() - 25) / blockwidth;
-		int Yindex = (g.getY() - 50) / blockwidth;
+		int Xindex = (ghosts.get(index).getX() - 25) / blockwidth;
+		int Yindex = (ghosts.get(index).getY() - 50) / blockwidth;
 		
 		if (field[Xindex - 1][Yindex].getState() == Tile.WALL) {
 			neighbors ++;
@@ -122,13 +131,14 @@ public class Ghosts {
 		
 	}
 	
+	//prints out the ghosts
 	public String toString() {
 		
 		String message = "";
 		
 		for (int i = 0; i < ghosts.size(); i++) {
 			
-			message += i + " " + ghosts.get(i) + ", ";
+			message += i + " " + get(i) + ", ";
 			
 		}
 		

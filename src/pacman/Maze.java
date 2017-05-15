@@ -66,6 +66,21 @@ public class Maze {
 		
 	}
 	
+	//puts blocks around the edges of the screen
+	public void fillEdges() {
+		
+		for (int r = 0; r < maze.length; r++) {
+			for (int c = 0; c < maze[0].length; c++) {
+				
+				if (r == 0 || c == 0 || r == maze.length - 1 || c == maze[0].length - 1) {
+					maze[r][c].setState(Tile.WALL);
+				}
+				
+			}
+		}
+		
+	}
+	
 	//prints out the current maze 2d array. each item is the number value of each tile
 	public String toString() {
 		

@@ -5,12 +5,12 @@ public class Tile {
 	//the state of the current tile
 	public int state;
 	
-	//regular click and z-click
+	//regular click and z-press
 	public static final int BLANK = 0;
 	public static final int WALL = 1;
 	public static final int PILL = 2;
 	
-	//alt click
+	//alt click (x press)
 	public static final int SPAWN = 3; 
 	public static final int TELEPORTER = 4;
 	public static final int TELEPORTER2 = 5;
@@ -55,7 +55,5 @@ public class Tile {
 			this.state = s;
 		}
 	}
-	
-	
 	
 }
