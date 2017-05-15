@@ -1,11 +1,13 @@
 package practice;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
 import practice.Video4.AL;
@@ -17,6 +19,8 @@ public class Video5 extends JFrame{
 	
 	private Image dbImage;
 	private Graphics dbg;
+	Image tanker;
+	
 	
 	public static void main(String[] args){
 		new Video5();
@@ -32,6 +36,12 @@ public class Video5 extends JFrame{
 		}
 	}
 	public Video5(){
+		
+		ImageIcon tank = new ImageIcon("bigTank.png");
+		tanker = tank.getImage();
+		
+		
+		
 		x = 100;
 		y = 100;
 		addKeyListener(new AL());
@@ -40,6 +50,9 @@ public class Video5 extends JFrame{
 		setResizable(false);
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBackground(Color.blue); //Sets the background color to blue.
+		
+		
 		
 	}
 	
@@ -52,13 +65,19 @@ public class Video5 extends JFrame{
 	
 	public void paint(Graphics g){
 		
+//		Font amazing = new Font("Times New Roman",Font.BOLD,20);
+//		g.setColor(Color.blue); 
+//		g.drawOval(x, y, 10, 10);
+//		g.setColor(Color.orange); 
+//		g.drawRect(100, 100, 200, 200);
+//		g.setColor(Color.blue);
+//		g.fillRect(100,100, 10, 10);
+//		
+//		g.setFont(amazing);
+//		g.setColor(Color.black);
+//		g.drawString("Hello", 90, 90);
 		
-		g.setColor(Color.blue); 
-		g.drawOval(x, y, 10, 10);
-		g.setColor(Color.orange); 
-		g.drawRect(100, 100, 200, 200);
-		g.setColor(Color.blue);
-		g.fillRect(100,100, 10, 10);
+		g.drawImage(tanker, 100, 100, this);
 		
 		repaint(); //Causes it to refresh once it reaches this point
 		
