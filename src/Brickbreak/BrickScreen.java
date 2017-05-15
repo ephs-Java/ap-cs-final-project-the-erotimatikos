@@ -15,35 +15,32 @@ public class BrickScreen extends JFrame implements Runnable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private int onex, oney, oneh, onew;
-    private int twox, twoy, changex, changey;
-    private int change= 0;
-    private int leftscore, rightscore;
-	private int SCREENX;
-	private int SCREENY;
-	private int ballx = SCREENX/2;
-	private int bally = SCREENY/2;
+	private int SCREENX, SCREENY;
+	private int paddlex;
+	private int pchange;
+	private int BRICKH, BRICKW;
 	private Image dbImage;
 	private Graphics dbg;
+	
+	
+	Brick [][] bricks= new Brick[5][3];
+	
+	
 	public BrickScreen() {
 		// TODO Auto-generated constructor stub
 		addKeyListener( new AL()); 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		SCREENX= 700;
-		SCREENY= 500;
+		SCREENX= 600;
+		SCREENY= 700;
 		setTitle("Pong");
-		setBackground(Color.BLACK);
+		setBackground(Color.CYAN);
 		setVisible(true);
 		setSize(SCREENX, SCREENY);
 		setResizable(false);
-		onex= 25;
-		oney= 250;
-		oneh= 80;
-		onew= 20;
-		twox= SCREENX-25-onew;
-		twoy= 250;
-		ballx= SCREENX/2;
-		bally= SCREENY/2;
+	    paddlex= SCREENX/2- 60;
+	    BRICKH= 2;
+	    BRICKW=2;
+	    
 	}
 	public void paint(Graphics g) {
 		dbImage = createImage(getWidth(), getHeight());
@@ -57,32 +54,57 @@ public class BrickScreen extends JFrame implements Runnable{
 		g.drawImage(dbImage, 0, 0, this);
 	}
 	public void paintComponent(Graphics g) throws InterruptedException {
-		
+		g.setColor(Color.GRAY);
+		g.fillRect(paddlex, SCREENY- 50, 125, 20);
+	    g.setColor(Color.darkGray);
+		g.fill3DRect(paddlex, SCREENY-50, 125, 20, false);
+		for (int i=0; i<bricks.length; i++){
+			for (int j=0; j<bricks[i].length; j++){
+				if (bricks[i][j].isAlive()){
+					g.setColor(Color.green);
+					g.fillRect(i*BRICKH, j*BRICKW, BRICKW, BRICKH);
+				}
+			}
+			
+		}
 		repaint();
 	}
-	
-
+	public void movePaddle(){
+		paddlex += pchange;
+	}
+	public void pboundaries (){
+		if (paddlex < 0){
+			paddlex=0;
+		}
+		if (paddlex + 125 > SCREENX){
+			paddlex= SCREENX -125;
+		}
+	}
 	public class AL extends KeyAdapter{
 		public void keyPressed(KeyEvent e){
 			int KeyCode = e.getKeyCode();
-			if (KeyCode == e.VK_UP){
-			     
-			
-			 
+			if (KeyCode == e.VK_LEFT){
+			     pchange= -1;
 			}
-			if (KeyCode == e.VK_DOWN){
-			     	
+			if (KeyCode == e.VK_RIGHT){
+			     pchange=1;
 				
 		}
 		}
 		public void keyReleased(KeyEvent e){
 			int KeyCode = e.getKeyCode();
-			if (KeyCode == e.VK_UP || KeyCode == e.VK_DOWN){
-		
+			if (KeyCode == e.VK_LEFT || KeyCode == e.VK_RIGHT){
+		        pchange=0;
 			}
 		}
 	}
-	
+	public void fillBricks(){
+		for (int i=0; i<bricks.length; i++){
+			for (int j=0; j< bricks[i].length; j++){
+				bricks[i][j]= new Brick();
+			}
+		}
+	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
          BrickScreen ping= new BrickScreen();
@@ -95,7 +117,8 @@ public class BrickScreen extends JFrame implements Runnable{
 		try{
 		
 			while(true){
-		
+		    movePaddle();
+		    pboundaries();
 			Thread.sleep(3);
 			}
 		}
