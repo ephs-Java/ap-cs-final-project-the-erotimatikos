@@ -37,7 +37,7 @@ public class Video5 extends JFrame{
 	}
 	public Video5(){
 		
-		ImageIcon tank = new ImageIcon("bigTank.png");
+		ImageIcon tank = new ImageIcon("src/practice/bigTank.png");
 		tanker = tank.getImage();
 		
 		
