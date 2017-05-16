@@ -246,6 +246,7 @@ public class Editor extends JFrame {
 				break;
 			case KeyEvent.VK_R:
 				maze = new Maze(MAZEX, MAZEY);
+				maze.fillEdges();
 				try {
 					save();
 				} catch (FileNotFoundException e1) {
@@ -254,21 +255,25 @@ public class Editor extends JFrame {
 				}
 				break;
 			case KeyEvent.VK_LEFT:
+			case KeyEvent.VK_A:
 				if (blockX > 0) {
 					blockX --;
 				}
 				break;
 			case KeyEvent.VK_UP:
+			case KeyEvent.VK_W:
 				if (blockY > 0) {
 					blockY --;
 				}
 				break;
 			case KeyEvent.VK_RIGHT:
+			case KeyEvent.VK_D:
 				if (blockX < maze.maze.length - 1) {
 					blockX ++;
 				}
 				break;
 			case KeyEvent.VK_DOWN:
+			case KeyEvent.VK_S:
 				if (blockY < maze.maze[0].length - 1) {
 					blockY ++;
 				}
@@ -287,6 +292,9 @@ public class Editor extends JFrame {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
+				break;
+			case KeyEvent.VK_H:
+				maze.fillBlankWithDots();
 				break;
 			}
 			
@@ -405,6 +413,10 @@ public class Editor extends JFrame {
 		dbg = dbImage.getGraphics();
 		paintComponent(dbg);
 		g.drawImage(dbImage, 0, 0, this);
+	}
+	
+	public static void main(String[] args) {
+		Editor ed = new Editor();
 	}
 		
 }

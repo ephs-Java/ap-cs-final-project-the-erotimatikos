@@ -11,6 +11,8 @@ public class Ghosts {
 	//1 in this number is the chance that a ghost will go the opposite way
 	private int oppositechance = 20; 
 	
+	private int ghostSpeed = 5;
+	
 	//default constructor
 	public Ghosts() {
 		ghosts = new ArrayList<Ghost>();
@@ -121,16 +123,16 @@ public class Ghosts {
 		
 		//updates the location of the ghost based on which direction they are going
 		if (g.getDirection() == Ghost.RIGHT) {
-			g.setLocation(g.getX() + 1, g.getY());
+			g.setLocation(g.getX() + ghostSpeed, g.getY());
 		}
 		if (g.getDirection() == Ghost.LEFT) {
-			g.setLocation(g.getX() - 1, g.getY());
+			g.setLocation(g.getX() - ghostSpeed, g.getY());
 		}
 		if (g.getDirection() == Ghost.DOWN) {
-			g.setLocation(g.getX(), g.getY() + 1);
+			g.setLocation(g.getX(), g.getY() + ghostSpeed);
 		}
 		if (g.getDirection() == Ghost.UP) {
-			g.setLocation(g.getX(), g.getY() - 1);
+			g.setLocation(g.getX(), g.getY() - ghostSpeed);
 		}
 		
 	}

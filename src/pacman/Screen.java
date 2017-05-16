@@ -31,8 +31,8 @@ public class Screen extends JFrame implements Runnable {
 	Queue tpwait;
 	
 	//queue size
-	final int QUEUESIZE = 50;
-	final int TPQUEUE = 100;
+	final int QUEUESIZE = 10;
+	final int TPQUEUE = 20;
 	
 	//width of each block
 	final int BLOCKWIDTH = 30;
@@ -46,7 +46,7 @@ public class Screen extends JFrame implements Runnable {
 	int pacmanY;
 	
 	//pac man speed 
-	int pacmanSpeed = 1;
+	int pacmanSpeed = 6;
 	
 	//pac man x and y index
 	int pacmanXindex;
@@ -67,7 +67,7 @@ public class Screen extends JFrame implements Runnable {
 	int screenY = MAZEY * (BLOCKWIDTH + 3);
 	
 	//the thread delay
-	int threadDelay = 10;
+	int threadDelay = 50;
 	
 	//current level that the user is on
 	int level = 1;
@@ -155,8 +155,8 @@ public class Screen extends JFrame implements Runnable {
 	public boolean lose() {
 		
 		for (int i = 0; i < ghosts.length(); i++) {
-			int xdif = Math.abs(ghosts.get(i).getX() - pacmanX) + 6;
-			int ydif = Math.abs(ghosts.get(i).getY() - pacmanY) + 6;
+			int xdif = Math.abs(ghosts.get(i).getX() - pacmanX) + BLOCKWIDTH / 2 + 1;
+			int ydif = Math.abs(ghosts.get(i).getY() - pacmanY) + BLOCKWIDTH / 2 + 1;
 			if (xdif < BLOCKWIDTH && ydif < BLOCKWIDTH) {
 				return true;
 			}
@@ -486,18 +486,22 @@ public class Screen extends JFrame implements Runnable {
 				setup();
 				break;
 			case KeyEvent.VK_UP:
+			case KeyEvent.VK_W:
 				queue.add("UP");
 				queue.remove("DOWN");
 				break;
 			case KeyEvent.VK_RIGHT:
+			case KeyEvent.VK_D:
 				queue.add("RIGHT");
 				queue.remove("LEFT");
 				break;
 			case KeyEvent.VK_DOWN:
+			case KeyEvent.VK_S:
 				queue.add("DOWN");
 				queue.remove("UP");
 				break;
 			case KeyEvent.VK_LEFT:
+			case KeyEvent.VK_A:
 				queue.add("LEFT");
 				queue.remove("RIGHT");
 				break;
