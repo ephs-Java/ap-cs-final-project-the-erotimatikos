@@ -154,14 +154,14 @@ public class Editor extends JFrame {
 		File f = new File("src/pacman/custom.txt");
 		
 		if (!f.exists()) {
-			System.out.println("file not found");
+//			System.out.println("file not found");
 			try {
 				f.createNewFile();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			System.out.println("new file created");
+//			System.out.println("new file created");
 			maze = new Maze(MAZEX, MAZEY);
 			save();
 			return;
@@ -239,45 +239,52 @@ public class Editor extends JFrame {
 			
 			int key = e.getKeyCode();
 			
-			if (key == e.VK_Q) {
+			switch (key) {
+			
+			case KeyEvent.VK_Q:
 				System.exit(0);
-			}
-			if (key == e.VK_R) {
+				break;
+			case KeyEvent.VK_R:
 				maze = new Maze(MAZEX, MAZEY);
+				maze.fillEdges();
 				try {
 					save();
 				} catch (FileNotFoundException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-			}
-			if (key == e.VK_LEFT) {
+				break;
+			case KeyEvent.VK_LEFT:
+			case KeyEvent.VK_A:
 				if (blockX > 0) {
 					blockX --;
 				}
-			}
-			if (key == e.VK_UP) {
+				break;
+			case KeyEvent.VK_UP:
+			case KeyEvent.VK_W:
 				if (blockY > 0) {
 					blockY --;
 				}
-			}
-			if (key == e.VK_RIGHT) {
+				break;
+			case KeyEvent.VK_RIGHT:
+			case KeyEvent.VK_D:
 				if (blockX < maze.maze.length - 1) {
 					blockX ++;
 				}
-			}
-			if (key == e.VK_DOWN) {
+				break;
+			case KeyEvent.VK_DOWN:
+			case KeyEvent.VK_S:
 				if (blockY < maze.maze[0].length - 1) {
 					blockY ++;
 				}
-			}
-			if (key == e.VK_Z) {
+				break;
+			case KeyEvent.VK_Z:
 				updateState(blockX, blockY);
-			}
-			if (key == e.VK_X) {
+				break;
+			case KeyEvent.VK_X:
 				updateAltState(blockX, blockY);
-			}
-			if (key == e.VK_C) {
+				break;
+			case KeyEvent.VK_C:
 				maze.maze[blockX][blockY].setState(Tile.GHOSTSPAWN);
 				try {
 					save();
@@ -285,6 +292,10 @@ public class Editor extends JFrame {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
+				break;
+			case KeyEvent.VK_H:
+				maze.fillBlankWithDots();
+				break;
 			}
 			
 		}
@@ -385,7 +396,7 @@ public class Editor extends JFrame {
 			}
 			
 		} catch(Exception e) {
-			System.out.println("cannot draw statestring");
+//			System.out.println("cannot draw statestring");
 			repaint();
 		}
 		
@@ -402,6 +413,10 @@ public class Editor extends JFrame {
 		dbg = dbImage.getGraphics();
 		paintComponent(dbg);
 		g.drawImage(dbImage, 0, 0, this);
+	}
+	
+	public static void main(String[] args) {
+		Editor ed = new Editor();
 	}
 		
 }

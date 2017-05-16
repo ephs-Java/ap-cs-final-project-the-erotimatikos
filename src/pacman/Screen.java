@@ -31,8 +31,8 @@ public class Screen extends JFrame implements Runnable {
 	Queue tpwait;
 	
 	//queue size
-	final int QUEUESIZE = 50;
-	final int TPQUEUE = 100;
+	final int QUEUESIZE = 10;
+	final int TPQUEUE = 20;
 	
 	//width of each block
 	final int BLOCKWIDTH = 30;
@@ -46,7 +46,7 @@ public class Screen extends JFrame implements Runnable {
 	int pacmanY;
 	
 	//pac man speed 
-	int pacmanSpeed = 1;
+	int pacmanSpeed = 6;
 	
 	//pac man x and y index
 	int pacmanXindex;
@@ -66,8 +66,11 @@ public class Screen extends JFrame implements Runnable {
 	int screenX = MAZEX * (BLOCKWIDTH + 3);
 	int screenY = MAZEY * (BLOCKWIDTH + 3);
 	
+	//the thread delay
+	int threadDelay = 50;
+	
 	//current level that the user is on
-	int level = 6;
+	int level = 1;
 	
 	//the thread
 	public void run() {
@@ -76,11 +79,19 @@ public class Screen extends JFrame implements Runnable {
 			
 			while (true) {
 				checkMovement();
-				Thread.sleep(10);
+				Thread.sleep(threadDelay);
 				ghosts.updateAll(maze.maze, pacmanXindex, pacmanYindex, BLOCKWIDTH);
 				queue.update();
 				tpwait.update();
-				lose();
+				if (lose()) {
+					Thread.sleep(2000);
+					setup();
+				}
+				if (maze.isVictory()) {
+					Thread.sleep(2000);
+					level ++;
+					setup();
+				}
 			}
 			
 		} catch(Exception e) {
@@ -144,15 +155,12 @@ public class Screen extends JFrame implements Runnable {
 	public boolean lose() {
 		
 		for (int i = 0; i < ghosts.length(); i++) {
-			int xdif = Math.abs(ghosts.get(i).getX() - pacmanX);
-			int ydif = Math.abs(ghosts.get(i).getY() - pacmanY);
-			
+			int xdif = Math.abs(ghosts.get(i).getX() - pacmanX) + BLOCKWIDTH / 2 + 1;
+			int ydif = Math.abs(ghosts.get(i).getY() - pacmanY) + BLOCKWIDTH / 2 + 1;
 			if (xdif < BLOCKWIDTH && ydif < BLOCKWIDTH) {
-				System.out.println("you lose");
+				return true;
 			}
-			
 		}
-		
 		return false;
 		
 	}
@@ -361,6 +369,8 @@ public class Screen extends JFrame implements Runnable {
 			e.printStackTrace();
 		}
 		
+		ghosts.removeAll();
+		
 		for (int r = 0; r < maze.maze.length; r++) {
 			for (int c = 0; c < maze.maze[0].length; c++) {
 				
@@ -394,16 +404,12 @@ public class Screen extends JFrame implements Runnable {
 		File f = new File(s);
 		
 		if (!f.exists()) {
-			System.out.println("file not found");
-			try {
-				f.createNewFile();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			System.out.println("new file created");
-			maze = new Maze(MAZEX, MAZEY);
-			save(s);
+//			System.out.println("file not found");
+			level = 1;
+			setup();
+//			System.out.println("resetting level");
+//			maze = new Maze(MAZEX, MAZEY);
+//			save(s);
 			return;
 		}
 		
@@ -454,9 +460,6 @@ public class Screen extends JFrame implements Runnable {
 				
 				bw.write(content);
 				
-				// no need to close it.
-				//bw.close();
-				
 				
 			} catch (IOException e) {
 				
@@ -473,29 +476,47 @@ public class Screen extends JFrame implements Runnable {
 			
 			int key = e.getKeyCode();
 //			System.out.println(queue);
-			if (key == e.VK_Q) {
+			
+			switch (key) {
+			
+			case KeyEvent.VK_Q:
 				System.exit(0);
-			}
-			else if (key == e.VK_R) {
+				break;
+			case KeyEvent.VK_R:
 				setup();
-			}
-			else if (key == e.VK_UP) {
+				break;
+			case KeyEvent.VK_UP:
+			case KeyEvent.VK_W:
 				queue.add("UP");
 				queue.remove("DOWN");
-			}
-			else if (key == e.VK_RIGHT) {
+				break;
+			case KeyEvent.VK_RIGHT:
+			case KeyEvent.VK_D:
 				queue.add("RIGHT");
 				queue.remove("LEFT");
-			}
-			else if (key == e.VK_DOWN) {
+				break;
+			case KeyEvent.VK_DOWN:
+			case KeyEvent.VK_S:
 				queue.add("DOWN");
 				queue.remove("UP");
-			}
-			else if (key == e.VK_LEFT) {
+				break;
+			case KeyEvent.VK_LEFT:
+			case KeyEvent.VK_A:
 				queue.add("LEFT");
 				queue.remove("RIGHT");
-			}
+				break;
+			case KeyEvent.VK_PERIOD:
+				level ++;
+				setup();
+				break;
+			case KeyEvent.VK_COMMA:
+				if (level > 1) {
+					level --;
+					setup();
+				}
+				break;
 			
+			}
 			
 		}
 		
@@ -555,8 +576,8 @@ public class Screen extends JFrame implements Runnable {
 		
 		//prints the ghosts
 		for (int i = 0; i < ghosts.length(); i++) {
-			
-			g.fillRect(ghosts.get(i).getX(), ghosts.get(i).getY(), BLOCKWIDTH - 4, BLOCKWIDTH - 4);
+			g.setColor(Color.MAGENTA);
+			g.fillRect(ghosts.get(i).getX() + 2, ghosts.get(i).getY() + 2, BLOCKWIDTH - 4, BLOCKWIDTH - 4);
 			
 		}
 		

@@ -18,16 +18,16 @@ public class player {
 	public void moveTo(int xT, int yT){
 		
 		if(xT > x){
-			this.x += .01;	
+			this.x += 2;	
 		}
 		else{
-			this.x = this.x - 1;
+			this.x = this.x - 2;
 		}
 		if(yT > y){
-			this.y = this.y + 1;
+			this.y = this.y + 2;
 		}
 		else{
-			this.y = this.y - 1;
+			this.y = this.y - 2;
 		}
 	}
 }
