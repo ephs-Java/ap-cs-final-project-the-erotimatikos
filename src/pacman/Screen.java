@@ -80,7 +80,7 @@ public class Screen extends JFrame implements Runnable {
 			while (true) {
 				checkMovement();
 				Thread.sleep(threadDelay);
-				ghosts.updateAll(maze.maze, pacmanX, pacmanY, BLOCKWIDTH);
+				ghosts.updateAll(maze.maze, pacmanXindex, pacmanYindex, BLOCKWIDTH);
 				queue.update();
 				tpwait.update();
 				if (lose()) {
@@ -155,8 +155,8 @@ public class Screen extends JFrame implements Runnable {
 	public boolean lose() {
 		
 		for (int i = 0; i < ghosts.length(); i++) {
-			int xdif = Math.abs(ghosts.get(i).getX() - pacmanX) + 2;
-			int ydif = Math.abs(ghosts.get(i).getY() - pacmanY) + 2;
+			int xdif = Math.abs(ghosts.get(i).getX() - pacmanX) + 6;
+			int ydif = Math.abs(ghosts.get(i).getY() - pacmanY) + 6;
 			if (xdif < BLOCKWIDTH && ydif < BLOCKWIDTH) {
 				return true;
 			}
@@ -369,6 +369,8 @@ public class Screen extends JFrame implements Runnable {
 			e.printStackTrace();
 		}
 		
+		ghosts.removeAll();
+		
 		for (int r = 0; r < maze.maze.length; r++) {
 			for (int c = 0; c < maze.maze[0].length; c++) {
 				
@@ -402,12 +404,12 @@ public class Screen extends JFrame implements Runnable {
 		File f = new File(s);
 		
 		if (!f.exists()) {
-			System.out.println("file not found");
+//			System.out.println("file not found");
 			level = 1;
 			setup();
-			System.out.println("resetting level");
-			maze = new Maze(MAZEX, MAZEY);
-			save(s);
+//			System.out.println("resetting level");
+//			maze = new Maze(MAZEX, MAZEY);
+//			save(s);
 			return;
 		}
 		
@@ -458,9 +460,6 @@ public class Screen extends JFrame implements Runnable {
 				
 				bw.write(content);
 				
-				// no need to close it.
-				//bw.close();
-				
 				
 			} catch (IOException e) {
 				
@@ -481,7 +480,7 @@ public class Screen extends JFrame implements Runnable {
 				System.exit(0);
 			}
 			else if (key == e.VK_R) {
-//				setup();
+				setup();
 			}
 			else if (key == e.VK_UP) {
 				queue.add("UP");
@@ -498,6 +497,16 @@ public class Screen extends JFrame implements Runnable {
 			else if (key == e.VK_LEFT) {
 				queue.add("LEFT");
 				queue.remove("RIGHT");
+			}
+			else if (key == e.VK_PERIOD) {
+				level ++;
+				setup();
+			}
+			else if (key == e.VK_COMMA) {
+				if (level > 1) {
+					level --;
+					setup();
+				}
 			}
 			
 			

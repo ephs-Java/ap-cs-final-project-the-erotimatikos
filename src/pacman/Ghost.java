@@ -76,10 +76,9 @@ public class Ghost {
 		this.direction = d;
 	}
 	
+	//returns a string representation of the ghost with the x and y location
 	public String toString() {
-		
 		return "X: " + this.x + " Y: " + this.y;
-		
 	}
 	
 }

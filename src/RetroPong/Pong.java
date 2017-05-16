@@ -26,6 +26,7 @@ public class Pong extends JFrame implements Runnable{
 	private Image dbImage;
 	private Graphics dbg;
 	public Pong() {
+		
 		// TODO Auto-generated constructor stub
 		addKeyListener( new AL()); 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

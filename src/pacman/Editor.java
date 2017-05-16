@@ -154,14 +154,14 @@ public class Editor extends JFrame {
 		File f = new File("src/pacman/custom.txt");
 		
 		if (!f.exists()) {
-			System.out.println("file not found");
+//			System.out.println("file not found");
 			try {
 				f.createNewFile();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			System.out.println("new file created");
+//			System.out.println("new file created");
 			maze = new Maze(MAZEX, MAZEY);
 			save();
 			return;
@@ -385,7 +385,7 @@ public class Editor extends JFrame {
 			}
 			
 		} catch(Exception e) {
-			System.out.println("cannot draw statestring");
+//			System.out.println("cannot draw statestring");
 			repaint();
 		}
 		
