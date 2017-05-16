@@ -135,7 +135,7 @@ time++;
 		x = 50;
 		y = 50;
 		addKeyListener(new AL());
-		setTitle("Video4");
+		setTitle("Runner");
 		setSize(500,500);
 		setResizable(false);
 		setVisible(true);
