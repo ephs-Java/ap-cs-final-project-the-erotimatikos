@@ -70,7 +70,7 @@ public class Screen extends JFrame implements Runnable {
 	int threadDelay = 50;
 	
 	//current level that the user is on
-	int level = 1;
+	int level = 6;
 	
 	//the thread
 	public void run() {
@@ -356,7 +356,7 @@ public class Screen extends JFrame implements Runnable {
 	
 	//sets up the pac man location for starting up the game and sets up ghost positions
 	public void setup() {
-		
+		halt();
 		tpwait = new Queue(TPQUEUE);
 		ghosts = new Ghosts();
 		queue = new Queue(QUEUESIZE);
@@ -553,9 +553,9 @@ public class Screen extends JFrame implements Runnable {
 					yloc + BLOCKWIDTH / 4, BLOCKWIDTH / 2, BLOCKWIDTH / 2);
 				}
 				else if (state == Tile.SPAWN) {
-					g.setColor(Color.BLUE);
-					g.fillOval(xloc + BLOCKWIDTH / 4,
-							yloc + BLOCKWIDTH / 4, BLOCKWIDTH / 2, BLOCKWIDTH / 2);
+//					g.setColor(Color.BLUE);
+//					g.fillOval(xloc + BLOCKWIDTH / 4,
+//							yloc + BLOCKWIDTH / 4, BLOCKWIDTH / 2, BLOCKWIDTH / 2);
 				}
 				else if (state == Tile.TELEPORTER) {
 					g.setColor(Color.yellow);

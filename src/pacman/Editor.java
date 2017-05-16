@@ -295,6 +295,12 @@ public class Editor extends JFrame {
 				break;
 			case KeyEvent.VK_H:
 				maze.fillBlankWithDots();
+				try {
+					save();
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				break;
 			}
 			
