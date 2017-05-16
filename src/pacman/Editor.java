@@ -239,10 +239,12 @@ public class Editor extends JFrame {
 			
 			int key = e.getKeyCode();
 			
-			if (key == e.VK_Q) {
+			switch (key) {
+			
+			case KeyEvent.VK_Q:
 				System.exit(0);
-			}
-			if (key == e.VK_R) {
+				break;
+			case KeyEvent.VK_R:
 				maze = new Maze(MAZEX, MAZEY);
 				try {
 					save();
@@ -250,34 +252,34 @@ public class Editor extends JFrame {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-			}
-			if (key == e.VK_LEFT) {
+				break;
+			case KeyEvent.VK_LEFT:
 				if (blockX > 0) {
 					blockX --;
 				}
-			}
-			if (key == e.VK_UP) {
+				break;
+			case KeyEvent.VK_UP:
 				if (blockY > 0) {
 					blockY --;
 				}
-			}
-			if (key == e.VK_RIGHT) {
+				break;
+			case KeyEvent.VK_RIGHT:
 				if (blockX < maze.maze.length - 1) {
 					blockX ++;
 				}
-			}
-			if (key == e.VK_DOWN) {
+				break;
+			case KeyEvent.VK_DOWN:
 				if (blockY < maze.maze[0].length - 1) {
 					blockY ++;
 				}
-			}
-			if (key == e.VK_Z) {
+				break;
+			case KeyEvent.VK_Z:
 				updateState(blockX, blockY);
-			}
-			if (key == e.VK_X) {
+				break;
+			case KeyEvent.VK_X:
 				updateAltState(blockX, blockY);
-			}
-			if (key == e.VK_C) {
+				break;
+			case KeyEvent.VK_C:
 				maze.maze[blockX][blockY].setState(Tile.GHOSTSPAWN);
 				try {
 					save();
@@ -285,6 +287,7 @@ public class Editor extends JFrame {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
+				break;
 			}
 			
 		}

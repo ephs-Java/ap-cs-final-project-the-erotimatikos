@@ -476,39 +476,43 @@ public class Screen extends JFrame implements Runnable {
 			
 			int key = e.getKeyCode();
 //			System.out.println(queue);
-			if (key == e.VK_Q) {
+			
+			switch (key) {
+			
+			case KeyEvent.VK_Q:
 				System.exit(0);
-			}
-			else if (key == e.VK_R) {
+				break;
+			case KeyEvent.VK_R:
 				setup();
-			}
-			else if (key == e.VK_UP) {
+				break;
+			case KeyEvent.VK_UP:
 				queue.add("UP");
 				queue.remove("DOWN");
-			}
-			else if (key == e.VK_RIGHT) {
+				break;
+			case KeyEvent.VK_RIGHT:
 				queue.add("RIGHT");
 				queue.remove("LEFT");
-			}
-			else if (key == e.VK_DOWN) {
+				break;
+			case KeyEvent.VK_DOWN:
 				queue.add("DOWN");
 				queue.remove("UP");
-			}
-			else if (key == e.VK_LEFT) {
+				break;
+			case KeyEvent.VK_LEFT:
 				queue.add("LEFT");
 				queue.remove("RIGHT");
-			}
-			else if (key == e.VK_PERIOD) {
+				break;
+			case KeyEvent.VK_PERIOD:
 				level ++;
 				setup();
-			}
-			else if (key == e.VK_COMMA) {
+				break;
+			case KeyEvent.VK_COMMA:
 				if (level > 1) {
 					level --;
 					setup();
 				}
-			}
+				break;
 			
+			}
 			
 		}
 		

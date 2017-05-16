@@ -66,6 +66,21 @@ public class Maze {
 		
 	}
 	
+	//fills all blank spots with dots
+	public void fillBlankWithDots() {
+		
+		for (int r = 0; r < maze.length; r++) {
+			for (int c = 0; c < maze[0].length; c++) {
+				
+				if (maze[r][c].getState() == Tile.BLANK) {
+					maze[r][c].setState(Tile.PILL);
+				}
+				
+			}
+		}
+		
+	}
+	
 	//puts blocks around the edges of the screen
 	public void fillEdges() {
 		
