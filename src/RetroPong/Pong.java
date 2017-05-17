@@ -21,6 +21,7 @@ public class Pong extends JFrame implements Runnable{
 	private int onex, oney, oneh, onew;
     private int twox, twoy, changex, changey;
     private int change= 0;
+    private int aidiff;
     private int leftscore, rightscore;
 	private int SCREENX;
 	private int SCREENY;
@@ -28,9 +29,14 @@ public class Pong extends JFrame implements Runnable{
 	private int bally = SCREENY/2;
 	private int MOUSEX;
 	private int MOUSEY;
-	private Image dbImage, one, two, easy, hard, medium, pong, title;
+	private Image dbImage, one, two, easy, hard, medium, pong;
 	private Graphics dbg;
 	private boolean start;
+	private boolean twoplayer;
+	private boolean other;
+	private boolean info;
+	private boolean finalstart;
+	private int changeb;
 	public Pong() {
 		
 		// TODO Auto-generated constructor stub
@@ -56,8 +62,6 @@ public class Pong extends JFrame implements Runnable{
 		hard= cinco.getImage();
 		ImageIcon seis= new ImageIcon("src/RetroPong/pong.png");
 		pong= seis.getImage();
-		ImageIcon siete= new ImageIcon("src/RetroPong/title.png");
-		title= siete.getImage();
 		onex= 25;
 		oney= 250;
 		oneh= 80;
@@ -118,7 +122,16 @@ public class Pong extends JFrame implements Runnable{
 			g.drawImage(pong, SCREENX/2 -150, 20, this);
 			g.drawImage(one, 150, SCREENY/2 - 50, this);
 			g.drawImage(two, 150, SCREENY/2  +50, this);
-		} else {
+		} 
+		else if (info){
+			g.setColor(Color.black);
+			g.fillRect(0, 0, SCREENX, SCREENY);
+			g.setColor(Color.WHITE);
+			g.drawString("Player 1 uses UP and DOWN keys to move", 100, 200);
+			g.drawString("Player 2 uses W and S keys to move", 100, 300);
+			g.drawString("Press Space to continue", 100, 400);
+		}
+		else {
 		g.setColor(Color.white);
 		g.fillRect(onex, oney, onew, oneh);
 		g.fillRect(twox, twoy, onew, oneh);
@@ -149,6 +162,13 @@ public class Pong extends JFrame implements Runnable{
 	}
 		if (oney + oneh >= SCREENY){
 			oney= SCREENY-oneh;
+}
+		if(twoy <= 24){
+			changeb=0;
+			twoy = 25;
+	}
+		if (twoy + oneh >= SCREENY){
+			twoy= SCREENY-oneh;
 }
 		if (ballx <= onex + onew && (bally<= oney+oneh && bally + 30 >= oney)){
 			ballx= onex+onew+1;
@@ -192,23 +212,32 @@ public class Pong extends JFrame implements Runnable{
 	}
 	public void move() throws InterruptedException{
 		oney += change;
+		if (twoplayer){
+			twoy += changeb;
+		}
 	}
 	public void Ymove(int a){
 	change= a;
 	}
-public class mouse extends MouseAdapter {
+	public class mouse extends MouseAdapter {
 		
-	
-
 		public void mousePressed(MouseEvent e) {
 			MOUSEX = e.getX();
 			MOUSEY = e.getY();
 			if (!start){
-				if (MOUSEX >= 150 && MOUSEX <= 564){
-					start= true;
-				}
+			    if (MOUSEY >= SCREENY/2  +50){
+			    	twoplayer= true;
+			    	info= true;
+			    	start= true;
+			    } else{
+			    	aidiff= 4;
+			    	start= true;
+			    	twoplayer= false;
+			    	finalstart= true;
+			    }
 			}
-		}
+		     
+			}
 }
 	public class AL extends KeyAdapter{
 		public void keyPressed(KeyEvent e){
@@ -216,10 +245,21 @@ public class mouse extends MouseAdapter {
 			if (KeyCode == e.VK_UP){
 			     if(oney >25)
 				Ymove(-3);
-			 
 			}
 			if (KeyCode == e.VK_DOWN){
 			     Ymove(3);
+			}
+			if (KeyCode == e.VK_SPACE){
+				finalstart= true;
+				info= false;
+			}
+			if (twoplayer){
+				if (KeyCode == e.VK_W){
+					changeb= -3;
+				}
+				if (KeyCode == e.VK_S){
+					changeb = 3;
+				}
 			}
 		}
 	
@@ -227,6 +267,14 @@ public class mouse extends MouseAdapter {
 			int KeyCode = e.getKeyCode();
 			if (KeyCode == e.VK_UP || KeyCode == e.VK_DOWN){
 			Ymove(0);
+			}
+			if (twoplayer){
+				if (KeyCode == e.VK_W){
+					changeb= 0;
+				}
+				if (KeyCode == e.VK_S){
+					changeb = 0;
+				}
 			}
 		}
 	}
@@ -242,23 +290,17 @@ public class mouse extends MouseAdapter {
 		changey= b;
 	}
 	public void ai() throws InterruptedException{
-		if (changey >0){
-			if (bally < twoy){
-			twoy-= 2;
-			} else {
-			twoy +=2;
-			}
+		if (bally < twoy){
+			twoy -=aidiff;
+		
 		}
-		if (changey< 0){
-			if (bally > twoy){
-			twoy+= 2;
-			} else {
-				twoy -= 2;
-			}
-		}
+		if (bally > twoy){
+			twoy +=aidiff;
+	
+		} 
 		 if(twoy <= 24){
 			twoy = 25;
-			twoy-= 2;
+		
 	}
 		if (twoy + oneh >= SCREENY){
 			twoy= SCREENY-oneh - 2;
@@ -278,11 +320,19 @@ public class mouse extends MouseAdapter {
 		    	while(!start){
 		    		Thread.sleep(30);
 		    	}
+		    	while(!finalstart){
+		    		Thread.sleep(30);
+		    	}
 			ballX(-2);
 			Thread.sleep(1900);
+			if (!twoplayer){
+				changeb= 0;
+			}
 			while(true){
 			collision();
+		    if (!twoplayer){
 			ai();
+		    }
 			move();
 			Scorer();
 			ballmove();
