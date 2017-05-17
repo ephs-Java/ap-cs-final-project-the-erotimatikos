@@ -100,8 +100,10 @@ public class BrickScreen extends JFrame implements Runnable{
 		g.setColor(Color.red);
 		g.fillOval(ballx, bally, 20, 20);
 		if (finaldone){
+			g.setColor(Color.black);
+			g.fillRect(0, 0, SCREENX, SCREENY);
+			g.setColor(Color.white);
 			g.drawString("GAME OVER", SCREENX/2, SCREENY/2);
-			Thread.sleep(8000);
 			 paddlex= SCREENX/2- 60;
 			    BRICKH= 25;
 			    BRICKW= 60;
@@ -122,7 +124,7 @@ public class BrickScreen extends JFrame implements Runnable{
 			    }
 				
 			}
-		    finaldone= false;
+		   
 		}
 		repaint();
 		}
@@ -167,6 +169,7 @@ public class BrickScreen extends JFrame implements Runnable{
 			for (int j= 0; j< bricks[row].length; j++){
 				a= josha.nextInt(2) + 1;
 				Brick josh= new Brick();
+				josh.setbool(true);
 				bricks[i][j]= josh;
 				if (a == 1){
 					bricks[i][j].Break();
@@ -274,6 +277,10 @@ public class BrickScreen extends JFrame implements Runnable{
 			brickBreak();
 		    movePaddle();
 		    pboundaries();
+		    if (finaldone){
+		    	Thread.sleep(8000);
+		    	finaldone=false;
+		    }
 			Thread.sleep(8);
 			}
 		}
