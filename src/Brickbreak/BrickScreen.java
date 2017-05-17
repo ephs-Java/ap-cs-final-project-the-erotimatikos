@@ -6,7 +6,12 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Random;
+import java.util.Scanner;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
 
@@ -19,15 +24,19 @@ public class BrickScreen extends JFrame implements Runnable{
 	private int paddlex;
 	private int pchange;
 	private int paddlew;
+	private int row= 0;
+	private int counter=0;
 	private int BRICKH, BRICKW;
 	private boolean done;
 	private Image dbImage;
+	private Image title, paddle;
 	private Graphics dbg;
 	private boolean finaldone;
 	private int ballx, bally;
-	Brick [][] bricks= new Brick[20][4];
+	Brick [][] bricks= new Brick[10][8];
 	private int ballchangex;
 	private int ballchangey;
+	private boolean start = false;
 	public BrickScreen() {
 		// TODO Auto-generated constructor stub
 		addKeyListener( new AL()); 
@@ -35,46 +44,60 @@ public class BrickScreen extends JFrame implements Runnable{
 		SCREENX= 600;
 		SCREENY= 700;
 		setTitle("Brick Break");
-		setBackground(Color.CYAN);
 		setVisible(true);
 		setSize(SCREENX, SCREENY);
 		setResizable(false);
 	    paddlex= SCREENX/2- 60;
-	    BRICKH= 30;
-	    BRICKW=30;
+	    BRICKH= 25;
+	    BRICKW= 60;
 	    paddlew= 125;
 	    ballx=SCREENX/2- 20;
 	    ballchangex= 1;
 	    bally= SCREENY- 70;
+	    ImageIcon paddlea= new ImageIcon("src/Brickbreak/paddle.png");
+	    paddle= paddlea.getImage();
 	}
 	public void paint(Graphics g) {
 		dbImage = createImage(getWidth(), getHeight());
 		dbg = dbImage.getGraphics();
 		try {
 			paintComponent(dbg);
-		} catch (InterruptedException e) {
+		} catch (InterruptedException | FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		g.drawImage(dbImage, 0, 0, this);
 	}
-	public void paintComponent(Graphics g) throws InterruptedException {
-		g.setColor(Color.GRAY);
-		g.fillRect(paddlex, SCREENY- 50, paddlew, 10);
-	    g.setColor(Color.darkGray);
-		g.fill3DRect(paddlex, SCREENY-50, paddlew, 10, false);
+	public void paintComponent(Graphics g) throws InterruptedException, FileNotFoundException {
+		if (!start){
+		 ImageIcon titlei= new ImageIcon("src/Brickbreak/title.png");
+		 title= titlei.getImage();
+		 g.fillRect(0, 0, SCREENX, SCREENY);
+		 g.setColor(Color.WHITE);
+		 g.fillRect(SCREENX/2- 150, SCREENY/2, 300, 100);
+		 g.fillRect(SCREENX/2 - 150, SCREENY/2+ 200, 300, 100);
+		 g.drawImage(title, SCREENX/2 - 250, 50, this);
+		 g.setColor(Color.BLACK);
+		 Font font= new Font("Comic Sans MS", Font.PLAIN, 20);
+		 g.setFont(font);
+		 g.drawString("Use the arrow keys to control ", SCREENX/2- 140, SCREENY/2+ 40);
+		 g.drawString("your paddle. ", SCREENX/2- 140, SCREENY/2+ 80);
+		 g.drawString("Press \"SPACE\" to begin", SCREENX/2 - 120, SCREENY/2+ 260);
+		} else {
+		g.setColor(Color.CYAN);
+		g.fillRect(0, 0, SCREENX , SCREENY);
+		g.drawImage(paddle, paddlex, SCREENY- 50, this);
 		g.setColor(Color.red);
-		
 		for (int i=0; i<bricks.length; i++){
 			for (int j=0; j<bricks[i].length; j++){
 				if (!bricks[i][j].isAlive()){
 					g.setColor(Color.green);
-					g.fillRect(i*BRICKH , j*BRICKW+ 15, BRICKW, BRICKH);
+					g.fillRect(i*BRICKW , j*BRICKH + 22, BRICKW, BRICKH);
 					g.setColor(Color.BLACK);
-					g.draw3DRect(i*BRICKH, j*BRICKW+ 15, BRICKW, BRICKH, true);
+					g.draw3DRect(i*BRICKW, j*BRICKH+ 22, BRICKW, BRICKH, true);
 				}
-				bricks[i][j].setX(i*BRICKH);
-				bricks[i][j].setY(j*BRICKW +15);
+				bricks[i][j].setX(i*BRICKW);
+				bricks[i][j].setY(j*BRICKH+ 22);
 			}
 			
 		}
@@ -83,24 +106,30 @@ public class BrickScreen extends JFrame implements Runnable{
 		if (finaldone){
 			g.drawString("GAME OVER", SCREENX/2, SCREENY/2);
 			Thread.sleep(8000);
-			paddlex= SCREENX/2- 60;
-		    BRICKH= 75;
-		    BRICKW=75;
-		    paddlew= 125;
-		    ballx= 290;
-		    ballchangex= 0;
-		    ballchangey= 0;
-		    for (int i=0; i<bricks.length; i++){
-				for (int j=0; j< bricks[i].length; j++){
-					bricks[i][j].setbool(false);
-				}
+			 paddlex= SCREENX/2- 60;
+			    BRICKH= 25;
+			    BRICKW= 60;
+			    paddlew= 125;
+			    ballx=SCREENX/2- 20;
+			    ballchangex= 1;
+			    bally= SCREENY- 70;
+			    Random paul = new Random();
+			    int a;
+			    for (int i= 0; i< bricks.length; i++){
+					for (int j= 0; j< bricks[row].length; j++){
+						a= paul.nextInt(2) +1 ;
+						bricks[i][j].setbool(false);
+						if (a ==1){
+							bricks[i][j].Break();
+						}
+					}
+			    }
+				
 			}
-		    ballchangey= 1;
-		    bally= 350;
 		    finaldone= false;
 		}
 		repaint();
-	}
+		}
 	public void movePaddle(){
 		paddlex += pchange;
 	}
@@ -116,24 +145,36 @@ public class BrickScreen extends JFrame implements Runnable{
 		public void keyPressed(KeyEvent e){
 			int KeyCode = e.getKeyCode();
 			if (KeyCode == e.VK_LEFT){
-			     pchange= -2;
+			     pchange= -4;
 			}
 			if (KeyCode == e.VK_RIGHT){
-			     pchange=2;
-				
+			     pchange=4;
 		}
+			if (KeyCode == e.VK_SPACE){
+				start= true;
+			}
 		}
 		public void keyReleased(KeyEvent e){
 			int KeyCode = e.getKeyCode();
 			if (KeyCode == e.VK_LEFT || KeyCode == e.VK_RIGHT){
 		        pchange=0;
 			}
+			if (KeyCode == e.VK_SPACE){
+				start= true;
+			}
 		}
 	}
-	public void fillBricks(){
-		for (int i=0; i<bricks.length; i++){
-			for (int j=0; j< bricks[i].length; j++){
-				bricks[i][j]= new Brick();
+	public void fillBricks() {
+		Random josha= new Random();
+		int a;
+		for (int i= 0; i< bricks.length; i++){
+			for (int j= 0; j< bricks[row].length; j++){
+				a= josha.nextInt(2) + 1;
+				Brick josh= new Brick();
+				bricks[i][j]= josh;
+				if (a == 1){
+					bricks[i][j].Break();
+				}
 			}
 		}
 	}
@@ -147,48 +188,58 @@ public class BrickScreen extends JFrame implements Runnable{
     	ballx += ballchangex;
     	bally += ballchangey;
     }
-	public void ballHit(){
-		if (((ballx<= paddlex+ paddlew) && (ballx + 20 >= paddlex)) && bally + 20 >= SCREENY- 50 && bally <= SCREENY- 50 + 10){
+	public void ballHit() throws InterruptedException, FileNotFoundException{
+		if (((ballx< paddlex+ paddlew) && (ballx + 20 >= paddlex)) && bally + 20 >= SCREENY- 50 && bally <= SCREENY- 50 + 2){
+			bally= SCREENY- 71;
+			Thread.sleep(1);
 			ballchangey= -ballchangey;
-			
-			if (ballx+20 > paddlex && ballx<paddlex+paddlew/2 -45){
-				ballchangex= 1;
+			if (ballx+20 < paddlex + 50){
+				ballchangex= -2;
 			}
-			else if (ballx <= paddlex+paddlew && ballx > paddlex+ paddlew/2 + 20){
+			else if (ballx+20 <=  paddlex + 110){
 				ballchangex= -1;
 			}
+			else if (ballx  > paddlex +190){
+				ballchangex= 1;
+			}
+			else if (ballx > paddlex + 250){
+				ballchangex = 2;
+			}
 			else {
-				ballchangex= 0;
+				ballchangex = 0;
 			}
 		}
 		if (ballx < 0){
 			ballx=0;
 			ballchangex =-ballchangex;
 		}
-		if (ballx > SCREENX){
-			ballx= SCREENX;
+		if (ballx + 20 > SCREENX){
+			ballx= SCREENX - 20;
 			ballchangex =-ballchangex;
 		}
-		if (bally < 0){
-			bally=0;
+		if (bally < 15){
+			bally=15;
 			ballchangey = -ballchangey;
-			ballchangex= -ballchangex;
 		}
 		if (bally> SCREENY){
-			paddlex= SCREENX/2- 60;
-		    BRICKH= 75;
-		    BRICKW=75;
-		    paddlew= 125;
-		    ballx= 290;
-		    ballchangex= 0;
-		    ballchangey= 0;
-		    for (int i=0; i<bricks.length; i++){
-				for (int j=0; j< bricks[i].length; j++){
-					bricks[i][j].setbool(false);
-				}
-			}
-		    ballchangey= 1;
-		    bally= 350;
+			 paddlex= SCREENX/2- 60;
+			    BRICKH= 25;
+			    BRICKW= 60;
+			    paddlew= 125;
+			    ballx=SCREENX/2- 20;
+			    ballchangex= 1;
+			    bally= SCREENY- 70;
+			    Random jeff= new Random();
+			    int a;
+			    for (int i= 0; i< bricks.length; i++){
+					for (int j= 0; j< bricks[row].length; j++){
+						a= jeff.nextInt(2)+ 1;
+						if (a == 1){
+						bricks[i][j].setbool(false);
+						}
+					}
+			    }
+		    	Thread.sleep(1500);
 		}
 	}
     public void brickBreak(){
@@ -203,8 +254,7 @@ public class BrickScreen extends JFrame implements Runnable{
 					done =false;
 				if ((bally +20 >= suby && bally <= suby +BRICKH) && (ballx+ 20 >= subx && ballx <= subx + BRICKW)){
 					bricks[i][j].Break();
-					ballchangey = 1;
-					ballchangex= -ballchangex; 
+					ballchangey = 4;
 				}
 				}
 			}
@@ -213,12 +263,14 @@ public class BrickScreen extends JFrame implements Runnable{
     		finaldone= true;
     	}
 	}
-   
 	@Override
 	public void run (){
 		try{
-		    fillBricks();
-		    ballchangey= -1;
+			while(!start){
+				fillBricks();
+			    ballchangey= -4;
+				Thread.sleep(50);
+			}
 		    Thread.sleep(2000);
 			while(true){
 			ballMove();
@@ -226,7 +278,7 @@ public class BrickScreen extends JFrame implements Runnable{
 			brickBreak();
 		    movePaddle();
 		    pboundaries();
-			Thread.sleep(3);
+			Thread.sleep(8);
 			}
 		}
 		catch(Exception e) {
