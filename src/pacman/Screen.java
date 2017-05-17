@@ -12,6 +12,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
 public class Screen extends JFrame implements Runnable {
@@ -29,10 +30,23 @@ public class Screen extends JFrame implements Runnable {
 	//queue field
 	Queue queue;
 	Queue tpwait;
+	Queue mouthQueue;
+	
+	//pacman field
+	Pacman pac;
+	
+	//images
+	ImageIcon ghost;
+	ImageIcon pacmanclosed;
+	ImageIcon pacmanright;
+	ImageIcon pacmanleft;
+	ImageIcon pacmanup;
+	ImageIcon pacmandown;
 	
 	//queue size
 	final int QUEUESIZE = 10;
 	final int TPQUEUE = 20;
+	final int MOUTHQUEUE = 2;
 	
 	//width of each block
 	final int BLOCKWIDTH = 30;
@@ -41,22 +55,8 @@ public class Screen extends JFrame implements Runnable {
 	int mouseX = 100;
 	int mouseY = 100;
 	
-	//pac man x and y coordinates
-	int pacmanX;
-	int pacmanY;
-	
 	//pac man speed 
 	int pacmanSpeed = 6;
-	
-	//pac man x and y index
-	int pacmanXindex;
-	int pacmanYindex;
-	
-	//pacman moving direction
-	boolean movingUp = false;
-	boolean movingRight = false;
-	boolean movingDown = false;
-	boolean movingLeft = false;
 	
 	//maze dimensions
 	final static int MAZEX = 30;
@@ -70,7 +70,7 @@ public class Screen extends JFrame implements Runnable {
 	int threadDelay = 50;
 	
 	//current level that the user is on
-	int level = 6;
+	int level = 1;
 	
 	//the thread
 	public void run() {
@@ -80,9 +80,13 @@ public class Screen extends JFrame implements Runnable {
 			while (true) {
 				checkMovement();
 				Thread.sleep(threadDelay);
-				ghosts.updateAll(maze.maze, pacmanXindex, pacmanYindex, BLOCKWIDTH);
+				ghosts.updateAll(maze.maze, pac.getPacXindex(), pac.getPacYindex(), BLOCKWIDTH);
+				
+				//updates queues
 				queue.update();
 				tpwait.update();
+				mouthQueue.update();
+				
 				if (lose()) {
 					Thread.sleep(2000);
 					setup();
@@ -103,6 +107,17 @@ public class Screen extends JFrame implements Runnable {
 	//main method
 	public Screen() {
 		
+		//ghost image
+		ghost = new ImageIcon("src/pacman/ghost.gif");
+		
+		//pacman images
+		pacmanright = new ImageIcon("src/pacman/pacmanright.gif");
+		pacmanleft = new ImageIcon("src/pacman/pacmanleft.gif");
+		pacmanup = new ImageIcon("src/pacman/pacmanup.gif");
+		pacmandown = new ImageIcon("src/pacman/pacmandown.gif");
+		pacmanclosed = new ImageIcon("src/pacman/pacmanclosed.gif");
+		
+		pac = new Pacman();
 		
 		setup();
 		screenX = maze.maze.length * (BLOCKWIDTH + 3);
@@ -131,22 +146,22 @@ public class Screen extends JFrame implements Runnable {
 		for (int r = 0; r < maze.maze.length; r++) {
 			for (int c = 0; c < maze.maze[0].length; c++) {
 				
-				int xdif = Math.abs((r * BLOCKWIDTH + 25) - pacmanX);
-				int ydif = Math.abs((c * BLOCKWIDTH + 50) - pacmanY);
+				int xdif = Math.abs((r * BLOCKWIDTH + 25) - pac.getPacmanX());
+				int ydif = Math.abs((c * BLOCKWIDTH + 50) - pac.getPacmanY());
 				
 //				System.out.println(xdif + " " + ydif + "r= " + r + " c= " + c);
 				
 				
 				if (xdif < BLOCKWIDTH && ydif < BLOCKWIDTH) {
-					pacmanXindex = r;
-					pacmanYindex = c;
+					pac.setPacXindex(r);
+					pac.setPacYindex(c);
 					return;
 				}
 				
 			}
 		}
-		pacmanXindex = 0;
-		pacmanYindex = 0;
+		pac.setPacXindex(0);
+		pac.setPacYindex(0);
 		
 		
 	}
@@ -155,8 +170,8 @@ public class Screen extends JFrame implements Runnable {
 	public boolean lose() {
 		
 		for (int i = 0; i < ghosts.length(); i++) {
-			int xdif = Math.abs(ghosts.get(i).getX() - pacmanX) + BLOCKWIDTH / 2 + 1;
-			int ydif = Math.abs(ghosts.get(i).getY() - pacmanY) + BLOCKWIDTH / 2 + 1;
+			int xdif = Math.abs(ghosts.get(i).getX() - pac.getPacmanX()) + BLOCKWIDTH / 2 + 1;
+			int ydif = Math.abs(ghosts.get(i).getY() - pac.getPacmanY()) + BLOCKWIDTH / 2 + 1;
 			if (xdif < BLOCKWIDTH && ydif < BLOCKWIDTH) {
 				return true;
 			}
@@ -171,134 +186,146 @@ public class Screen extends JFrame implements Runnable {
 		boolean xAligned = true;
 		boolean yAligned = true;
 		
+		int dir = pac.getDirection();
+		
 		//checks for x axis alignment
-		if ((pacmanX - 25) % BLOCKWIDTH > 0) {
-			movingUp = false;
-			movingDown = false;
+		if ((pac.getPacmanX() - 25) % BLOCKWIDTH > 0) {
+//			movingUp = false;
+//			movingDown = false;
+			if (dir == pac.UP || dir == pac.DOWN) {
+				pac.setDirection(pac.STOP);
+			}
 			xAligned = false;
 		}
 		
 		//checks for y axis alignment
-		if ((pacmanY - 50) % BLOCKWIDTH > 0) {
-			movingLeft = false;
-			movingRight = false;
+		if ((pac.getPacmanY() - 50) % BLOCKWIDTH > 0) {
+//			movingLeft = false;
+//			movingRight = false;
+			if (dir == pac.LEFT || dir == pac.RIGHT) {
+				pac.setDirection(pac.STOP);
+			}
 			yAligned = false;
 			
 		}
 		
 		updateVars();
 		
+		
+		
 		//checks for wall collision
-		if (movingLeft && maze.maze[pacmanXindex][pacmanYindex].getState() == Tile.WALL) {
-			movingLeft = false;
-			pacmanX = 25 + pacmanXindex * BLOCKWIDTH + BLOCKWIDTH;
+		if (dir == pac.LEFT && maze.maze[pac.getPacXindex()][pac.getPacYindex()].getState() == Tile.WALL) {
+			pac.setDirection(pac.STOP);
+			pac.setPacmanX(25 + pac.getPacXindex() * BLOCKWIDTH + BLOCKWIDTH);
 		}
-		if (movingRight && maze.maze[pacmanXindex + 1][pacmanYindex].getState() == Tile.WALL) {
-			movingRight = false;
-			pacmanX = 25 + pacmanXindex * BLOCKWIDTH;
+		if (dir == pac.RIGHT && maze.maze[pac.getPacXindex() + 1][pac.getPacYindex()].getState() == Tile.WALL) {
+			pac.setDirection(pac.STOP);
+			pac.setPacmanX(25 + pac.getPacXindex() * BLOCKWIDTH);
 		}
-		if (movingUp && maze.maze[pacmanXindex][pacmanYindex].getState() == Tile.WALL) {
-			movingUp = false;
-			pacmanY = 50 + pacmanYindex * BLOCKWIDTH + BLOCKWIDTH;
+		if (dir == pac.UP && maze.maze[pac.getPacXindex()][pac.getPacYindex()].getState() == Tile.WALL) {
+			pac.setDirection(pac.STOP);
+			pac.setPacmanY(50 + pac.getPacYindex() * BLOCKWIDTH + BLOCKWIDTH);
 		}
-		if (movingDown && maze.maze[pacmanXindex][pacmanYindex + 1].getState() == Tile.WALL) {
-			movingDown = false;
-			pacmanY = 50 + pacmanYindex * BLOCKWIDTH;
+		if (dir == pac.DOWN && maze.maze[pac.getPacXindex()][pac.getPacYindex() + 1].getState() == Tile.WALL) {
+			pac.setDirection(pac.STOP);
+			pac.setPacmanY(50 + pac.getPacYindex() * BLOCKWIDTH);
 		}
 		
 		//checks for pills
-		if (maze.maze[pacmanXindex][pacmanYindex + 1].getState() == Tile.PILL && !yAligned) {
-			maze.maze[pacmanXindex][pacmanYindex + 1].setState(Tile.BLANK);
+		if (maze.maze[pac.getPacXindex()][pac.getPacYindex() + 1].getState() == Tile.PILL && !yAligned) {
+			maze.maze[pac.getPacXindex()][pac.getPacYindex() + 1].setState(Tile.BLANK);
+			mouthQueue.add("EAT");
 		}
-		if (maze.maze[pacmanXindex][pacmanYindex].getState() == Tile.PILL) {
-			maze.maze[pacmanXindex][pacmanYindex].setState(Tile.BLANK);
+		if (maze.maze[pac.getPacXindex()][pac.getPacYindex()].getState() == Tile.PILL) {
+			maze.maze[pac.getPacXindex()][pac.getPacYindex()].setState(Tile.BLANK);
+			mouthQueue.add("EAT");
 		}
-		if (maze.maze[pacmanXindex + 1][pacmanYindex].getState() == Tile.PILL && !xAligned) {
-			maze.maze[pacmanXindex + 1][pacmanYindex].setState(Tile.BLANK);
+		if (maze.maze[pac.getPacXindex() + 1][pac.getPacYindex()].getState() == Tile.PILL && !xAligned) {
+			maze.maze[pac.getPacXindex() + 1][pac.getPacYindex()].setState(Tile.BLANK);
+			mouthQueue.add("EAT");
 		}
 		
 		//checks for teleporters
 		checkTeleport(xAligned, yAligned);
 		
 		//checks if you can move up
-		if (queue.indexOf("UP") != -1 && xAligned && pacmanYindex > 0
-				&& maze.maze[pacmanXindex][pacmanYindex - 1].getState() != Tile.WALL) {
-			halt();
-			movingUp = true;
+		if (queue.indexOf("UP") != -1 && xAligned && pac.getPacYindex() > 0
+				&& maze.maze[pac.getPacXindex()][pac.getPacYindex() - 1].getState() != Tile.WALL) {
+//			halt();
+			pac.setDirection(pac.UP);
 			queue.remove(queue.indexOf("UP"));
 			queue.remove(queue.indexOf("DOWN"));
 		}
 		//checks if you can move left
-		else if (queue.indexOf("LEFT") != -1 && yAligned && pacmanXindex > 0
-				&& maze.maze[pacmanXindex - 1][pacmanYindex].getState() != Tile.WALL) {
-			halt();
-			movingLeft = true;
+		else if (queue.indexOf("LEFT") != -1 && yAligned && pac.getPacXindex() > 0
+				&& maze.maze[pac.getPacXindex() - 1][pac.getPacYindex()].getState() != Tile.WALL) {
+//			halt();
+			pac.setDirection(pac.LEFT);
 			queue.remove(queue.indexOf("LEFT"));
 			queue.remove(queue.indexOf("RIGHT"));
 			
 		}
 		//checks if you can move down
 		else if (queue.indexOf("DOWN") != -1 && xAligned
-				&& maze.maze[pacmanXindex][pacmanYindex + 1].getState() != Tile.WALL) {
-			halt();
-			movingDown = true;
+				&& maze.maze[pac.getPacXindex()][pac.getPacYindex() + 1].getState() != Tile.WALL) {
+//			halt();
+			pac.setDirection(pac.DOWN);
 			queue.remove(queue.indexOf("DOWN"));
 			queue.remove(queue.indexOf("UP"));
 		}
 		//checks if you can move right
 		else if (queue.indexOf("RIGHT") != -1 && yAligned
-				&& maze.maze[pacmanXindex + 1][pacmanYindex].getState() != Tile.WALL) {
-			halt();
-			movingRight = true;
+				&& maze.maze[pac.getPacXindex() + 1][pac.getPacYindex()].getState() != Tile.WALL) {
+//			halt();
+			pac.setDirection(pac.RIGHT);
 			queue.remove(queue.indexOf("RIGHT"));
 			queue.remove(queue.indexOf("LEFT"));
 		}
 		
 		//updates the index
-		if (movingRight && yAligned) {
-			pacmanX += pacmanSpeed;
-		}
-		if (movingLeft && yAligned) {
-			pacmanX -= pacmanSpeed;
-		}
-		if (movingUp && xAligned) {
-			pacmanY -= pacmanSpeed;
-		}
-		if (movingDown && xAligned) {
-			pacmanY += pacmanSpeed;
-		}
-		
-		
+		pac.update(pacmanSpeed);
+//		if (dir == pac.RIGHT && yAligned) {
+//			pac.setPacmanX(pac.getPacmanX() + pacmanSpeed);
+//		}
+//		if (dir == pac.LEFT && yAligned) {
+//			pac.setPacmanX(pac.getPacmanX() - pacmanSpeed);
+//		}
+//		if (dir == pac.UP && xAligned) {
+//			pac.setPacmanY(pac.getPacmanY() - pacmanSpeed);
+//		}
+//		if (dir == pac.DOWN && xAligned) {
+//			pac.setPacmanY(pac.getPacmanY() + pacmanSpeed);
+//		}
 		
 	}
 	
 	//checks for teleportation
 	public void checkTeleport(boolean xAligned, boolean yAligned) {
 		
-		if (maze.maze[pacmanXindex][pacmanYindex + 1].getState() == Tile.TELEPORTER && !yAligned
+		if (maze.maze[pac.getPacXindex()][pac.getPacYindex() + 1].getState() == Tile.TELEPORTER && !yAligned
 				&& tpwait.indexOf("teleport") == -1) {
-			teleportFrom(pacmanXindex, pacmanYindex + 1);
+			teleportFrom(pac.getPacXindex(), pac.getPacYindex() + 1);
 		}
-		if (maze.maze[pacmanXindex][pacmanYindex].getState() == Tile.TELEPORTER
+		if (maze.maze[pac.getPacXindex()][pac.getPacYindex()].getState() == Tile.TELEPORTER
 				&& tpwait.indexOf("teleport") == -1) {
-			teleportFrom(pacmanXindex, pacmanYindex);
+			teleportFrom(pac.getPacXindex(), pac.getPacYindex());
 		}
-		if (maze.maze[pacmanXindex + 1][pacmanYindex].getState() == Tile.TELEPORTER && !xAligned
+		if (maze.maze[pac.getPacXindex() + 1][pac.getPacYindex()].getState() == Tile.TELEPORTER && !xAligned
 				&& tpwait.indexOf("teleport") == -1) {
-			teleportFrom(pacmanXindex + 1, pacmanYindex);
+			teleportFrom(pac.getPacXindex() + 1, pac.getPacYindex());
 		}
 		//teleporter2
-		if (maze.maze[pacmanXindex][pacmanYindex + 1].getState() == Tile.TELEPORTER2 && !yAligned
+		if (maze.maze[pac.getPacXindex()][pac.getPacYindex() + 1].getState() == Tile.TELEPORTER2 && !yAligned
 				&& tpwait.indexOf("teleport2") == -1) {
-			teleportFrom(pacmanXindex, pacmanYindex + 1);
+			teleportFrom(pac.getPacXindex(), pac.getPacYindex() + 1);
 		}
-		if (maze.maze[pacmanXindex][pacmanYindex].getState() == Tile.TELEPORTER2
+		if (maze.maze[pac.getPacXindex()][pac.getPacYindex()].getState() == Tile.TELEPORTER2
 				&& tpwait.indexOf("teleport2") == -1) {
-			teleportFrom(pacmanXindex, pacmanYindex);
+			teleportFrom(pac.getPacXindex(), pac.getPacYindex());
 		}
-		if (maze.maze[pacmanXindex + 1][pacmanYindex].getState() == Tile.TELEPORTER2 && !xAligned
+		if (maze.maze[pac.getPacXindex() + 1][pac.getPacYindex()].getState() == Tile.TELEPORTER2 && !xAligned
 				&& tpwait.indexOf("teleport2") == -1) {
-			teleportFrom(pacmanXindex + 1, pacmanYindex);
+			teleportFrom(pac.getPacXindex() + 1, pac.getPacYindex());
 		}
 		
 	}
@@ -324,42 +351,46 @@ public class Screen extends JFrame implements Runnable {
 						&& tpwait.indexOf("teleport") == -1) {
 					
 //					System.out.println(r + " " + c);
-					pacmanX = r * BLOCKWIDTH + 25;
-					pacmanY = c * BLOCKWIDTH + 50;
+					pac.setPacmanX(r * BLOCKWIDTH + 25);
+					pac.setPacmanY(c * BLOCKWIDTH + 50);
 					tpwait.add("teleport");
 					return;
 				}
 				else if (maze.maze[r][c].getState() == Tile.TELEPORTER2 && (r != pacXindex || c != pacYindex) && !is1
 						&& tpwait.indexOf("teleport2") == -1) {
-					pacmanX = r * BLOCKWIDTH + 25;
-					pacmanY = c * BLOCKWIDTH + 50;
+					pac.setPacmanX(r * BLOCKWIDTH + 25);
+					pac.setPacmanY(c * BLOCKWIDTH + 50);
 					tpwait.add("teleport2");
 					return;
 				}
 				
 			}
 		}
-		pacmanX = homeX * BLOCKWIDTH + 25;
-		pacmanY = homeY * BLOCKWIDTH + 50;
+		pac.setPacmanX(homeX * BLOCKWIDTH + 25);
+		pac.setPacmanX(homeY * BLOCKWIDTH + 50);
 		
 	}
 	
 	//stops all movement
 	public void halt() {
 		
-		movingRight = false;
-		movingLeft = false;
-		movingUp = false;
-		movingDown = false;
+		pac.setDirection(pac.STOP);
 		
 	}
 	
 	//sets up the pac man location for starting up the game and sets up ghost positions
 	public void setup() {
 		halt();
+		
+		//creates queues
 		tpwait = new Queue(TPQUEUE);
-		ghosts = new Ghosts();
 		queue = new Queue(QUEUESIZE);
+		mouthQueue = new Queue(MOUTHQUEUE);
+		
+		//creates ghosts
+		ghosts = new Ghosts();
+		
+		//creates maze
 		maze = new Maze(MAZEX, MAZEY);
 		//loads maze
 		try {
@@ -376,11 +407,10 @@ public class Screen extends JFrame implements Runnable {
 				
 				if (maze.maze[r][c].getState() == Tile.SPAWN) {
 					//sets the pac man index and location on screen
-					pacmanX = r * BLOCKWIDTH + 25;
-					pacmanY = c * BLOCKWIDTH + 50;
-					pacmanXindex = r;
-					pacmanYindex = c;
-					
+					pac.setPacmanX(r * BLOCKWIDTH + 25);
+					pac.setPacmanY(c * BLOCKWIDTH + 50);
+					pac.setPacXindex(r);
+					pac.setPacYindex(c);
 				}
 				if (maze.maze[r][c].getState() == Tile.GHOSTSPAWN) {
 					Ghost g = new Ghost(r * BLOCKWIDTH + 25, c * BLOCKWIDTH + 50);
@@ -391,11 +421,11 @@ public class Screen extends JFrame implements Runnable {
 		}	
 		
 //		System.out.println(ghosts);
-//		pacmanX = 0 * BLOCKWIDTH + 25;
-//		pacmanY = 0 * BLOCKWIDTH + 50;
+//		pac.getPacmanX() = 0 * BLOCKWIDTH + 25;
+//		pac.getPacmanY() = 0 * BLOCKWIDTH + 50;
 //		
-//		pacmanXindex = 0;
-//		pacmanYindex = 0;
+//		pac.getPacXindex() = 0;
+//		pac.getPacYindex() = 0;
 	}
 	
 	//loads the given file into the current state
@@ -530,6 +560,7 @@ public class Screen extends JFrame implements Runnable {
 	
 	//paints stuff to the screen
 	public void paintComponent(Graphics g) {
+
 		
 		for (int r = 0; r < maze.maze.length; r++) {
 			for (int c = 0; c < maze.maze[0].length; c++) {
@@ -577,16 +608,45 @@ public class Screen extends JFrame implements Runnable {
 		//prints the ghosts
 		for (int i = 0; i < ghosts.length(); i++) {
 			g.setColor(Color.MAGENTA);
-			g.fillRect(ghosts.get(i).getX() + 2, ghosts.get(i).getY() + 2, BLOCKWIDTH - 4, BLOCKWIDTH - 4);
+			g.drawImage(ghost.getImage(), ghosts.get(i).getX() + 2, ghosts.get(i).getY() + 2
+					, BLOCKWIDTH, BLOCKWIDTH, this);
+//			g.fillRect(ghosts.get(i).getX() + 2, ghosts.get(i).getY() + 2, BLOCKWIDTH - 4, BLOCKWIDTH - 4);
 			
 		}
 		
-		g.setColor(Color.yellow);
-		g.fillOval(pacmanX, pacmanY, BLOCKWIDTH, BLOCKWIDTH);
+		int dir = pac.getDirection();
+		int ldir = pac.getLastDirection();
+		if (dir == pac.DOWN || (dir == pac.STOP && ldir == pac.DOWN)) {
+			g.drawImage(pacmandown.getImage(), pac.getPacmanX()
+					, pac.getPacmanY(), BLOCKWIDTH, BLOCKWIDTH, this);
+		}
+		else if (dir == pac.RIGHT || (dir == pac.STOP && ldir == pac.RIGHT)) {
+			g.drawImage(pacmanright.getImage(), pac.getPacmanX()
+					, pac.getPacmanY(), BLOCKWIDTH, BLOCKWIDTH, this);
+		}
+		else if (dir == pac.UP || (dir == pac.STOP && ldir == pac.UP)) {
+			g.drawImage(pacmanup.getImage(), pac.getPacmanX()
+					, pac.getPacmanY(), BLOCKWIDTH, BLOCKWIDTH, this);
+		}
+		else if (dir == pac.LEFT || (dir == pac.STOP && ldir == pac.LEFT)) {
+			g.drawImage(pacmanleft.getImage(), pac.getPacmanX()
+					, pac.getPacmanY(), BLOCKWIDTH, BLOCKWIDTH, this);
+		}
+		else {
+			g.drawImage(pacmanclosed.getImage(), pac.getPacmanX()
+					, pac.getPacmanY(), BLOCKWIDTH, BLOCKWIDTH, this);
+		}
+		if (mouthQueue.indexOf("EAT") != -1) {
+			g.drawImage(pacmanclosed.getImage(), pac.getPacmanX()
+					, pac.getPacmanY(), BLOCKWIDTH, BLOCKWIDTH, this);
+		}
+		
+		g.setColor(Color.white);
+		g.drawString("Level: " + level, 100, screenY - 10);
 		
 		repaint();
 		
-	}
+	}	
 	
 	//double buffering
 	public void paint(Graphics g) {
@@ -597,4 +657,5 @@ public class Screen extends JFrame implements Runnable {
 		g.drawImage(dbImage, 0, 0, this);
 	}
 	
+
 }
