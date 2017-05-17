@@ -6,11 +6,8 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Random;
-import java.util.Scanner;
-
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
@@ -25,7 +22,6 @@ public class BrickScreen extends JFrame implements Runnable{
 	private int pchange;
 	private int paddlew;
 	private int row= 0;
-	private int counter=0;
 	private int BRICKH, BRICKW;
 	private boolean done;
 	private Image dbImage;
@@ -193,16 +189,16 @@ public class BrickScreen extends JFrame implements Runnable{
 			bally= SCREENY- 71;
 			Thread.sleep(1);
 			ballchangey= -ballchangey;
-			if (ballx+20 < paddlex + 50){
+			if (ballx+20 < paddlex + 20){
 				ballchangex= -2;
 			}
-			else if (ballx+20 <=  paddlex + 110){
+			else if (ballx+20 <=  paddlex + 50){
 				ballchangex= -1;
 			}
-			else if (ballx  > paddlex +190){
+			else if (ballx < paddlex+ 105 && ballx> paddlex+ 75){
 				ballchangex= 1;
 			}
-			else if (ballx > paddlex + 250){
+			else if (ballx > paddlex + 105){
 				ballchangex = 2;
 			}
 			else {
