@@ -25,7 +25,7 @@ public class BrickScreen extends JFrame implements Runnable{
 	private int BRICKH, BRICKW;
 	private boolean done;
 	private Image dbImage;
-	private Image title, paddle;
+	private Image title, paddle, end;
 	private Graphics dbg;
 	private boolean finaldone;
 	private int ballx, bally;
@@ -68,6 +68,8 @@ public class BrickScreen extends JFrame implements Runnable{
 		if (!start){
 		 ImageIcon titlei= new ImageIcon("src/Brickbreak/title.png");
 		 title= titlei.getImage();
+		 ImageIcon a= new ImageIcon("src/Brickbreak/over.png");
+		 end= a.getImage();
 		 g.fillRect(0, 0, SCREENX, SCREENY);
 		 g.setColor(Color.WHITE);
 		 g.fillRect(SCREENX/2- 150, SCREENY/2, 300, 100);
@@ -103,7 +105,7 @@ public class BrickScreen extends JFrame implements Runnable{
 			g.setColor(Color.black);
 			g.fillRect(0, 0, SCREENX, SCREENY);
 			g.setColor(Color.white);
-			g.drawString("GAME OVER", SCREENX/2, SCREENY/2);
+			g.drawImage(end, 25, 100, this);
 			 paddlex= SCREENX/2- 60;
 			    BRICKH= 25;
 			    BRICKW= 60;
@@ -169,7 +171,6 @@ public class BrickScreen extends JFrame implements Runnable{
 			for (int j= 0; j< bricks[row].length; j++){
 				a= josha.nextInt(2) + 1;
 				Brick josh= new Brick();
-				josh.setbool(true);
 				bricks[i][j]= josh;
 				if (a == 1){
 					bricks[i][j].Break();
