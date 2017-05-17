@@ -14,7 +14,7 @@ import javax.swing.JFrame;
 
 public class screen extends JFrame implements Runnable {
 
-	int x, y,xDirect,yDirect, yh,xh,xr,yr;
+	int x, y,xDirect,yDirect, yh,xh,xr,yr,xt,yt;
 
 
 	private Graphics dbg;;
@@ -24,14 +24,22 @@ public class screen extends JFrame implements Runnable {
 	private Image road;
 	private Image hobo;
 	private Image rat;
+	private Image car;
+	private Image tanker;
+	private Image train;
 	
 	private boolean gameover = false;
 	
 	double time = 0;
+	double stime = 1;
+	
+	int level = 0;
+	int speed = 4;
+	
 	
 	public screen(){
-		xr = 100;
-		yr = 100;
+		xr = 150;
+		yr = 10;
 		x = 100;
 		y=100;
 		ImageIcon tank = new ImageIcon("src/Treadmill/road.jpeg");
@@ -42,6 +50,14 @@ public class screen extends JFrame implements Runnable {
 		hobo = hobot.getImage();
 		ImageIcon ratt = new ImageIcon("src/Treadmill/rat.png");
 		rat = ratt.getImage();
+		ImageIcon carr = new ImageIcon("src/Treadmill/car.png");
+		car = carr.getImage();
+		ImageIcon tankk = new ImageIcon("src/Treadmill/bigTank.png");
+		tanker = tankk.getImage();
+		ImageIcon trainn = new ImageIcon("src/Treadmill/train.png");
+		train = trainn.getImage();
+		
+		
 
 
 		addKeyListener(new AL());
@@ -70,9 +86,38 @@ public class screen extends JFrame implements Runnable {
 			while(true){
 				move();
 				moveHobo();
+				if(level >= 1){
 				moveRat();
+			}
+				if(level >= 2){
+					moveTank();
+				}if((int)time == 30){
+					speed = 3;
+				}
+				if((int)time == 40){
+					speed = 2;
+				}
+				if((int)time >= 60){
+					speed = 1;
+				}
 				if(Math.abs(y - yh) < 20 && Math.abs(x - xh) < 10){
 					gameover = true;
+				}
+				if(Math.abs(y - yr) < 20 && Math.abs(x - xr) < 10){
+					gameover = true;
+				}
+				if(Math.abs(y - yt) < 20 && Math.abs(x - xt) < 10){
+					gameover = true;
+				}
+				if(10 * stime < time){
+					stime++;
+					x += 100;
+					level++;
+					if(level == 1){
+						bike = car;
+					}if(level == 2){
+						bike = train;
+					}
 				}
 				Thread.sleep(10);
 				
@@ -101,6 +146,15 @@ public class screen extends JFrame implements Runnable {
 		}
 		
 	}
+	public void moveTank(){
+		xt-= 4;
+		
+		if(xt <0){
+			xt = 470;
+			yt = ((int) (Math.random() * 240));
+		}
+		
+	}
 	public void move(){
 
 		y+= yDirect;
@@ -124,10 +178,10 @@ public class screen extends JFrame implements Runnable {
 			int code = e.getKeyCode();
 		
 			if(code == e.VK_UP){
-				setYDir(-4);
+				setYDir(-speed);
 			}
 			if(code == e.VK_DOWN){
-				setYDir(4);
+				setYDir(speed);
 			}
 
 
@@ -154,13 +208,25 @@ public class screen extends JFrame implements Runnable {
 	
 	
 	public void paintComponent(Graphics g){
+	
 		if(!gameover){
 			time+= .001;
 			g.drawImage(road, 0, 40, this);
+			g.drawString("Time " + time,10,30);
 		g.setColor(Color.red);
 		g.drawImage(bike, x, y, this);
+		
 		g.drawImage(hobo, xh, yh, this);
+		
+		if(level >= 1){
 		g.drawImage(rat,xr,yr,this);
+		}
+		if(level >= 2){
+		g.drawImage(tanker,xt,yt,this);
+		}
+		
+			
+		
 		}
 		else{
 			g.drawString("You have hit something and lasted "+ (int)time + " seconds", 100, 100);
