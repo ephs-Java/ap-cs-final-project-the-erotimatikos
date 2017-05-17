@@ -205,9 +205,6 @@ public class BrickScreen extends JFrame implements Runnable{
 			else if (ballx > paddlex + 105){
 				ballchangex = 2;
 			}
-			else {
-				ballchangex = 0;
-			}
 		}
 		if (ballx < 0){
 			ballx=0;
@@ -254,7 +251,7 @@ public class BrickScreen extends JFrame implements Runnable{
 					done =false;
 				if ((bally +20 >= suby && bally <= suby +BRICKH) && (ballx+ 20 >= subx && ballx <= subx + BRICKW)){
 					bricks[i][j].Break();
-					ballchangey = 4;
+					ballchangey = - ballchangey;
 				}
 				}
 			}
