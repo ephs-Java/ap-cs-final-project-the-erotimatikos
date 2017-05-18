@@ -143,6 +143,7 @@ public class mouse extends MouseAdapter {
 			}
 		}
 		catch(Exception e) {
+				
 			System.out.println("Error");
 		}
 		
