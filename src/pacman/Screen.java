@@ -70,7 +70,7 @@ public class Screen extends JFrame implements Runnable {
 	int threadDelay = 50;
 	
 	//current level that the user is on
-	int level = 1;
+	int level = 7;
 	
 	//the thread
 	public void run() {
