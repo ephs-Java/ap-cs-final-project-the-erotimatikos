@@ -8,13 +8,14 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 
 
 
 public class screen extends JFrame implements Runnable {
 
-	int x, y,xDirect,yDirect, yh,xh,xr,yr,xt,yt;
+	int x, y,xDirect,yDirect, yh,xh,xr,yr,xt,yt,xc,yc;
 
 
 	private Graphics dbg;;
@@ -27,14 +28,20 @@ public class screen extends JFrame implements Runnable {
 	private Image car;
 	private Image tanker;
 	private Image train;
+	private Image coin;
+	
+	
 	
 	private boolean gameover = false;
+	
 	
 	double time = 0;
 	double stime = 1;
 	
+	int numTimeErroFix =0;
 	int level = 0;
 	int speed = 4;
+	int numOfCoins = 0;
 	
 	
 	public screen(){
@@ -56,6 +63,8 @@ public class screen extends JFrame implements Runnable {
 		tanker = tankk.getImage();
 		ImageIcon trainn = new ImageIcon("src/Treadmill/train.png");
 		train = trainn.getImage();
+		ImageIcon coinn = new ImageIcon("src/Treadmill/coin2.png");
+		coin = coinn.getImage();
 		
 		
 
@@ -67,7 +76,8 @@ public class screen extends JFrame implements Runnable {
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBackground(Color.green); //Sets the background color to blue.
-
+		
+		
 
 
 	}
@@ -88,6 +98,7 @@ public class screen extends JFrame implements Runnable {
 				moveHobo();
 				if(level >= 1){
 				moveRat();
+				moveCoin();
 			}
 				if(level >= 2){
 					moveTank();
@@ -109,6 +120,9 @@ public class screen extends JFrame implements Runnable {
 				if(Math.abs(y - yt) < 20 && Math.abs(x - xt) < 10){
 					gameover = true;
 				}
+				if(Math.abs(y - yt) < 20 && Math.abs(x - xt) < 10){
+					gameover = true;
+				}
 				if(10 * stime < time){
 					stime++;
 					x += 100;
@@ -119,11 +133,25 @@ public class screen extends JFrame implements Runnable {
 						bike = train;
 					}
 				}
+				
+				if(gameover && numTimeErroFix == 0){
+					numTimeErroFix++;
+					Thread.sleep(100);
+					String inputString = JOptionPane.showInputDialog(null, "Enter your name for the leaderboard");
+			      
+			        System.out.println("User input: " + inputString);
+			        Leader me = new Leader(inputString,(int)time);
+			        advLeaderboard board = new advLeaderboard();
+			        board.addLeader(me);
+			        board.writeLeaderboard();
+			        
+				}
 				Thread.sleep(10);
 				
 			}
 		}catch(Exception e){
 			System.out.println("Error");
+			System.out.println(e.getMessage());
 		}
 	}
 
@@ -143,6 +171,15 @@ public class screen extends JFrame implements Runnable {
 		if(xr <0){
 			xr = 470;
 			yr = ((int) (Math.random() * 240));
+		}
+		
+	}
+	public void moveCoin(){
+		xc-= 4;
+		
+		if(xc <0){
+			xc = 470;
+			yc = ((int) (Math.random() * 240));
 		}
 		
 	}
@@ -212,9 +249,10 @@ public class screen extends JFrame implements Runnable {
 		if(!gameover){
 			time+= .001;
 			g.drawImage(road, 0, 40, this);
-			g.drawString("Time " + time,10,30);
+			g.drawString("Time " + (int)time + " You are at level " + level,10,30);
 		g.setColor(Color.red);
 		g.drawImage(bike, x, y, this);
+		g.drawImage(coin,xc,yc,this);
 		
 		g.drawImage(hobo, xh, yh, this);
 		
@@ -230,6 +268,7 @@ public class screen extends JFrame implements Runnable {
 		}
 		else{
 			g.drawString("You have hit something and lasted "+ (int)time + " seconds", 100, 100);
+			
 		}
       repaint();
 	}
