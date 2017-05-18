@@ -25,7 +25,7 @@ public class BrickScreen extends JFrame implements Runnable{
 	private int BRICKH, BRICKW;
 	private boolean done;
 	private Image dbImage;
-	private Image title, paddle, end;
+	private Image title, paddle, end, ball;
 	private Graphics dbg;
 	private boolean finaldone;
 	private int ballx, bally;
@@ -33,6 +33,7 @@ public class BrickScreen extends JFrame implements Runnable{
 	private int ballchangex;
 	private int ballchangey;
 	private boolean start = false;
+	private Image bg;
 	public BrickScreen() {
 		// TODO Auto-generated constructor stub
 		addKeyListener( new AL()); 
@@ -52,6 +53,10 @@ public class BrickScreen extends JFrame implements Runnable{
 	    bally= SCREENY- 70;
 	    ImageIcon paddlea= new ImageIcon("src/Brickbreak/paddle.png");
 	    paddle= paddlea.getImage();
+	    ImageIcon balla= new ImageIcon("src/Brickbreak/ball.png");
+	    ball= balla.getImage();
+	    ImageIcon back= new ImageIcon("src/Brickbreak/back.png");
+	    bg= back.getImage();
 	}
 	public void paint(Graphics g) {
 		dbImage = createImage(getWidth(), getHeight());
@@ -68,9 +73,9 @@ public class BrickScreen extends JFrame implements Runnable{
 		if (!start){
 		 ImageIcon titlei= new ImageIcon("src/Brickbreak/title.png");
 		 title= titlei.getImage();
-		 ImageIcon a= new ImageIcon("src/Brickbreak/over.png");
+		 ImageIcon a= new ImageIcon("src/Brickbreak/win.png");
 		 end= a.getImage();
-		 g.fillRect(0, 0, SCREENX, SCREENY);
+		 g.drawImage(bg, 0, 0, this);
 		 g.setColor(Color.WHITE);
 		 g.fillRect(SCREENX/2- 150, SCREENY/2, 300, 100);
 		 g.fillRect(SCREENX/2 - 150, SCREENY/2+ 200, 300, 100);
@@ -82,8 +87,8 @@ public class BrickScreen extends JFrame implements Runnable{
 		 g.drawString("your paddle. ", SCREENX/2- 140, SCREENY/2+ 80);
 		 g.drawString("Press \"SPACE\" to begin", SCREENX/2 - 120, SCREENY/2+ 260);
 		} else {
-		g.setColor(Color.CYAN);
-		g.fillRect(0, 0, SCREENX , SCREENY);
+		g.setColor(Color.BLACK);
+		 g.drawImage(bg, 0, 0, this);
 		g.drawImage(paddle, paddlex, SCREENY- 50, this);
 		g.setColor(Color.red);
 		for (int i=0; i<bricks.length; i++){
@@ -99,8 +104,7 @@ public class BrickScreen extends JFrame implements Runnable{
 			}
 			
 		}
-		g.setColor(Color.red);
-		g.fillOval(ballx, bally, 20, 20);
+		g.drawImage(ball, ballx, bally, this);
 		if (finaldone){
 			g.setColor(Color.black);
 			g.fillRect(0, 0, SCREENX, SCREENY);
@@ -145,10 +149,10 @@ public class BrickScreen extends JFrame implements Runnable{
 		public void keyPressed(KeyEvent e){
 			int KeyCode = e.getKeyCode();
 			if (KeyCode == e.VK_LEFT){
-			     pchange= -4;
+			     pchange= -5;
 			}
 			if (KeyCode == e.VK_RIGHT){
-			     pchange=4;
+			     pchange=5;
 		}
 			if (KeyCode == e.VK_SPACE){
 				start= true;
@@ -250,8 +254,16 @@ public class BrickScreen extends JFrame implements Runnable{
 				if (!bricks[i][j].isAlive()){
 					done =false;
 				if ((bally +20 >= suby && bally <= suby +BRICKH) && (ballx+ 20 >= subx && ballx <= subx + BRICKW)){
-					bricks[i][j].Break();
+					if (ballx + 20 <= subx || ballx >= subx+BRICKW){
+						ballchangex= -ballchangex;
+						ballchangey = - ballchangey;
+						ballMove();
+						bricks[i][j].Break();
+					} else {
 					ballchangey = - ballchangey;
+					ballMove();
+					bricks[i][j].Break();
+					}
 				}
 				}
 			}
