@@ -42,6 +42,7 @@ public class screen extends JFrame implements Runnable {
 	int level = 0;
 	int speed = 4;
 	int numOfCoins = 0;
+
 	
 	
 	public screen(){
@@ -95,7 +96,13 @@ public class screen extends JFrame implements Runnable {
 		try{
 			while(true){
 				move();
+				if(time < .5){
+				Thread.sleep(100);
 				moveHobo();
+			
+				}else{
+					moveHobo();
+				}
 				if(level >= 1){
 				moveRat();
 				moveCoin();
@@ -123,6 +130,9 @@ public class screen extends JFrame implements Runnable {
 				if(Math.abs(y - yt) < 20 && Math.abs(x - xt) < 10){
 					gameover = true;
 				}
+				if(Math.abs(y - yc) < 10 && Math.abs(x - xc) < 10){
+					numOfCoins++;
+				}
 				if(10 * stime < time){
 					stime++;
 					x += 100;
@@ -140,10 +150,11 @@ public class screen extends JFrame implements Runnable {
 					String inputString = JOptionPane.showInputDialog(null, "Enter your name for the leaderboard");
 			      
 			        System.out.println("User input: " + inputString);
-			        Leader me = new Leader(inputString,(int)time);
+			        Leader me = new Leader(inputString,numOfCoins);
 			        advLeaderboard board = new advLeaderboard();
 			        board.addLeader(me);
 			        board.writeLeaderboard();
+			       JOptionPane.showMessageDialog(null,board.dog());
 			        
 				}
 				Thread.sleep(10);
@@ -249,7 +260,7 @@ public class screen extends JFrame implements Runnable {
 		if(!gameover){
 			time+= .001;
 			g.drawImage(road, 0, 40, this);
-			g.drawString("Time " + (int)time + " You are at level " + level,10,30);
+			g.drawString("Time " + (int)time + " You are at level " + level + "					You have collected "+numOfCoins/3 + " number of coins",10,30);
 		g.setColor(Color.red);
 		g.drawImage(bike, x, y, this);
 		g.drawImage(coin,xc,yc,this);

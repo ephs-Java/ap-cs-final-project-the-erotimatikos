@@ -78,4 +78,11 @@ public class advLeaderboard {
 		
 		//do this for each item in the arrayList
 	}
+	public String dog(){
+		String ne = "";
+		for(int i = 0;i<theLeaders.size();i++){
+			ne += theLeaders.get(i).getName() + " " + theLeaders.get(i).getScore()+"\n";
+		}
+		return ne;
+	}
 }
