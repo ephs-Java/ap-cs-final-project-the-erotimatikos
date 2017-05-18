@@ -191,7 +191,7 @@ public class FlappyScreen extends JFrame implements Runnable{
 else if (hasstarted){
 	//the "gameplay" graphics
 	g.drawImage(birdused, Charlocx ,Charlocy, this);
-	g.setColor(Color.green);
+	g.setColor(Color.GREEN);
     g.fillRect(pipelocx, pipelocy, pipewidth, pipeheight);
     g.fillRect(pipelocx, SCREENY- bottompipeh, pipewidth, bottompipeh);
     g.setColor(Color.GRAY);
@@ -236,7 +236,7 @@ else if (hasstarted){
 			else if(tap){
 				yVelocity = yVelocityUpdate;
 				update();
-				birdused=first;
+				birdused=fly;
 			tap= false;
 			
 			} 

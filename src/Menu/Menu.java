@@ -41,7 +41,7 @@ public class Menu extends JFrame implements Runnable {
 		setVisible(true);
 		setSize(SCREENX, SCREENY);
 		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	
 		//everything beyond here is images.
 	}
 public class mouse extends MouseAdapter {
