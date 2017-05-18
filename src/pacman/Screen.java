@@ -46,7 +46,7 @@ public class Screen extends JFrame implements Runnable {
 	//queue size
 	final int QUEUESIZE = 10;
 	final int TPQUEUE = 20;
-	final int MOUTHQUEUE = 2;
+	final int MOUTHQUEUE = 3;
 	
 	//width of each block
 	final int BLOCKWIDTH = 30;
@@ -70,7 +70,7 @@ public class Screen extends JFrame implements Runnable {
 	int threadDelay = 50;
 	
 	//current level that the user is on
-	int level = 1;
+	int level = 7;
 	
 	//the thread
 	public void run() {

@@ -292,7 +292,7 @@ public class Editor extends JFrame {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				break;
+				break;	
 			case KeyEvent.VK_H:
 				maze.fillBlankWithDots();
 				try {
