@@ -200,6 +200,11 @@ else if (hasstarted){
     g.drawString(""+pipecounter, SCREENX/2, 100);
     if (gameoversequence){
        //what happens when you touch a pipe, the "reset"
+    	boolean three= false;
+    	while (!three){
+    		
+    	
+    	}
     	start=false;
     	Charlocy= SCREENY/2;
     	Charlocx= 100;
