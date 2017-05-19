@@ -15,7 +15,7 @@ import java.util.Scanner;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
-public class Screen extends JFrame implements Runnable {
+public class PacScreen extends JFrame implements Runnable {
 	
 	//double buffering variables
 	Image dbImage;
@@ -105,7 +105,7 @@ public class Screen extends JFrame implements Runnable {
 	}
 	
 	//main method
-	public Screen() {
+	public PacScreen() {
 		
 		//ghost image
 		ghost = new ImageIcon("src/pacman/ghost.gif");
