@@ -31,6 +31,7 @@ public class marioScreen extends JFrame implements Runnable {
 	int enemySpeedGovenor = 0;
 	Image brick;
 	Image goomba;
+	Image mario;
 
 
 
@@ -54,6 +55,9 @@ public class marioScreen extends JFrame implements Runnable {
 		
 		ImageIcon goom = new ImageIcon("src/MarioGame/goomb.png");
 		goomba = goom.getImage();
+		
+		ImageIcon mar = new ImageIcon("src/MarioGame/mario.png");
+		mario = mar.getImage();
 		
 		addKeyListener(new AL());
 		setTitle("MarioGame");
@@ -236,8 +240,9 @@ public class marioScreen extends JFrame implements Runnable {
 				
 			}
 		}
-	g.setColor(Color.blue);
-	g.fillRect(x, y, 30, 30);
+//	g.setColor(Color.blue);
+	//g.fillRect(x, y, 30, 30);
+	g.drawImage(mario, x, y, this);
 	
 	
 		
