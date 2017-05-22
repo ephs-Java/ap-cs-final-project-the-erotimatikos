@@ -27,6 +27,9 @@ public class Editor extends JFrame {
 	//maze field
 	Maze maze;
 	
+	//file to save and edit to
+	final String FILEPATH;
+	
 	//maze dimensions
 	final static int MAZEX = 30;
 	final static int MAZEY = 15;
@@ -46,7 +49,9 @@ public class Editor extends JFrame {
 	final static int SCREENY = MAZEY * 33 + 100;
 	
 	//main method
-	public Editor() {
+	public Editor(String s) {
+		
+		FILEPATH = s;
 		
 //		maze = new Maze(MAZEX, MAZEY);
 		try {
@@ -122,7 +127,7 @@ public class Editor extends JFrame {
 	//saves the current state into the custom.txt file
 	public void save() throws FileNotFoundException{
 		
-		File f = new File("src/pacman/custom.txt");
+		File f = new File(FILEPATH);
 		
 		try (BufferedWriter bw = new BufferedWriter(new FileWriter(f))) {
 			
@@ -151,7 +156,7 @@ public class Editor extends JFrame {
 	
 	public void load() throws FileNotFoundException{
 		
-		File f = new File("src/pacman/custom.txt");
+		File f = new File(FILEPATH);
 		
 		if (!f.exists()) {
 //			System.out.println("file not found");
@@ -180,7 +185,7 @@ public class Editor extends JFrame {
 		}
 		maze = new Maze(totalCols, totalRows);
 		
-		Scanner update = new Scanner(new File("src/pacman/custom.txt"));
+		Scanner update = new Scanner(new File(FILEPATH));
 		int row = 0;
 		while (update.hasNext()) {
 			String line = update.nextLine();
@@ -421,8 +426,8 @@ public class Editor extends JFrame {
 		g.drawImage(dbImage, 0, 0, this);
 	}
 	
-	public static void main(String[] args) {
-		Editor ed = new Editor();
-	}
+//	public static void main(String[] args) {
+//		Editor ed = new Editor();
+//	}
 		
 }

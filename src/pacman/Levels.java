@@ -24,20 +24,26 @@ public class Levels {
 	public void addNumLevels() {
 		
 		int level = 1;
-		File f = new File(DIR + "level" + level + ".txt");
+		File f = new File(DIR + "level" + 1 + ".txt");
 		
-		while (f.exists()) {
-			f = new File(DIR + "level" + level + ".txt");
+		do {
+			
 			Level l = new Level(f.getPath());
 			levels.add(l);
 			level ++;
-		}
+			f = new File(DIR + "level" + level + ".txt");
+		} while (f.exists());
 		
 	}
 	
 	//gets the level at the given index
 	public Level get(int index) {
 		return levels.get(index);
+	}
+	
+	//returns the number of levels
+	public int numLevels() {
+		return this.levels.size();
 	}
 	
 	//returns the next level and adds 1 to currentlevel

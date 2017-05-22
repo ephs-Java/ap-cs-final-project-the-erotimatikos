@@ -43,6 +43,12 @@ public class PacScreen extends JFrame implements Runnable {
 	ImageIcon pacmanup;
 	ImageIcon pacmandown;
 	
+	//if exit
+	boolean exit = false;
+	
+	//string path of the file to play
+	final String FILEPATH;
+	
 	//queue size
 	final int QUEUESIZE = 10;
 	final int TPQUEUE = 20;
@@ -70,7 +76,7 @@ public class PacScreen extends JFrame implements Runnable {
 	int threadDelay = 50;
 	
 	//current level that the user is on
-	int level = 7;
+//	int level = 7;
 	
 	//the thread
 	public void run() {
@@ -93,8 +99,10 @@ public class PacScreen extends JFrame implements Runnable {
 				}
 				if (maze.isVictory()) {
 					Thread.sleep(2000);
-					level ++;
-					setup();
+					dispose();
+//					level ++;
+//					setup();
+					
 				}
 			}
 			
@@ -105,7 +113,9 @@ public class PacScreen extends JFrame implements Runnable {
 	}
 	
 	//main method
-	public PacScreen() {
+	public PacScreen(String p) {
+		
+		FILEPATH = p;
 		
 		//ghost image
 		ghost = new ImageIcon("src/pacman/ghost.gif");
@@ -134,13 +144,17 @@ public class PacScreen extends JFrame implements Runnable {
 		setVisible(true);
 		setSize(screenX, screenY);
 		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBackground(Color.black);
 		
 	}
 	
 	//updates pacman x and y index
 	public void updateVars() {
+		
+		if (exit) {
+			dispose();
+		}
 		
 		//updates pac man x and y index vars
 		for (int r = 0; r < maze.maze.length; r++) {
@@ -394,7 +408,7 @@ public class PacScreen extends JFrame implements Runnable {
 		maze = new Maze(MAZEX, MAZEY);
 		//loads maze
 		try {
-			load("src/pacman/level" + level + ".txt");
+			load(FILEPATH);
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -435,8 +449,8 @@ public class PacScreen extends JFrame implements Runnable {
 		
 		if (!f.exists()) {
 //			System.out.println("file not found");
-			level = 1;
-			setup();
+//			level = 1;
+//			setup();
 //			System.out.println("resetting level");
 //			maze = new Maze(MAZEX, MAZEY);
 //			save(s);
@@ -510,11 +524,12 @@ public class PacScreen extends JFrame implements Runnable {
 			switch (key) {
 			
 			case KeyEvent.VK_Q:
-				System.exit(0);
+//				System.exit(0);
+				exit = true;
 				break;
-			case KeyEvent.VK_R:
-				setup();
-				break;
+//			case KeyEvent.VK_R:
+//				setup();
+//				break;
 			case KeyEvent.VK_UP:
 			case KeyEvent.VK_W:
 				queue.add("UP");
@@ -535,16 +550,16 @@ public class PacScreen extends JFrame implements Runnable {
 				queue.add("LEFT");
 				queue.remove("RIGHT");
 				break;
-			case KeyEvent.VK_PERIOD:
-				level ++;
-				setup();
-				break;
-			case KeyEvent.VK_COMMA:
-				if (level > 1) {
-					level --;
-					setup();
-				}
-				break;
+//			case KeyEvent.VK_PERIOD:
+//				level ++;
+//				setup();
+//				break;
+//			case KeyEvent.VK_COMMA:
+//				if (level > 1) {
+//					level --;
+//					setup();
+//				}
+//				break;
 			
 			}
 			
@@ -641,8 +656,8 @@ public class PacScreen extends JFrame implements Runnable {
 					, pac.getPacmanY(), BLOCKWIDTH, BLOCKWIDTH, this);
 		}
 		
-		g.setColor(Color.white);
-		g.drawString("Level: " + level, 100, screenY - 10);
+//		g.setColor(Color.white);
+//		g.drawString("Level: " + level, 100, screenY - 10);
 		
 		repaint();
 		
