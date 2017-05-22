@@ -328,6 +328,7 @@ public class Pong extends JFrame implements Runnable{
 			if (!twoplayer){
 				changeb= 0;
 			}
+			aidiff= 3;
 			while(true){
 			collision();
 		    if (!twoplayer){
