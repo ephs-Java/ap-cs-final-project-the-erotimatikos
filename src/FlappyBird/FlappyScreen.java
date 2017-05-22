@@ -200,7 +200,7 @@ else if (hasstarted){
     g.fillRect(pipelocx, pipelocy, pipewidth, pipeheight);
     g.fillRect(pipelocx, SCREENY- bottompipeh, pipewidth, bottompipeh);
     g.drawImage(bot, pipelocx- SCREENX- 300, SCREENY- 275, this);
-    System.out.println("ok");
+
     g.setColor(Color.GRAY);
     Font joshone= new Font("Times new roman", Font.PLAIN, 90);
     g.setFont(joshone);
