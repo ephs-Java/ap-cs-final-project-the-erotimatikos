@@ -44,6 +44,12 @@ public class FlappyScreen extends JFrame implements Runnable{
 	private String theme= new String("normal");
 	int yVelocity = 0;
 	int yVelocityUpdate = 10;
+
+
+	private Image bot;
+
+
+	private Image starter;
 	//The try/catch loop that the thread continuously runs 
 	public void run (){
 			try{
@@ -71,7 +77,7 @@ public class FlappyScreen extends JFrame implements Runnable{
 	public FlappyScreen() {
 		// TODO Auto-generated constructor stub
 		addKeyListener( new AL()); 
-		SCREENX= 500;
+		SCREENX= 490;
 		SCREENY= 885;
 		setTitle("Flappy Bird");
 		setVisible(true);
@@ -80,13 +86,13 @@ public class FlappyScreen extends JFrame implements Runnable{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		//initiation of all sprites with a "theme" variable, allowing possible later sprite customization
 		if (theme.equals("normal")){
-		ImageIcon image0 = new ImageIcon("src/Flappybird/back.png");
+		ImageIcon image0 = new ImageIcon("src/Flappybird/background.png");
 		background= image0.getImage();
 		ImageIcon image1 = new ImageIcon("src/Flappybird/Flappy_Bird.png");
 		bird = image1.getImage();
 		ImageIcon image2 = new ImageIcon("src/Flappybird/Wing.png");
 		wing = image2.getImage();
-		ImageIcon image3 = new ImageIcon("src/Flappybird/flying.png");
+		ImageIcon image3 = new ImageIcon("src/Flappybird/fly.png");
 		fly = image3.getImage();
 		ImageIcon image4 = new ImageIcon("src/Flappybird/falling.png");
 		fall = image4.getImage();
@@ -96,6 +102,10 @@ public class FlappyScreen extends JFrame implements Runnable{
 		second = image6.getImage();
 		ImageIcon image7 = new ImageIcon("src/Flappybird/sprite3.png");
 		third = image7.getImage();
+		ImageIcon image8 = new ImageIcon("src/Flappybird/bottom.png");
+		bot = image8.getImage();
+		ImageIcon image9 = new ImageIcon("src/Flappybird/fb.png");
+		starter = image9.getImage();
 		birdused=bird;
 		}
 		Random one= new Random();
@@ -118,10 +128,11 @@ public class FlappyScreen extends JFrame implements Runnable{
     //makes the "course" for the bird to travel through
 	public void pipes(){
 		//moves the pipe forward
+		
 		pipelocx -=10 ;
 		Random two= new Random();
 		//when the pipe touches the left end of the screen, it randomizes the height and brings it back to the right.
-		if (pipelocx <= 0){
+		if (pipelocx <= 0- pipewidth){
 			pipelocx = SCREENX;
 			pipecounter++;
 			bottompipeh= two.nextInt(400) + 325;
@@ -174,17 +185,11 @@ public class FlappyScreen extends JFrame implements Runnable{
 	public void paintComponent(Graphics g) throws InterruptedException {
 	// the graphics of the starting screen
 	g.drawImage(background, 0, 0, this);
-	Font josh= new Font("Bloody", Font.PLAIN, 26);
+	Font josh= new Font("Arial", Font.PLAIN, 26);
 		if (!hasstarted){
-	g.setColor(Color.black);
-	g.fillRect(SCREENX/2- 50, SCREENY/2 -110, 120, 50);
-	g.setColor(Color.white);
-	g.fillRect(SCREENX/2- 45, SCREENY/2 -105, 110, 38);
-	g.setColor(Color.orange);
-	g.fillRect(SCREENX/2- 43, SCREENY/2 -103, 105, 34);
+	g.drawImage(starter, SCREENX/2- 140, SCREENY/2 -125, this);
 	g.setFont(josh);
 	g.setColor(Color.WHITE);
-	g.drawString("Start", SCREENX/2- 25, SCREENY/2 -80);
 	g.drawString("Press Space to Start", SCREENX/2- 115, SCREENY/2 - 10);
 	g.drawImage(birdused,SCREENX/2- 10 , SCREENY/2 - 175, this);
 }
@@ -194,17 +199,14 @@ else if (hasstarted){
 	g.setColor(Color.GREEN);
     g.fillRect(pipelocx, pipelocy, pipewidth, pipeheight);
     g.fillRect(pipelocx, SCREENY- bottompipeh, pipewidth, bottompipeh);
+    g.drawImage(bot, pipelocx- SCREENX- 300, SCREENY- 275, this);
+    System.out.println("ok");
     g.setColor(Color.GRAY);
     Font joshone= new Font("Times new roman", Font.PLAIN, 90);
     g.setFont(joshone);
     g.drawString(""+pipecounter, SCREENX/2, 100);
     if (gameoversequence){
        //what happens when you touch a pipe, the "reset"
-    	boolean three= false;
-    	while (!three){
-    		
-    	
-    	}
     	start=false;
     	Charlocy= SCREENY/2;
     	Charlocx= 100;
