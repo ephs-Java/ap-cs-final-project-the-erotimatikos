@@ -185,12 +185,12 @@ public class Pong extends JFrame implements Runnable{
 			 if (bally +30 >= oney && bally +30 <= oney+ oneh/2 ){
 		    	   changey++;
 		    	   changey= -changey;
-		    	 System.out.println("a");
+		    	
 		     }
 			 else if (bally > oney +oneh/2 && bally <= oney +oneh){
 				 changey--;
 		    	   changey= -changey;
-		    	 System.out.println("c");
+		    	
 		     }
 			if (changex < 3){
 			changex ++;
@@ -316,10 +316,10 @@ public class Pong extends JFrame implements Runnable{
 			twoy +=2;
 }
 		if (bally < twoy -100){
-			twoy +=6;
+			twoy -=6;
 		}
 		if (bally > twoy +100){
-			twoy -=6;
+			twoy +=6;
 		}
 	}
 	public static void main(String[] args) {
