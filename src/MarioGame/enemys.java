@@ -15,6 +15,17 @@ public class enemys {
 		enemyList.add(new enemy(x,y));
 	}
 	
+	
+	public boolean amIOut(int x, int y){
+		for(int i = 0;i<enemyList.size();i++){
+			if(enemyList.get(i).xE == x/30 && enemyList.get(i).yE == y/30){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	
 	public void updateAll(brick[][] arr){
 		
 		if(first == 0){

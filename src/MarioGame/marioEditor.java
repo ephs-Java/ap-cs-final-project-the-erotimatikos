@@ -28,27 +28,18 @@ public class marioEditor extends JFrame implements Runnable{
 	int screenX = 1050,screenY = 630, rowLeng = Field.rowLeng, colLeng = Field.colLeng ;
 	int x,y,yDirect,xDirect,cordX,cordY;
 	
-	
 	Image brick;
-	
-	
-	
-	
+
 	public static void main(String[] args){
 		marioEditor editor = new marioEditor();
 		Thread t = new Thread(editor);
 		t.start();
 	}
 	
-		
-	
-	
-	
-	
 	public marioEditor(){
 		
-		x = 0;
-		y=0;
+		x = 90;
+		y=540;
 	ImageIcon brickk = new ImageIcon("src/MarioGame/brick.png");
 	brick = brickk.getImage();
 		
@@ -66,11 +57,11 @@ public class marioEditor extends JFrame implements Runnable{
 	public void run(){
 		while(true){
 			try{
-				
+				Thread.sleep(100);
 				cordX = x/30;
 				cordY = y /30;
+				
 				move();
-				Thread.sleep(100);
 				
 			}
 			catch(Exception e){
@@ -114,16 +105,11 @@ public class marioEditor extends JFrame implements Runnable{
 				
 					output.println(Field.array[r][c].type);
 				}
-		
-
-			
 			}
-		
-		
-		
 	}
 		public void move(){
 	
+			
 		x+= xDirect;
 		y+= yDirect;
 		if(y>570){
@@ -145,12 +131,17 @@ public class marioEditor extends JFrame implements Runnable{
 		
 		public void keyPressed(KeyEvent e){
 			int code = e.getKeyCode();
+		
 			if(code == e.VK_LEFT){
 				setXDirect(-30);
-			}
+			
+		}
+		if(x<=1020){
 			if(code == e.VK_RIGHT){
 				setXDirect(30);
 			}
+		}
+		
 			if(code == e.VK_UP){
 				setYDirect(-30);
 			}
@@ -185,9 +176,6 @@ public class marioEditor extends JFrame implements Runnable{
 					e1.printStackTrace();
 				}
 			}
-			
-			
-			
 		}
 		public void keyReleased(KeyEvent e){
 			int code = e.getKeyCode();
@@ -215,8 +203,6 @@ public class marioEditor extends JFrame implements Runnable{
 	}
 	public void paintComponent(Graphics g){
 		
-		
-		
 			for(int r = 0;r<rowLeng;r++){
 				for(int c = 0;c<colLeng;c++){
 					if(Field.array[r][c].getType() == 0){
@@ -238,17 +224,17 @@ public class marioEditor extends JFrame implements Runnable{
 		g.setColor(Color.blue);
 		g.fillRect(x, y, 30, 30);
 	
-		if(Field.array[cordX][cordY].type == 0){
-			g.drawString("Type: Nothing",30,615);
-		}
-		else if(Field.array[cordX][cordY].type == 1){
-			g.drawString("Type: Brick",30,615);
-		}
-	
-		
-		if(Field.array[cordX][cordY].type == 9){
-			g.drawString("Type: enemy",30,615);
-		}
+//		if(Field.array[cordX][cordY].type == 0){
+//			g.drawString("Type: Nothing",30,615);
+//		}
+//		else if(Field.array[cordX][cordY].type == 1){
+//			g.drawString("Type: Brick",30,615);
+//		}
+//	
+//		
+//		if(Field.array[cordX][cordY].type == 9){
+//			g.drawString("Type: enemy",30,615);
+//		}
 		repaint();
 	}
 	
