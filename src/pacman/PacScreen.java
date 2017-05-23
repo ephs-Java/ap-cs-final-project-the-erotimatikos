@@ -43,6 +43,9 @@ public class PacScreen extends JFrame implements Runnable {
 	ImageIcon pacmanup;
 	ImageIcon pacmandown;
 	
+	//score of the player
+	long score = 0;
+	
 	//if exit
 	boolean exit = false;
 	
@@ -74,9 +77,6 @@ public class PacScreen extends JFrame implements Runnable {
 	
 	//the thread delay
 	int threadDelay = 50;
-	
-	//current level that the user is on
-//	int level = 7;
 	
 	//the thread
 	public void run() {
@@ -249,14 +249,17 @@ public class PacScreen extends JFrame implements Runnable {
 		if (maze.maze[pac.getPacXindex()][pac.getPacYindex() + 1].getState() == Tile.PILL && !yAligned) {
 			maze.maze[pac.getPacXindex()][pac.getPacYindex() + 1].setState(Tile.BLANK);
 			mouthQueue.add("EAT");
+			score += 100;
 		}
 		if (maze.maze[pac.getPacXindex()][pac.getPacYindex()].getState() == Tile.PILL) {
 			maze.maze[pac.getPacXindex()][pac.getPacYindex()].setState(Tile.BLANK);
 			mouthQueue.add("EAT");
+			score += 100;
 		}
 		if (maze.maze[pac.getPacXindex() + 1][pac.getPacYindex()].getState() == Tile.PILL && !xAligned) {
 			maze.maze[pac.getPacXindex() + 1][pac.getPacYindex()].setState(Tile.BLANK);
 			mouthQueue.add("EAT");
+			score += 100;
 		}
 		
 		//checks for teleporters
@@ -625,8 +628,6 @@ public class PacScreen extends JFrame implements Runnable {
 			g.setColor(Color.MAGENTA);
 			g.drawImage(ghost.getImage(), ghosts.get(i).getX() + 2, ghosts.get(i).getY() + 2
 					, BLOCKWIDTH, BLOCKWIDTH, this);
-//			g.fillRect(ghosts.get(i).getX() + 2, ghosts.get(i).getY() + 2, BLOCKWIDTH - 4, BLOCKWIDTH - 4);
-			
 		}
 		
 		int dir = pac.getDirection();
@@ -656,8 +657,8 @@ public class PacScreen extends JFrame implements Runnable {
 					, pac.getPacmanY(), BLOCKWIDTH, BLOCKWIDTH, this);
 		}
 		
-//		g.setColor(Color.white);
-//		g.drawString("Level: " + level, 100, screenY - 10);
+		g.setColor(Color.white);
+		g.drawString("Score: " + score, 100, screenY - 10);
 		
 		repaint();
 		

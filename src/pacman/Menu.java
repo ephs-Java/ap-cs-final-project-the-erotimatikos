@@ -34,12 +34,12 @@ public class Menu extends JFrame {
 	
 	final int XOFFSETSTART = xOffset;
 	final int YOFFSETSTART = yOffset;
-	
-	//scrolling speed
-	final int SCROLLSPEED = 10;
-	
+		
 	//pixel distance between each group of text
 	final int ROWSIZE = 50;
+	
+	//scrolling speed
+	final int SCROLLSPEED = ROWSIZE / 2;
 	
 	//double buffering
 	Image dbImage;
@@ -48,6 +48,7 @@ public class Menu extends JFrame {
 	//levels field
 	Levels levels;
 	
+	//main constructor
 	public Menu() {
 		
 		
@@ -58,6 +59,9 @@ public class Menu extends JFrame {
 		//declares fields
 		levels = new Levels();
 		levels.addNumLevels();
+		
+		Level l = new Level("src/pacman/custom.txt");
+		levels.add(l);
 		
 		//loads the 2d array of the selected level
 		try {
@@ -129,12 +133,18 @@ public class Menu extends JFrame {
 				break;
 			
 			case KeyEvent.VK_UP:
-				yOffset += SCROLLSPEED;
+				//scrolling boundaries
+				if (yOffset < 100) {
+					yOffset += SCROLLSPEED;
+				}
 				break;
 				
 			case KeyEvent.VK_DOWN:
-				yOffset -= SCROLLSPEED;
-				
+				//scrolling boundaries
+				if (yOffset > -150) {
+					yOffset -= SCROLLSPEED;					
+				}
+				break;
 			}
 			
 		}
@@ -151,6 +161,7 @@ public class Menu extends JFrame {
 			//46 58
 //			System.out.println(mouseX + " " + mouseY);
 			
+			//checks if the user clicked one of the level buttons
 			if (mouseX > xOffset - 4 && mouseX < 150 + xOffset) {
 				
 				//gets the level
@@ -183,6 +194,14 @@ public class Menu extends JFrame {
 				
 			}
 			
+			//checks if the user clicked the edit button
+			else if (mouseX > SCREENX - 200 && mouseX < SCREENX - 100
+					&& mouseY > SCREENY - 120 && mouseY < SCREENY - 60) {
+				
+				Editor ed = new Editor(levels.get(selectedIndex).toString());
+				
+			}
+			
 		}
 		
 	}
@@ -196,8 +215,10 @@ public class Menu extends JFrame {
 		g.drawImage(dbImage, 0, 0, this);
 	}
 	
+	//prints stuff to the screen
 	public void paintComponent(Graphics g) {
 		
+		//prints the list of levels
 		for (int i = 0; i < levels.numLevels(); i++) {
 			
 			int charLength = 8;
@@ -221,6 +242,18 @@ public class Menu extends JFrame {
 			g.drawString(s, xOffset, i * ROWSIZE + yOffset);
 			
 		}
+		
+		//prints edit button
+		g.setColor(Color.blue);
+		g.fillRect(SCREENX - 200, SCREENY - 120, 100, 60);
+		
+		g.setColor(Color.BLACK);
+		//black rectangle around blue rectangle
+		g.drawRect(SCREENX - 200, SCREENY - 120, 100, 60);
+		
+		//white text
+		g.setColor(Color.WHITE);
+		g.drawString("EDIT", SCREENX - 180, SCREENY - 80);
 		
 		//prints small 2d array
 		g.setColor(Color.black);

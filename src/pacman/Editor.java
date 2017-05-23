@@ -27,6 +27,9 @@ public class Editor extends JFrame {
 	//maze field
 	Maze maze;
 	
+	//if the jframe is queued to be disposed or not
+	boolean isDisposable = false;
+	
 	//file to save and edit to
 	final String FILEPATH;
 	
@@ -247,7 +250,7 @@ public class Editor extends JFrame {
 			switch (key) {
 			
 			case KeyEvent.VK_Q:
-				System.exit(0);
+				isDisposable = true;
 				break;
 			case KeyEvent.VK_R:
 				maze = new Maze(MAZEX, MAZEY);
@@ -321,6 +324,10 @@ public class Editor extends JFrame {
 	
 	//paints stuff to the jframe
 	public void paintComponent(Graphics g) {
+		
+		if (isDisposable) {
+			this.dispose();
+		}
 		
 		for (int r = 0; r < maze.maze.length; r++) {
 			for (int c = 0; c < maze.maze[0].length; c++) {
