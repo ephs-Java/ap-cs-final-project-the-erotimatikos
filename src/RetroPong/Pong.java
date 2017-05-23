@@ -135,10 +135,19 @@ public class Pong extends JFrame implements Runnable{
 		g.setColor(Color.white);
 		g.fillRect(onex, oney, onew, oneh);
 		g.fillRect(twox, twoy, onew, oneh);
+		if (leftscore > 10){
+			g.setColor(Color.GREEN);
+		}
 		g.fillOval(ballx, bally, 30, 30);
 		Font joshone= new Font("Times new roman", Font.PLAIN, 90);
+		g.setColor(Color.white);
 	    g.setFont(joshone);
-		g.drawString(leftscore+"", 277, 105);
+	    if (leftscore < 10){
+	    	g.drawString(leftscore+"", 277, 105);
+	    } else {
+	    	g.drawString(leftscore+"", 247, 105);
+	    }
+		
 		g.drawString(rightscore+"", 378, 105);
 		g.fillRect(339, 35, 20, 20);
 		g.fillRect(339, 75, 20, 20);
@@ -176,12 +185,12 @@ public class Pong extends JFrame implements Runnable{
 			 if (bally +30 >= oney && bally +30 <= oney+ oneh/2 ){
 		    	   changey++;
 		    	   changey= -changey;
-		    	 System.out.println("a");
+		    	
 		     }
 			 else if (bally > oney +oneh/2 && bally <= oney +oneh){
 				 changey--;
 		    	   changey= -changey;
-		    	 System.out.println("c");
+		    	
 		     }
 			if (changex < 3){
 			changex ++;
@@ -306,6 +315,12 @@ public class Pong extends JFrame implements Runnable{
 			twoy= SCREENY-oneh - 2;
 			twoy +=2;
 }
+		if (bally < twoy -100){
+			twoy -=6;
+		}
+		if (bally > twoy +100){
+			twoy +=6;
+		}
 	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -328,6 +343,7 @@ public class Pong extends JFrame implements Runnable{
 			if (!twoplayer){
 				changeb= 0;
 			}
+			aidiff= 3;
 			while(true){
 			collision();
 		    if (!twoplayer){
