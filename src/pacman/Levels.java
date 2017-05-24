@@ -7,7 +7,7 @@ public class Levels {
 
 	private ArrayList<Level> levels;
 	int currentLevel;
-	private final String DIR = "src/pacman/";
+	private final String DIR = "src/pacman/levels/";
 	
 	//default constructor
 	public Levels() {

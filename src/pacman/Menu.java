@@ -9,6 +9,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Scanner;
 
 import javax.swing.JFrame;
@@ -17,6 +18,9 @@ public class Menu extends JFrame {
 
 	//maze preview field
 	Maze preview;
+	
+	//leaderboard object
+	Leaderboard leaderboard;
 	
 	//sets blockwidth to 15
 	int BLOCKWIDTH = 20;
@@ -49,7 +53,7 @@ public class Menu extends JFrame {
 	Levels levels;
 	
 	//main constructor
-	public Menu() {
+	public Menu() throws IOException {
 		
 		
 		//enables key and mouse input on the jframe
@@ -60,14 +64,19 @@ public class Menu extends JFrame {
 		levels = new Levels();
 		levels.addNumLevels();
 		
-		Level l = new Level("src/pacman/custom.txt");
-		levels.add(l);
+		//creates leaderboard object
+		leaderboard = new Leaderboard();
+		
+		leaderboard.writeToFile();
+		
+		//adds the custom level manually
+		Level level = new Level("src/pacman/levels/custom.txt");
+		levels.add(level);
 		
 		//loads the 2d array of the selected level
 		try {
 			load(levels.get(selectedIndex).toString());
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
@@ -141,7 +150,7 @@ public class Menu extends JFrame {
 				
 			case KeyEvent.VK_DOWN:
 				//scrolling boundaries
-				if (yOffset > -150) {
+				if (yOffset > -levels.numLevels() * 15) {
 					yOffset -= SCROLLSPEED;					
 				}
 				break;

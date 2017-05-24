@@ -35,6 +35,9 @@ public class PacScreen extends JFrame implements Runnable {
 	//pacman field
 	Pacman pac;
 	
+	//path to the images
+	final String IMAGESOURCE = "src/pacman/images/";
+	
 	//images
 	ImageIcon ghost;
 	ImageIcon pacmanclosed;
@@ -44,7 +47,7 @@ public class PacScreen extends JFrame implements Runnable {
 	ImageIcon pacmandown;
 	
 	//score of the player
-	long score = 0;
+	int score = 0;
 	
 	//if exit
 	boolean exit = false;
@@ -96,6 +99,7 @@ public class PacScreen extends JFrame implements Runnable {
 				if (lose()) {
 					Thread.sleep(2000);
 					setup();
+					score = 0;
 				}
 				if (maze.isVictory()) {
 					Thread.sleep(2000);
@@ -118,14 +122,14 @@ public class PacScreen extends JFrame implements Runnable {
 		FILEPATH = p;
 		
 		//ghost image
-		ghost = new ImageIcon("src/pacman/ghost.gif");
+		ghost = new ImageIcon(IMAGESOURCE + "ghost.gif");
 		
 		//pacman images
-		pacmanright = new ImageIcon("src/pacman/pacmanright.gif");
-		pacmanleft = new ImageIcon("src/pacman/pacmanleft.gif");
-		pacmanup = new ImageIcon("src/pacman/pacmanup.gif");
-		pacmandown = new ImageIcon("src/pacman/pacmandown.gif");
-		pacmanclosed = new ImageIcon("src/pacman/pacmanclosed.gif");
+		pacmanright = new ImageIcon(IMAGESOURCE + "pacmanright.gif");
+		pacmanleft = new ImageIcon(IMAGESOURCE + "pacmanleft.gif");
+		pacmanup = new ImageIcon(IMAGESOURCE + "pacmanup.gif");
+		pacmandown = new ImageIcon(IMAGESOURCE + "pacmandown.gif");
+		pacmanclosed = new ImageIcon(IMAGESOURCE + "pacmanclosed.gif");
 		
 		pac = new Pacman();
 		
@@ -301,18 +305,6 @@ public class PacScreen extends JFrame implements Runnable {
 		
 		//updates the index
 		pac.update(pacmanSpeed);
-//		if (dir == pac.RIGHT && yAligned) {
-//			pac.setPacmanX(pac.getPacmanX() + pacmanSpeed);
-//		}
-//		if (dir == pac.LEFT && yAligned) {
-//			pac.setPacmanX(pac.getPacmanX() - pacmanSpeed);
-//		}
-//		if (dir == pac.UP && xAligned) {
-//			pac.setPacmanY(pac.getPacmanY() - pacmanSpeed);
-//		}
-//		if (dir == pac.DOWN && xAligned) {
-//			pac.setPacmanY(pac.getPacmanY() + pacmanSpeed);
-//		}
 		
 	}
 	
@@ -537,21 +529,29 @@ public class PacScreen extends JFrame implements Runnable {
 			case KeyEvent.VK_W:
 				queue.add("UP");
 				queue.remove("DOWN");
+				queue.remove("LEFT");
+				queue.remove("RIGHT");
 				break;
 			case KeyEvent.VK_RIGHT:
 			case KeyEvent.VK_D:
 				queue.add("RIGHT");
 				queue.remove("LEFT");
+				queue.remove("UP");
+				queue.remove("DOWN");
 				break;
 			case KeyEvent.VK_DOWN:
 			case KeyEvent.VK_S:
 				queue.add("DOWN");
 				queue.remove("UP");
+				queue.remove("LEFT");
+				queue.remove("RIGHT");
 				break;
 			case KeyEvent.VK_LEFT:
 			case KeyEvent.VK_A:
 				queue.add("LEFT");
 				queue.remove("RIGHT");
+				queue.remove("UP");
+				queue.remove("DOWN,");
 				break;
 //			case KeyEvent.VK_PERIOD:
 //				level ++;
@@ -673,5 +673,4 @@ public class PacScreen extends JFrame implements Runnable {
 		g.drawImage(dbImage, 0, 0, this);
 	}
 	
-
 }
