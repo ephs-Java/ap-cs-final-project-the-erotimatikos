@@ -37,6 +37,8 @@ public class Leaderboard {
 	//writes contents of the arraylist to the file
 	public void writeToFile() {
 		
+//		System.out.println("written to file");
+		
 		//creates file object
 		File f = new File(SOURCE + "leaderboard.txt");
 		
@@ -128,6 +130,13 @@ public class Leaderboard {
 			}	
 		}
 		return leadersFromLevel;
+		
+	}
+	
+	//clears all of the leaders of a file. Is called once a file is edited
+	public void removeFromLevel(int level) {
+		
+		
 		
 	}
 	

@@ -27,6 +27,9 @@ public class PacScreen extends JFrame implements Runnable {
 	//ghosts field
 	Ghosts ghosts;
 	
+	//leaderboard for submitting scores
+	Leaderboard leaderboard;
+	
 	//queue field
 	Queue queue;
 	Queue tpwait;
@@ -48,6 +51,10 @@ public class PacScreen extends JFrame implements Runnable {
 	
 	//score of the player
 	int score = 0;
+	
+	//level and name of the player
+	final String PLAYERNAME;
+	final int LEVEL;
 	
 	//if exit
 	boolean exit = false;
@@ -87,6 +94,13 @@ public class PacScreen extends JFrame implements Runnable {
 		try {
 			
 			while (true) {
+				
+				//exits the game
+				if (exit) {
+					dispose();
+					break;
+				}
+				
 				checkMovement();
 				Thread.sleep(threadDelay);
 				ghosts.updateAll(maze.maze, pac.getPacXindex(), pac.getPacYindex(), BLOCKWIDTH);
@@ -99,11 +113,18 @@ public class PacScreen extends JFrame implements Runnable {
 				if (lose()) {
 					Thread.sleep(2000);
 					setup();
+					Leader l = new Leader(PLAYERNAME, score, LEVEL);
+					leaderboard.add(l);
+					leaderboard.writeToFile();
 					score = 0;
 				}
-				if (maze.isVictory()) {
+				if (maze.isVictory() && !exit) {
 					Thread.sleep(2000);
+					Leader l = new Leader(PLAYERNAME, score, LEVEL);
+					leaderboard.add(l);
+					leaderboard.writeToFile();
 					dispose();
+					exit = true;
 //					level ++;
 //					setup();
 					
@@ -117,9 +138,18 @@ public class PacScreen extends JFrame implements Runnable {
 	}
 	
 	//main method
-	public PacScreen(String p) {
+	public PacScreen(String p, String n, int l) {
 		
+		PLAYERNAME = n;
+		LEVEL = l;
 		FILEPATH = p;
+		
+		//leaderboard for submitting scores
+		try {
+			leaderboard = new Leaderboard();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 		//ghost image
 		ghost = new ImageIcon(IMAGESOURCE + "ghost.gif");

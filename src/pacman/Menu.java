@@ -16,9 +16,10 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 public class Menu extends JFrame {
-
+	
 	//maze preview field
 	Maze preview;
 	
@@ -48,6 +49,9 @@ public class Menu extends JFrame {
 	//scrolling speed
 	final int SCROLLSPEED = ROWSIZE / 2;
 	
+	//name of the current user
+	String username;
+	
 	//double buffering
 	Image dbImage;
 	Graphics dbg;
@@ -58,6 +62,8 @@ public class Menu extends JFrame {
 	//main constructor
 	public Menu() throws IOException {
 		
+		username = JOptionPane.showInputDialog(null, "Enter your name here for the leaderboard: ");
+		formatName();
 		
 		//enables key and mouse input on the jframe
 		addKeyListener(new keyboard());
@@ -133,6 +139,19 @@ public class Menu extends JFrame {
 		
 	}
 	
+	//removes - and : from the name
+	public void formatName() {
+		
+		String newName = "";
+		for (int i = 0; i < username.length(); i++) {
+			char lett = username.charAt(i);
+			if (lett != ':' && lett != '-') {
+				newName += lett;
+			}
+		}
+		username = newName;
+	}
+	
 	//key input
 	public class keyboard extends KeyAdapter {
 		
@@ -189,7 +208,7 @@ public class Menu extends JFrame {
 				}
 				
 				if (level == selectedIndex) {
-					PacScreen scr = new PacScreen(levels.get(level).toString());
+					PacScreen scr = new PacScreen(levels.get(level).toString(), username, selectedIndex);
 					Thread t1 = new Thread(scr);
 					t1.start();
 				}
@@ -225,7 +244,10 @@ public class Menu extends JFrame {
 		public void windowActivated(WindowEvent e) {
 			
 			try {
+//				System.out.println("window activated");
 				((Menu) e.getWindow()).load(levels.get(selectedIndex).toString());
+				leaderboard = new Leaderboard();
+//				leaderboard.writeToFile();
 			} catch(Exception exception) {
 				exception.printStackTrace();
 			}
@@ -337,6 +359,20 @@ public class Menu extends JFrame {
 		//prints the leaderboard
 		ArrayList<Leader> leaders = leaderboard.getLeadersFromLevel(selectedIndex);
 		
+		int leaderboardX = 300;
+		int leaderboardY = 370;
+		
+		for (int i = 0; i < leaders.size(); i++) {
+			
+			if (i >= 5) {
+				break;
+			}
+			
+			Leader l = leaders.get(i);
+			
+			g.drawString(l.getName() + ": " + l.getScore(), leaderboardX, leaderboardY + i * 20);
+			
+		}
 //		System.out.println(leaders);
 		
 		repaint();
