@@ -113,6 +113,24 @@ public class Leaderboard {
 		return leaders.get(index);
 	}
 	
+	public int size() {
+		return leaders.size();
+	}
+	
+	//returns an arraylist of leaders, sorted, that are from a certain level
+	public ArrayList<Leader> getLeadersFromLevel(int level) {
+		
+		sort();
+		ArrayList<Leader> leadersFromLevel = new ArrayList<Leader>();
+		for (int i = 0; i < leaders.size(); i++) {
+			if (leaders.get(i).getLevel() == level) {
+				leadersFromLevel.add(leaders.get(i));
+			}	
+		}
+		return leadersFromLevel;
+		
+	}
+	
 	//checks for leaderboard.txt and creates it if it is gone
 	private void checkForFile() throws IOException {
 		

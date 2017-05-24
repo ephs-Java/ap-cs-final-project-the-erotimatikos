@@ -7,9 +7,12 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import javax.swing.JFrame;
@@ -59,6 +62,7 @@ public class Menu extends JFrame {
 		//enables key and mouse input on the jframe
 		addKeyListener(new keyboard());
 		addMouseListener(new mouse());
+		addWindowListener(new window());
 		
 		//declares fields
 		levels = new Levels();
@@ -215,6 +219,21 @@ public class Menu extends JFrame {
 		
 	}
 	
+	//detects when window is activated
+	public class window extends WindowAdapter {
+		
+		public void windowActivated(WindowEvent e) {
+			
+			try {
+				((Menu) e.getWindow()).load(levels.get(selectedIndex).toString());
+			} catch(Exception exception) {
+				exception.printStackTrace();
+			}
+			
+		}
+		
+	}
+	
 	//double buffering
 	public void paint(Graphics g) {
 		
@@ -314,6 +333,11 @@ public class Menu extends JFrame {
 				
 			}
 		}
+		
+		//prints the leaderboard
+		ArrayList<Leader> leaders = leaderboard.getLeadersFromLevel(selectedIndex);
+		
+//		System.out.println(leaders);
 		
 		repaint();
 		
