@@ -13,7 +13,7 @@ public class field {
 	public int endX;
 	public int endY;
 	public brick[][] array;
-	
+	//
 	public void getEnd(){
 		for(int c = 0;c<colLeng;c++){
 			for(int r = 0; r<rowLeng;r++){
