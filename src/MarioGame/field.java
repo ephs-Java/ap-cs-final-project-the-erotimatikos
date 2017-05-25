@@ -9,6 +9,7 @@ public class field {
 	
 	
 	
+	
 	public field(){
 		array = new brick[rowLeng][colLeng];
 		for(int r = 0;r<rowLeng;r++){

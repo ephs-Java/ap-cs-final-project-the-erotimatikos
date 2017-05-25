@@ -1,4 +1,4 @@
-package MarioGame;
+package MarioGameTestingPlatForm;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -24,7 +24,7 @@ public class marioScreen extends JFrame implements Runnable {
 	private Image dbImage;
 	//35 r by 20c
 	int screenX = 1050,screenY = 630, rowLeng = Field.rowLeng, colLeng = Field.colLeng ;
-	int x,y,yDirect,xDirect,cordX,cordY, tempX,tempY;
+	int x,y,yDirect,xDirect, tempX,tempY,endX,endY;
 	int marioJump = 0;
 
 
@@ -33,13 +33,16 @@ public class marioScreen extends JFrame implements Runnable {
 	Image brick;
 	Image goomba;
 	Image mario;
+	Image gameover;
+	Image vicImage;
 
 	boolean isOut = false;
 
 	boolean canJump = false;
 	boolean falling = true;
+	boolean victory = false;
 	int gravity = 6;
-	int maxDy = 30;
+	
 
 
 	public void falling(){
@@ -54,10 +57,16 @@ public class marioScreen extends JFrame implements Runnable {
 			tempY+= gravity;
 			
 		}
+		if(Field.array[x/30][tempY/30].type != 1 &&Field.array[(tempX + 15)/30][(15+ tempY)/30].type != 1){
+			y = tempY;
+		
+		}
 		
 	}
 	
 	public void jumping(){
+	
+		tempY = y;
 		if(Field.array[x/30][y/30+1].type == 1){
 		canJump = true;
 		}
@@ -65,11 +74,20 @@ public class marioScreen extends JFrame implements Runnable {
 			canJump =false;
 		}
 		if(canJump && (Field.array[x/30][y/30-2].type != 1 && Field.array[x/30][y/30-1].type != 1)){
-			y -= 60;
+			tempY -= 60;
 			canJump = false;
 		}
 		else if(Field.array[x/30][y/30-1].type != 1 && canJump){
-			y-= 30;
+			tempY-= 30;
+		}
+		
+		
+		
+
+		if(Field.array[x/30][tempY/30].type != 1&&Field.array[(tempX + 15)/30][(15+ tempY)/30].type != 1){
+		
+			y = tempY;
+			
 		}
 	}
 
@@ -99,6 +117,12 @@ public class marioScreen extends JFrame implements Runnable {
 		ImageIcon mar = new ImageIcon("src/MarioGame/mario.png");
 		mario = mar.getImage();
 
+		ImageIcon over = new ImageIcon("src/MarioGameTestingPlatForm/GameOver.png");
+		gameover = over.getImage();
+		
+		ImageIcon victorious = new ImageIcon("src/MarioGameTestingPlatForm/Victory.png");
+		vicImage = victorious.getImage();
+		
 		addKeyListener(new AL());
 		setTitle("MarioGame");
 		setSize(screenX,screenY);
@@ -108,28 +132,40 @@ public class marioScreen extends JFrame implements Runnable {
 		setBackground(Color.cyan); //Sets the background color to blue.
 
 	}
+	
+	
 	public void run(){
+		
+		Field.brickHunter();
+		Field.getStart();
+		Field.getEnd();
+		endX = Field.endX;
+		endY =Field.endY;
+		
+		
+		x = Field.startX;
+		y= Field.startY;
 		while(true){
 
 			try{
 				//if(!isOut){
-
+				
 				if(enemySpeedGovenor % 3 == 0)
 					ene.updateAll(Field.array);
 				enemySpeedGovenor++;
 
-				cordX = x/30;
-				cordY = y /30;
+			
 				falling();
+				
 				move();
-				
-				
+				if(!isOut)
+				amIOut();
+				if(!victory)
+				isVictor();
 
-				isOut = amIOut();
 				
-				Thread.sleep(50);
-				//}else
-				//Thread.sleep(10000);
+				Thread.sleep(100);
+			
 
 			}
 			catch(Exception e){
@@ -140,14 +176,23 @@ public class marioScreen extends JFrame implements Runnable {
 
 		}
 	}
-	public boolean amIOut(){
-		return ene.amIOut(x,y);
+	
+	public void isVictor(){
+		if(endX == x && endY == y){
+			victory = true;
+		}
+		
+	}
+	public void amIOut(){
+		isOut = ene.amIOut(x,y);
+		
+		
 	}
 
 	public void importer() throws FileNotFoundException{
 		brick[][] ne = new brick[rowLeng][colLeng]; //Creates a new arraylist of Strings called allWords
 		//scan in the words, one on each line
-		Scanner input = new Scanner(new File("src/MarioGame/level1.txt"));
+		Scanner input = new Scanner(new File("src/MarioGameTestingPlatForm/level2.txt"));
 
 		for(int c = 0;c<colLeng;c++){
 			for(int r = 0;r<rowLeng;r++){
@@ -163,43 +208,21 @@ public class marioScreen extends JFrame implements Runnable {
 
 	public void move(){
 
-		tempX = x;
-		//tempY = y;
-
-		if(cordX + xDirect/30 > 0 && cordX + xDirect/30 < 35) 
-			if(Field.array[cordX + xDirect/30][cordY].type == 1){
-
-
-			}else{
-
-				tempX+= xDirect;
-			}
-
-//		if(cordY + yDirect/30 < 20 && cordY + yDirect/30 > 0)
-//			if(Field.array[cordX][cordY + yDirect/30].type == 1 ){
-//
-//
-//			}else  if(marioJump % 2 == 0 || marioJump % 3 == 0){
-//
-//				tempY+= yDirect;
-//			}
-
-		if(y>570){
-			y = 570;
-		}
-		if(y<0){
-			y=0;
-		}
-		marioJump++;
 		
-		if(Field.array[tempX/30][tempY/30].type == 1){
+		
+		
+		tempX = x;
+		tempY = y;
 
+		tempX+= xDirect;
+		tempY += yDirect;
+
+if(Field.array[tempX/30][tempY/30].type != 1 &&Field.array[(tempX + 15)/30][(15+ tempY)/30].type != 1){
+	y = tempY;
+	x = tempX;
+}
 		}
-		else{
-			x = tempX;
-			y = tempY;
-		}
-	}
+	
 
 	public void setXDirect(int n){
 		xDirect = n;
@@ -277,7 +300,7 @@ public class marioScreen extends JFrame implements Runnable {
 			for(int r = 0;r<rowLeng;r++){
 
 				if(Field.array[r][c].type ==9){
-					ene.add(r, c);
+					ene.add(r *30, c*30);
 					Field.array[r][c].type = 0;
 				}
 			}
@@ -291,21 +314,28 @@ public class marioScreen extends JFrame implements Runnable {
 		g.drawImage(dbImage, 0, 0, this);
 	}
 	public void paintComponent(Graphics g){
-
-		if(!amIOut()){
+		 if(victory){
+			 g.drawImage(vicImage, 10,10, this);
+			
+		}
+	else if(!isOut){
 			for(int r = 0;r<rowLeng;r++){
 				for(int c = 0;c<colLeng;c++){
 
 
 					if(Field.array[r][c].getType() == 0){
-						g.setColor(Color.red);
+						g.setColor(Color.cyan);
 
 						g.fillRect(r*30, c*30, 30,30);
-						g.setColor(Color.BLACK);
+						g.setColor(Color.cyan);
 						g.drawRect(r*30, c*30, 30, 30);
 					}
 					if(Field.array[r][c].getType() == 1){
 						g.drawImage(brick,r *30,c*30, this);
+					}
+					if(Field.array[r][c].getType() == 7){
+						g.setColor(Color.blue);
+						g.fillRect(endX, endY, 30, 30);
 					}
 
 
@@ -321,7 +351,7 @@ public class marioScreen extends JFrame implements Runnable {
 
 			for(int i = 0; i < ene.enemyList.size();i++){
 				g.setColor(Color.green);
-				g.drawImage(goomba, ene.enemyList.get(i).xE *30, ene.enemyList.get(i).yE * 30
+				g.drawImage(goomba, ene.enemyList.get(i).xE, ene.enemyList.get(i).yE
 						, this);
 				//		g.fillRect(ene.enemyList.get(i).xE *30, *30, 30, 30);
 			}
@@ -329,8 +359,10 @@ public class marioScreen extends JFrame implements Runnable {
 
 			//		g.drawString("T" + Field.array[cordX][cordY].type,30,615);
 		}
+		
+	
 		else{
-			g.drawString("GAME OVER, Thanks for playing", 100, 100);
+			g.drawImage(gameover, 10,10, this);
 		}
 		repaint();
 	}
