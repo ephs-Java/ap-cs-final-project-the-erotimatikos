@@ -7,7 +7,7 @@ public class Runner {
 	public static void main(String[] args) {
 		
 		try {
-			Menu menu = new Menu();
+			PacMenu pacmenu = new PacMenu();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

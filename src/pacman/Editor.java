@@ -24,8 +24,14 @@ public class Editor extends JFrame {
 	Image dbImage;
 	Graphics dbg;
 	
+	//level field
+	final int LEVEL;
+	
 	//maze field
 	Maze maze;
+	
+	//leaderboard for removing scores from edited files
+	Leaderboard leaderboard;
 	
 	//if the jframe is queued to be disposed or not
 	boolean isDisposable = false;
@@ -52,7 +58,16 @@ public class Editor extends JFrame {
 	final static int SCREENY = MAZEY * 33 + 100;
 	
 	//main method
-	public Editor(String s) {
+	public Editor(String s, int level) {
+		
+		LEVEL = level;
+		
+		try {
+			leaderboard = new Leaderboard();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		
 		FILEPATH = s;
 		
@@ -129,6 +144,9 @@ public class Editor extends JFrame {
 	
 	//saves the current state into the custom.txt file
 	public void save() throws FileNotFoundException{
+		
+		leaderboard.removeFromLevel(LEVEL);
+		leaderboard.writeToFile();
 		
 		File f = new File(FILEPATH);
 		

@@ -135,8 +135,12 @@ public class Leaderboard {
 	
 	//clears all of the leaders of a file. Is called once a file is edited
 	public void removeFromLevel(int level) {
-		
-		
+		for (int i = 0; i < leaders.size(); i++) {
+			if (leaders.get(i).getLevel() == level) {
+				leaders.remove(i);
+				i--;
+			}
+		}
 		
 	}
 	

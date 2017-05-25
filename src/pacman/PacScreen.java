@@ -114,14 +114,14 @@ public class PacScreen extends JFrame implements Runnable {
 					Thread.sleep(2000);
 					setup();
 					Leader l = new Leader(PLAYERNAME, score, LEVEL);
-					leaderboard.add(l);
+//					leaderboard.add(l);
 					leaderboard.writeToFile();
 					score = 0;
 				}
 				if (maze.isVictory() && !exit) {
 					Thread.sleep(2000);
 					Leader l = new Leader(PLAYERNAME, score, LEVEL);
-					leaderboard.add(l);
+//					leaderboard.add(l);
 					leaderboard.writeToFile();
 					dispose();
 					exit = true;

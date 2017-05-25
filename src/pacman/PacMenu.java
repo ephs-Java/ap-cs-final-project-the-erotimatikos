@@ -1,5 +1,7 @@
 package pacman;
 
+//-273.15˚C
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -18,7 +20,7 @@ import java.util.Scanner;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-public class Menu extends JFrame {
+public class PacMenu extends JFrame {
 	
 	//maze preview field
 	Maze preview;
@@ -60,7 +62,7 @@ public class Menu extends JFrame {
 	Levels levels;
 	
 	//main constructor
-	public Menu() throws IOException {
+	public PacMenu() throws IOException {
 		
 		username = JOptionPane.showInputDialog(null, "Enter your name here for the leaderboard: ");
 		formatName();
@@ -230,7 +232,7 @@ public class Menu extends JFrame {
 			else if (mouseX > SCREENX - 200 && mouseX < SCREENX - 100
 					&& mouseY > SCREENY - 120 && mouseY < SCREENY - 60) {
 				
-				Editor ed = new Editor(levels.get(selectedIndex).toString());
+				Editor ed = new Editor(levels.get(selectedIndex).toString(), selectedIndex);
 				
 			}
 			
@@ -245,7 +247,7 @@ public class Menu extends JFrame {
 			
 			try {
 //				System.out.println("window activated");
-				((Menu) e.getWindow()).load(levels.get(selectedIndex).toString());
+				((PacMenu) e.getWindow()).load(levels.get(selectedIndex).toString());
 				leaderboard = new Leaderboard();
 //				leaderboard.writeToFile();
 			} catch(Exception exception) {
