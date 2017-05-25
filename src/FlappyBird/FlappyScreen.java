@@ -150,7 +150,7 @@ public class FlappyScreen extends JFrame implements Runnable{
 			gameoversequence= true;
 		}
 
-		if (Charlocy >= SCREENY){
+		if (Charlocy >= SCREENY- 275){
 			Charlocy= 0;
 			
 			gameoversequence= true;
