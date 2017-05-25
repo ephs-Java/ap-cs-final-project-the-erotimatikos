@@ -196,7 +196,7 @@ public class PacMenu extends JFrame {
 //			System.out.println(mouseX + " " + mouseY);
 			
 			//checks if the user clicked one of the level buttons
-			if (mouseX > xOffset - 4 && mouseX < 150 + xOffset) {
+			if (mouseX > xOffset - 4 && mouseX < 220 + xOffset) {
 				
 				//gets the level
 				int level = (mouseY - (yOffset - 22)) / ROWSIZE;

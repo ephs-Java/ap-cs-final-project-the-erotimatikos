@@ -9,7 +9,6 @@ public class Runner {
 		try {
 			PacMenu pacmenu = new PacMenu();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
