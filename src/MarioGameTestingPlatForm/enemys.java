@@ -20,8 +20,12 @@ public class enemys {
 	
 	
 	public boolean amIOut(int x, int y){
+		int diffX;
+		int diffY;
 		for(int i = 0;i<enemyList.size();i++){
-			if(enemyList.get(i).xE == x && enemyList.get(i).yE == y){
+			diffX = Math.abs(enemyList.get(i).xE - x);
+			diffY = Math.abs(enemyList.get(i).yE - y);
+			if(diffX < 20 &&( diffY < 20)){
 				return true;
 			}
 		}
