@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -13,6 +14,7 @@ import FlappyBird.FlappyScreen;
 import RetroPong.Pong;
 import TicTackToe.Screen;
 import minesweeper.MineScreen;
+import pacman.PacMenu;
 public class Menu extends JFrame implements Runnable {
     private int SCREENX, SCREENY;
 	private Image dbImage;
@@ -93,6 +95,16 @@ public class mouse extends MouseAdapter {
 			Pong josh= new Pong();
 			Thread t1= new Thread(josh);
 			t1.start();
+		}
+		if ((MOUSEX>400 && MOUSEX<620) && (MOUSEY>150 && MOUSEY<500)){
+			MOUSEX=0;
+			MOUSEY=0;
+			try {
+				PacMenu josh= new PacMenu();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	
