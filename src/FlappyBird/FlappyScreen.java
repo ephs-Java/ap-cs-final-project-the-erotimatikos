@@ -62,7 +62,6 @@ public class FlappyScreen extends JFrame implements Runnable{
 					update();
 					pipes();
 					collision();
-					gameoveraction();
 					//Thread.sleep allows the thread to pause for 45 milliseconds every time so it doesn't run insanely fast.
 					Thread.sleep(45);
 				}
@@ -144,29 +143,21 @@ public class FlappyScreen extends JFrame implements Runnable{
 
 		// a lot of semi-functional "if" statements for hit detection of bird VS pipe
 		
-		if (Charlocy <= pipeheight - 2 &&  (Charlocx + 30 >= pipelocx && Charlocx <= pipelocx+pipewidth-3)){
-			gameover=true;
+		if (Charlocy <= pipelocy+ pipeheight  &&  (Charlocx + 25 >= pipelocx && Charlocx <= pipelocx+pipewidth-3)){
+			gameoversequence= true;
 		}
-		if (Charlocy+ 30 >= SCREENY-bottompipeh + 3 &&  (Charlocx + 30 >= pipelocx && Charlocx <= pipelocx+pipewidth-3)){
-			gameover=true;
+		if (Charlocy+ 30 >= SCREENY-bottompipeh + 3 &&  (Charlocx + 25 >= pipelocx && Charlocx <= pipelocx+pipewidth-3)){
+			gameoversequence= true;
 		}
 
 		if (Charlocy >= SCREENY){
 			Charlocy= 0;
 			
-			gameover= true;
+			gameoversequence= true;
 		}
 		
 	}
     //gameover steps
-	public void gameoveraction(){
-	// i don't remember what i made this for. this method is very redundant.
-		if (gameover){
-        Charlocy= SCREENY/2;
-        Charlocx= pipelocx;
-		gameoversequence=true;
-	}
-	}
 	//graphics
 	public void paint(Graphics g) {
 		//dbImage is very complicated, basically erases the trail that sprites moving would leave behind.
@@ -211,6 +202,7 @@ else if (hasstarted){
     	Charlocy= SCREENY/2;
     	Charlocx= 100;
     	pipecounter= 0;
+    	yVelocity= 0;
     	pipelocx=SCREENX;
     	gameoversequence=false;
     	gameover= false;
