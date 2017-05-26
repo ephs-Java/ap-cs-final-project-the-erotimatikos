@@ -10,6 +10,7 @@ import java.io.IOException;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
+import Brickbreak.BrickScreen;
 import FlappyBird.FlappyScreen;
 import RetroPong.Pong;
 import TicTackToe.Screen;
@@ -18,7 +19,7 @@ import pacman.PacMenu;
 public class Menu extends JFrame implements Runnable {
     private int SCREENX, SCREENY;
 	private Image dbImage;
-	private Image minesweeper, flappy, pong, tic, pac;
+	private Image minesweeper, flappy, pong, tic, pac, breakout;
 	private Graphics dbg;
     private int MOUSEX, MOUSEY;
 	public Menu() {
@@ -34,6 +35,8 @@ public class Menu extends JFrame implements Runnable {
 		tic= image3.getImage();
 		ImageIcon image4= new ImageIcon("src/Menu/pacman.png");
 		pac= image4.getImage();
+		ImageIcon image5= new ImageIcon("src/Menu/breakout_boost_ios.png");
+		breakout= image5.getImage();
 		}
 		addMouseListener(new mouse());
 		SCREENX= 1000;
@@ -106,6 +109,11 @@ public class mouse extends MouseAdapter {
 				e.printStackTrace();
 			}
 		}
+		if ((MOUSEX>750 && MOUSEX<970) && (MOUSEY>150 && MOUSEY<500)){
+			MOUSEX=0;
+			MOUSEY=0;
+			BrickScreen ok= new BrickScreen();
+		}
 	}
 	
 	public void paintComponent(Graphics g) throws InterruptedException {
@@ -118,6 +126,7 @@ public class mouse extends MouseAdapter {
 		g.setColor(Color.WHITE);
 		g.fillRect(405, 55, 200, 190);
 		g.drawImage(flappy, 420, 60, this);
+		//
 		g.setColor(Color.black);
 		g.fillRect(750, 50, 210, 200);
 		g.setColor(Color.WHITE);
@@ -135,6 +144,12 @@ public class mouse extends MouseAdapter {
 		g.setColor(Color.WHITE);
 		g.fillRect(405, 305, 200, 190);
 		g.drawImage(pac, 420 , 310, this);
+		//
+		g.setColor(Color.black);
+		g.fillRect(750, 300, 210, 200);
+		g.setColor(Color.WHITE);
+		g.fillRect(755, 305, 200, 190);
+		g.drawImage(breakout, 770 , 310, this);
 	}
 	
 	

@@ -50,6 +50,7 @@ public class BrickScreen extends JFrame implements Runnable{
 	    paddlew= 125;
 	    ballx=SCREENX/2- 20;
 	    ballchangex= 1;
+	    setBackground(Color.BLUE);
 	    bally= SCREENY- 70;
 	    ImageIcon paddlea= new ImageIcon("src/Brickbreak/paddle.png");
 	    paddle= paddlea.getImage();
@@ -70,6 +71,7 @@ public class BrickScreen extends JFrame implements Runnable{
 		g.drawImage(dbImage, 0, 0, this);
 	}
 	public void paintComponent(Graphics g) throws InterruptedException, FileNotFoundException {
+		
 		if (!start){
 		 ImageIcon titlei= new ImageIcon("src/Brickbreak/title.png");
 		 title= titlei.getImage();
