@@ -14,11 +14,26 @@ public class enemys {
 	
 	int first = 0;
 	int flip;
+	
+	
+	//resets the first postion
+	public void resetFirst(){
+		first = 0;
+		
+	} 
+	
+	//adds enemys to the enemy arrayList
 	public void add(int x, int y){
 		enemyList.add(new enemy(x,y));
 	}
-	
-	
+	//Clears all goombas and resets flipper. THis allows you to change levels without goomba
+	public void clearGoombas(){
+		
+			enemyList.clear();
+		
+		
+			flippers.clear();
+	}
 	public boolean amIOut(int x, int y){
 		int diffX;
 		int diffY;
@@ -49,14 +64,15 @@ public class enemys {
 			}
 		}
 		first++;
-		for(int i = 0;i<enemyList.size();i++){			flip = flippers.get(i);
-		if(arr[enemyList.get(i).xE/30+flip][enemyList.get(i).yE/30].type == 1){
-			
-			flip = flippers.set(i,flip * -1);
+		for(int i = 0;i<flippers.size();i++){//Possible problem, was enemyList	
+			flip = flippers.get(i);
+			if(arr[enemyList.get(i).xE/30+flip][enemyList.get(i).yE/30].type == 1){
+
+				flip = flippers.set(i,flip * -1);
+			}
+			else{
+				enemyList.get(i).xE+=flip *30;
+			}
 		}
-		else{
-			enemyList.get(i).xE+=flip *30;
-		}
-	}
 	}
 }

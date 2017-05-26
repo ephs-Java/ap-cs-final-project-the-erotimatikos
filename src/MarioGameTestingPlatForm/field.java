@@ -13,7 +13,11 @@ public class field {
 	public int endX;
 	public int endY;
 	public brick[][] array;
-	//
+	public ArrayList<brick> brickList = new ArrayList<brick>();
+	
+	
+	
+	//Finds the end coordinate of the mario finish line brick
 	public void getEnd(){
 		for(int c = 0;c<colLeng;c++){
 			for(int r = 0; r<rowLeng;r++){
@@ -25,7 +29,7 @@ public class field {
 		}
 
 	}
-	
+	//Gets the x and y coordinates of the mario start brick
 	public void getStart(){
 		for(int c = 0;c<colLeng;c++){
 			for(int r = 0; r<rowLeng;r++){
@@ -36,9 +40,14 @@ public class field {
 			}
 		}
 	}
+	public void clearBricks(){
+			brickList.clear();
+		
+	}
 	
 	
-	public ArrayList<brick> brickList = new ArrayList<brick>();
+	
+	//Finds all of the bricks in the game, it is necesary in order for the game to know the pixel coordinartes of the bricks	
 	public void brickHunter(){
 		for(int c= 0;c<colLeng;c++){
 			for(int r = 0; r < rowLeng;r++){
@@ -52,6 +61,8 @@ public class field {
 		}
 	}
 	
+	
+	//Constructor that is used at the beginning
 	public field(){
 		array = new brick[rowLeng][colLeng];
 		for(int r = 0;r<rowLeng;r++){
@@ -64,6 +75,8 @@ public class field {
 		}
 	}
 	
+	
+	//Creates the game field, it is called in importer
 	public field(brick[][] arr){
 		array = new brick[rowLeng][colLeng];
 		for(int r = 0;r<rowLeng;r++){
@@ -75,11 +88,5 @@ public class field {
 			}
 		}
 	}
-//	public void printField(){
-//		for(int r = 0;r<200;r++){
-//			for(int c = 0;c<200;c++){
-//				
-//			}
-//		}
-//	}
+
 }

@@ -26,7 +26,7 @@ public class marioScreen extends JFrame implements Runnable {
 	int screenX = 1050,screenY = 630, rowLeng = Field.rowLeng, colLeng = Field.colLeng ;
 	int x,y,yDirect,xDirect, tempX,tempY,endX,endY;
 	int marioJump = 0;
-	int level = 3;
+	int level = 1;
 
 	//Enemys will move on multiples of 3
 	int enemySpeedGovenor = 0;
@@ -41,7 +41,6 @@ public class marioScreen extends JFrame implements Runnable {
 	boolean canJump = false;
 	boolean falling = true;
 	boolean victory = false;
-	boolean victoryLoop = false;
 	int gravity = 6;
 	
 
@@ -106,8 +105,7 @@ public class marioScreen extends JFrame implements Runnable {
 
 		importer();
 		enemyFinder(); 
-		x = 180;
-		y=540;
+		
 		ImageIcon brickk = new ImageIcon("src/MarioGame/brick.png");
 		brick = brickk.getImage();
 
@@ -149,13 +147,13 @@ public class marioScreen extends JFrame implements Runnable {
 		while(true){
 
 			try{
-				//if(!isOut){
+			
 				
 				if(enemySpeedGovenor % 3 == 0)
 					ene.updateAll(Field.array);
 				enemySpeedGovenor++;
 
-			
+				
 				falling();
 				
 				move();
@@ -164,7 +162,6 @@ public class marioScreen extends JFrame implements Runnable {
 				if(!victory)
 				isVictor();
 
-				
 				Thread.sleep(100);
 			
 
@@ -208,21 +205,17 @@ public class marioScreen extends JFrame implements Runnable {
 	}
 
 	public void move(){
-
-		
-		
-		
 		tempX = x;
 		tempY = y;
 
 		tempX+= xDirect;
 		tempY += yDirect;
 
-if(Field.array[tempX/30][tempY/30].type != 1 &&Field.array[(tempX + 15)/30][(15+ tempY)/30].type != 1){
-	y = tempY;
-	x = tempX;
-}
+		if(Field.array[tempX/30][tempY/30].type != 1 &&Field.array[(tempX + 15)/30][(15+ tempY)/30].type != 1){
+			y = tempY;
+			x = tempX;
 		}
+	}
 	
 
 	public void setXDirect(int n){
@@ -319,22 +312,53 @@ if(Field.array[tempX/30][tempY/30].type != 1 &&Field.array[(tempX + 15)/30][(15+
 		}
 		g.drawImage(dbImage, 0, 0, this);
 	}
-	public void paintComponent(Graphics g) throws InterruptedException{
-		if(victory){
+	
+	public void winner() throws InterruptedException{
+		 if(victory){
 			
-			victoryLoop = false;
-		}
-		 if(victoryLoop){
-			 System.out.println("We are in the firstLoop");
 			 level++;
+			 if(level > 3){
+				 level = 1;
+			 }
+			try {
 				isOut = false;
 				victory = false;
+				ene.clearGoombas();
+			
+				importer();
+			
+				
+				Field.clearBricks();
+				Field.brickHunter();
+				Field.getStart();
+				Field.getEnd();
+				endX = Field.endX;
+				endY =Field.endY;
+				x = Field.startX;
+				y= Field.startY;
+				enemyFinder();
+				ene.resetFirst();
+				ene.updateAll(Field.array);
+				System.out.println(ene.flippers.toString());
+				
+				
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 				System.out.println(level);
+
+			
+				
 				
 			// g.drawImage(vicImage, 10,10, this);
 			
 		}
-	else if(!isOut){
+	}
+	public void paintComponent(Graphics g) throws InterruptedException{
+		winner();
+	 if(!isOut){
 			for(int r = 0;r<rowLeng;r++){
 				for(int c = 0;c<colLeng;c++){
 
