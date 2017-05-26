@@ -37,7 +37,15 @@ public class enemys {
 		
 		if(first == 0){
 			for(int i = 0;i<enemyList.size();i++){
-				flippers.add(1);
+				double ran = Math.random();
+				int num;
+				if(ran > .5){
+					num = -1;
+				}
+				else{
+					num = 1;
+				}
+				flippers.add(num);
 			}
 		}
 		first++;

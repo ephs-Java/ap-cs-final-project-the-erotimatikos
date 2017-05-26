@@ -26,7 +26,7 @@ public class marioScreen extends JFrame implements Runnable {
 	int screenX = 1050,screenY = 630, rowLeng = Field.rowLeng, colLeng = Field.colLeng ;
 	int x,y,yDirect,xDirect, tempX,tempY,endX,endY;
 	int marioJump = 0;
-
+	int level = 3;
 
 	//Enemys will move on multiples of 3
 	int enemySpeedGovenor = 0;
@@ -41,6 +41,7 @@ public class marioScreen extends JFrame implements Runnable {
 	boolean canJump = false;
 	boolean falling = true;
 	boolean victory = false;
+	boolean victoryLoop = false;
 	int gravity = 6;
 	
 
@@ -192,7 +193,7 @@ public class marioScreen extends JFrame implements Runnable {
 	public void importer() throws FileNotFoundException{
 		brick[][] ne = new brick[rowLeng][colLeng]; //Creates a new arraylist of Strings called allWords
 		//scan in the words, one on each line
-		Scanner input = new Scanner(new File("src/MarioGameTestingPlatForm/level2.txt"));
+		Scanner input = new Scanner(new File("src/MarioGameTestingPlatForm/level" + level +".txt"));
 
 		for(int c = 0;c<colLeng;c++){
 			for(int r = 0;r<rowLeng;r++){
@@ -310,12 +311,27 @@ if(Field.array[tempX/30][tempY/30].type != 1 &&Field.array[(tempX + 15)/30][(15+
 	public void paint(Graphics g){
 		dbImage = createImage(getWidth(), getHeight());
 		dbg = dbImage.getGraphics();
-		paintComponent(dbg);
+		try {
+			paintComponent(dbg);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		g.drawImage(dbImage, 0, 0, this);
 	}
-	public void paintComponent(Graphics g){
-		 if(victory){
-			 g.drawImage(vicImage, 10,10, this);
+	public void paintComponent(Graphics g) throws InterruptedException{
+		if(victory){
+			
+			victoryLoop = false;
+		}
+		 if(victoryLoop){
+			 System.out.println("We are in the firstLoop");
+			 level++;
+				isOut = false;
+				victory = false;
+				System.out.println(level);
+				
+			// g.drawImage(vicImage, 10,10, this);
 			
 		}
 	else if(!isOut){
@@ -363,6 +379,7 @@ if(Field.array[tempX/30][tempY/30].type != 1 &&Field.array[(tempX + 15)/30][(15+
 	
 		else{
 			g.drawImage(gameover, 10,10, this);
+			
 		}
 		repaint();
 	}

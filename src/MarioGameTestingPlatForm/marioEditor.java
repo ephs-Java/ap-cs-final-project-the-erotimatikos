@@ -24,12 +24,13 @@ public class marioEditor extends JFrame implements Runnable{
 	
 	private Graphics dbg;;
 	private Image dbImage;
+	
 	//35 r by 20c
 	int screenX = 1050,screenY = 630, rowLeng = Field.rowLeng, colLeng = Field.colLeng ;
 	int x,y,yDirect,xDirect,cordX,cordY;
 	
 	Image brick;
-
+int level = 1;
 	public static void main(String[] args){
 		marioEditor editor = new marioEditor();
 		Thread t = new Thread(editor);
@@ -74,7 +75,7 @@ public class marioEditor extends JFrame implements Runnable{
 	public void importer() throws FileNotFoundException{
 		brick[][] ne = new brick[rowLeng][colLeng]; //Creates a new arraylist of Strings called allWords
 		//scan in the words, one on each line
-		Scanner input = new Scanner(new File("src/MarioGameTestingPlatForm/level2.txt"));
+		Scanner input = new Scanner(new File("src/MarioGameTestingPlatForm/level"+ level + ".txt"));
 		
 		for(int c = 0;c<colLeng;c++){
 		for(int r = 0;r<rowLeng;r++){
@@ -97,7 +98,7 @@ public class marioEditor extends JFrame implements Runnable{
 	public void export() throws FileNotFoundException{
 		
 			
-			PrintStream output = new PrintStream(new File("src/MarioGameTestingPlatForm/level2.txt")); 
+			PrintStream output = new PrintStream(new File("src/MarioGameTestingPlatForm/level"+ level + ".txt")); 
 			for(int c = 0; c < colLeng;c++){
 			for(int r = 0;r < rowLeng; r++){
 					output.println(Field.array[r][c].type);
@@ -153,15 +154,22 @@ public class marioEditor extends JFrame implements Runnable{
 				}
 			}
 			if(code == e.VK_Z){
-			
+
 				Field.array[cordX][cordY].type = 9;
 			}
 			if(code == e.VK_S){
-				
+
 				Field.array[cordX][cordY].type = 6;
 			}
-if(code == e.VK_V){
-				
+			if(code == e.VK_L){
+
+				level++;
+				if(level > 3){
+					level=1;
+				}
+			}
+			if(code == e.VK_V){
+
 				Field.array[cordX][cordY].type = 7;
 			}
 			if(code == e.VK_E){
