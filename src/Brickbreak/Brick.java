@@ -18,10 +18,19 @@ public class Brick {
     public boolean isAlive(){
     	return broken;
     }
+    public void setbool(boolean a){
+    	broken= a;
+    }
     public int getX(){
     	return xloc;
     }
     public int getY(){
     	return yloc;
+    }
+    public void setX(int a){
+    	xloc= a;
+    }
+    public void setY(int a){
+    	yloc= a;
     }
 }

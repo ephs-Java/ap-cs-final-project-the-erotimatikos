@@ -24,8 +24,20 @@ public class Editor extends JFrame {
 	Image dbImage;
 	Graphics dbg;
 	
+	//level field
+	final int LEVEL;
+	
 	//maze field
 	Maze maze;
+	
+	//leaderboard for removing scores from edited files
+	Leaderboard leaderboard;
+	
+	//if the jframe is queued to be disposed or not
+	boolean isDisposable = false;
+	
+	//file to save and edit to
+	final String FILEPATH;
 	
 	//maze dimensions
 	final static int MAZEX = 30;
@@ -46,7 +58,18 @@ public class Editor extends JFrame {
 	final static int SCREENY = MAZEY * 33 + 100;
 	
 	//main method
-	public Editor() {
+	public Editor(String s, int level) {
+		
+		LEVEL = level;
+		
+		try {
+			leaderboard = new Leaderboard();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		FILEPATH = s;
 		
 //		maze = new Maze(MAZEX, MAZEY);
 		try {
@@ -122,7 +145,10 @@ public class Editor extends JFrame {
 	//saves the current state into the custom.txt file
 	public void save() throws FileNotFoundException{
 		
-		File f = new File("src/pacman/custom.txt");
+		leaderboard.removeFromLevel(LEVEL);
+		leaderboard.writeToFile();
+		
+		File f = new File(FILEPATH);
 		
 		try (BufferedWriter bw = new BufferedWriter(new FileWriter(f))) {
 			
@@ -151,7 +177,7 @@ public class Editor extends JFrame {
 	
 	public void load() throws FileNotFoundException{
 		
-		File f = new File("src/pacman/custom.txt");
+		File f = new File(FILEPATH);
 		
 		if (!f.exists()) {
 //			System.out.println("file not found");
@@ -180,7 +206,7 @@ public class Editor extends JFrame {
 		}
 		maze = new Maze(totalCols, totalRows);
 		
-		Scanner update = new Scanner(new File("src/pacman/custom.txt"));
+		Scanner update = new Scanner(new File(FILEPATH));
 		int row = 0;
 		while (update.hasNext()) {
 			String line = update.nextLine();
@@ -242,10 +268,11 @@ public class Editor extends JFrame {
 			switch (key) {
 			
 			case KeyEvent.VK_Q:
-				System.exit(0);
+				isDisposable = true;
 				break;
 			case KeyEvent.VK_R:
 				maze = new Maze(MAZEX, MAZEY);
+				maze.fillEdges();
 				try {
 					save();
 				} catch (FileNotFoundException e1) {
@@ -254,21 +281,25 @@ public class Editor extends JFrame {
 				}
 				break;
 			case KeyEvent.VK_LEFT:
+			case KeyEvent.VK_A:
 				if (blockX > 0) {
 					blockX --;
 				}
 				break;
 			case KeyEvent.VK_UP:
+			case KeyEvent.VK_W:
 				if (blockY > 0) {
 					blockY --;
 				}
 				break;
 			case KeyEvent.VK_RIGHT:
+			case KeyEvent.VK_D:
 				if (blockX < maze.maze.length - 1) {
 					blockX ++;
 				}
 				break;
 			case KeyEvent.VK_DOWN:
+			case KeyEvent.VK_S:
 				if (blockY < maze.maze[0].length - 1) {
 					blockY ++;
 				}
@@ -281,6 +312,25 @@ public class Editor extends JFrame {
 				break;
 			case KeyEvent.VK_C:
 				maze.maze[blockX][blockY].setState(Tile.GHOSTSPAWN);
+				try {
+					save();
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				break;	
+				
+			case KeyEvent.VK_V:
+				maze.maze[blockX][blockY].setState(Tile.POWERPELLET);
+				try {
+					save();
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				break;
+			case KeyEvent.VK_H:
+				maze.fillBlankWithDots();
 				try {
 					save();
 				} catch (FileNotFoundException e1) {
@@ -303,6 +353,10 @@ public class Editor extends JFrame {
 	//paints stuff to the jframe
 	public void paintComponent(Graphics g) {
 		
+		if (isDisposable) {
+			this.dispose();
+		}
+		
 		for (int r = 0; r < maze.maze.length; r++) {
 			for (int c = 0; c < maze.maze[0].length; c++) {
 				
@@ -321,8 +375,8 @@ public class Editor extends JFrame {
 				}
 				else if (state == Tile.PILL) {
 					g.setColor(Color.white);
-					g.fillOval(xloc + BLOCKWIDTH / 4,
-					yloc + BLOCKWIDTH / 4, BLOCKWIDTH / 2, BLOCKWIDTH / 2);
+					g.fillOval(xloc + BLOCKWIDTH * 3 /7,
+					yloc + BLOCKWIDTH * 3 / 7, BLOCKWIDTH / 4, BLOCKWIDTH / 4);
 				}
 				else if (state == Tile.SPAWN) {
 					g.setColor(Color.BLUE);
@@ -343,6 +397,11 @@ public class Editor extends JFrame {
 					g.setColor(Color.CYAN);
 					g.fillOval(xloc + BLOCKWIDTH / 4,
 							yloc + BLOCKWIDTH / 4, BLOCKWIDTH / 2, BLOCKWIDTH / 2);
+				}
+				else if (state == Tile.POWERPELLET) {
+					g.setColor(Color.white);
+					g.fillOval(xloc + BLOCKWIDTH / 4,
+					yloc + BLOCKWIDTH / 4, BLOCKWIDTH / 2, BLOCKWIDTH / 2);
 				}
 				g.setColor(Color.blue);
 				g.drawRect(xloc, yloc, BLOCKWIDTH, BLOCKWIDTH);
@@ -385,6 +444,10 @@ public class Editor extends JFrame {
 				break;
 			case Tile.GHOSTSPAWN:
 				statestring = "Ghost spawn";
+				break;
+			case Tile.POWERPELLET:
+				statestring = "Power pellet";
+				break;
 			}
 			
 		} catch(Exception e) {

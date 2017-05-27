@@ -8,8 +8,13 @@ public class Ghosts {
 	//ghosts field
 	private ArrayList<Ghost> ghosts;
 	
-	//1 in this number is the chance that a ghost will go the opposite way
+	//whether or not the ghosts run away instead of moving toward the player
+	public boolean runAway = false;
+	
+	//1 in this number is the chance that a ghost will move randomly this turn
 	private int oppositechance = 20; 
+	
+	public int ghostSpeed = 5;
 	
 	//default constructor
 	public Ghosts() {
@@ -48,14 +53,14 @@ public class Ghosts {
 			
 			Ghost g = get(i);
 			
+//			System.out.println(bestPathLength(field, g, pacX, pacY, blockwidth));
+			
 			//update the ghost location based on its direction
+			
 			update(g);
 			
-			//gets the index of each ghost
-			int Xindex = (g.getX() - 25) / blockwidth;
-			int Yindex = (g.getY() - 50) / blockwidth;
 			
-			//if the ghost is not aligned, skip this ghost
+			//if the ghost is not aligned, skip this ghost			
 			if ((g.getX() - 25) % blockwidth != 0) {
 				continue;
 			}
@@ -63,11 +68,22 @@ public class Ghosts {
 				continue;
 			}
 			
+			g.setDirection(Ghost.STILL);
+			
+			if (runAway) {
+				runAway (field, g, pacX, pacY, blockwidth);
+				continue;
+			}
+			
+			//gets the index of each ghost
+			int Xindex = (g.getX() - 25) / blockwidth;
+			int Yindex = (g.getY() - 50) / blockwidth;
+			
 			//random chance variable
 			int chance = (int) (Math.random() * oppositechance) + 1;
 			
 			//stops the ghost
-			g.setDirection(Ghost.STILL);
+//			g.setDirection(Ghost.STILL);
 			
 			int xdif = Math.abs(pacX - Xindex);
 			int ydif = Math.abs(pacY - Yindex);
@@ -116,21 +132,45 @@ public class Ghosts {
 		
 	}
 	
+	//aligns all ghosts to the nearest block
+	public void alignAll(int blockwidth) {
+		
+		for (int i = 0; i < ghosts.size(); i++) {
+			
+			Ghost g = ghosts.get(i);
+			
+			int x = g.getX();
+			int y = g.getY();
+			
+			x -= 25;
+			y -= 50;
+			
+			g.setLocation(g.getX() - x % blockwidth, g.getY() - y % blockwidth);
+			
+//			int Xindex = (g.getX() - 25) / blockwidth;
+//			int Yindex = (g.getY() - 50) / blockwidth;
+			
+//			g.setLocation(Xindex * blockwidth + 25, Yindex * blockwidth + 25);
+			
+		}
+		
+	}
+	
 	//updates the location of the parameter ghost based on which direction they are going
 	public void update(Ghost g) {
 		
 		//updates the location of the ghost based on which direction they are going
 		if (g.getDirection() == Ghost.RIGHT) {
-			g.setLocation(g.getX() + 1, g.getY());
+			g.setLocation(g.getX() + ghostSpeed, g.getY());
 		}
 		if (g.getDirection() == Ghost.LEFT) {
-			g.setLocation(g.getX() - 1, g.getY());
+			g.setLocation(g.getX() - ghostSpeed, g.getY());
 		}
 		if (g.getDirection() == Ghost.DOWN) {
-			g.setLocation(g.getX(), g.getY() + 1);
+			g.setLocation(g.getX(), g.getY() + ghostSpeed);
 		}
 		if (g.getDirection() == Ghost.UP) {
-			g.setLocation(g.getX(), g.getY() - 1);
+			g.setLocation(g.getX(), g.getY() - ghostSpeed);
 		}
 		
 	}
@@ -173,6 +213,70 @@ public class Ghosts {
 			}
 			
 		}
+		
+	}
+	
+	//moves the ghost away from the pac man
+	public void runAway(Tile[][] field, Ghost g, int pacX, int pacY, int blockwidth) {
+		
+		int Xindex = (g.getX() - 25) / blockwidth;
+		int Yindex = (g.getY() - 50) / blockwidth;
+		
+		int xdif = Math.abs(pacX - Xindex);
+		int ydif = Math.abs(pacY - Yindex);
+		
+		if (xdif >= ydif) {
+			//moving left, normally right
+			if (pacX > Xindex && field[Xindex - 1][Yindex].getState() != Tile.WALL) {
+				g.setDirection(Ghost.LEFT);
+			}
+			//moving right, normally left
+			else if (pacX < Xindex && field[Xindex + 1][Yindex].getState() != Tile.WALL) {
+				g.setDirection(Ghost.RIGHT);
+			}
+			else {
+				updateRandom(field, g, blockwidth);
+			}
+			
+		}
+		
+		else if (ydif > xdif){
+			
+			//moving down, normally up
+			if (pacY < Yindex && field[Xindex][Yindex + 1].getState() != Tile.WALL) {
+				g.setDirection(Ghost.DOWN);
+			}
+			//moving up, normally down
+			else if (pacY > Yindex && field[Xindex][Yindex - 1].getState() != Tile.WALL) {
+				g.setDirection(Ghost.UP);
+			}
+			else {
+				updateRandom(field, g, blockwidth);
+			}
+			
+		}
+		
+	}
+	
+	//finds the length of the most efficient path for the ghost
+	public int bestPathLength (Tile[][] field, Ghost g, int pacX, int pacY, int blockwidth) {
+		
+//		System.out.println(pacX + " " + pacY);
+		
+		boolean[][] isChecked = new boolean[field.length][field[0].length];
+		
+		int score = 0;
+		
+		if (g.getX() == pacX && g.getY() == pacY) {
+			return 0;
+		}
+		
+		int Xindex = (g.getX() - 25) / blockwidth;
+		int Yindex = (g.getY() - 50) / blockwidth;
+		
+		Ghost newGhost = new Ghost(g.getX(), g.getY());
+		
+		return 0;
 		
 	}
 	
@@ -233,6 +337,29 @@ public class Ghosts {
 		}
 		
 		return Ghost.STILL;
+		
+	}
+
+	//resets the ghost to its original location given the arraylist index of the ghost
+	public void returnToSpawn(Tile[][] field, int index, int blockwidth) {
+		
+		int spawnNum = 0;
+		
+		for (int r = 0; r < field.length; r++) {
+			
+			for (int c = 0; c < field[0].length; c++) {
+				
+				if (field[r][c].getState() == Tile.GHOSTSPAWN) {
+					spawnNum ++;
+				}
+				
+				if (spawnNum == index) {
+					ghosts.get(index).setLocation((r * blockwidth) + 25, (c * blockwidth) + 80);
+				}
+				
+			}
+			
+		}
 		
 	}
 	
