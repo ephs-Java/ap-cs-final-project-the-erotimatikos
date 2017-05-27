@@ -68,7 +68,7 @@ public class PacScreen extends JFrame implements Runnable {
 	final int QUEUESIZE = 10;
 	final int TPQUEUE = 20;
 	final int MOUTHQUEUE = 3;
-	final int POWERQUEUE = 999999999;
+	final int POWERQUEUE = 100;
 	
 	//width of each block
 	final int BLOCKWIDTH = 30;
@@ -117,6 +117,7 @@ public class PacScreen extends JFrame implements Runnable {
 //					ghosts.alignAll(BLOCKWIDTH);
 					ghosts.runAway = false;
 					ghosts.ghostSpeed = 5;
+					ghosts.activateAll();
 				}
 				
 				ghosts.updateAll(maze.maze, pac.getPacXindex(), pac.getPacYindex(), BLOCKWIDTH);
@@ -242,6 +243,7 @@ public class PacScreen extends JFrame implements Runnable {
 			if (xdif < BLOCKWIDTH && ydif < BLOCKWIDTH) {
 				if (ghosts.runAway) {
 					ghosts.returnToSpawn(maze.maze, i, BLOCKWIDTH);
+					ghosts.get(i).isActive = false;
 //					ghosts.alignAll(BLOCKWIDTH);
 				}
 				else {
@@ -707,6 +709,9 @@ public class PacScreen extends JFrame implements Runnable {
 		//prints the ghosts
 		for (int i = 0; i < ghosts.length(); i++) {
 			g.setColor(Color.MAGENTA);
+			if (!ghosts.get(i).isActive) {
+//				continue;
+			}
 			if (ghosts.runAway) {
 				g.drawImage(ghostrunning.getImage(), ghosts.get(i).getX() + 2, ghosts.get(i).getY() + 2
 						, BLOCKWIDTH, BLOCKWIDTH, this);

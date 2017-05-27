@@ -44,6 +44,15 @@ public class Ghosts {
 		ghosts = new ArrayList<Ghost>();
 	}
 	
+	//activates all of the ghosts
+	public void activateAll() {
+		
+		for (int i = 0; i < ghosts.size(); i++) {
+			ghosts.get(i).activate();
+		}
+		
+	}
+	
 	//updates the location of all of the ghosts based on their location in the array and
 	//the location of the pac man
 	public void updateAll(Tile[][] field, int pacX, int pacY, int blockwidth) {
@@ -52,6 +61,10 @@ public class Ghosts {
 		for (int i = 0; i < ghosts.size(); i++) {
 			
 			Ghost g = get(i);
+			
+			if (!g.isActive) {
+				continue;
+			}
 			
 //			System.out.println(bestPathLength(field, g, pacX, pacY, blockwidth));
 			
@@ -70,6 +83,7 @@ public class Ghosts {
 			
 			g.setDirection(Ghost.STILL);
 			
+			//makes the ghosts run away if applicable
 			if (runAway) {
 				runAway (field, g, pacX, pacY, blockwidth);
 				continue;
@@ -132,6 +146,19 @@ public class Ghosts {
 		
 	}
 	
+	//checks for ghost collision with a wall, similar to pac man logic
+	public void wallCollision(Tile[][] field, Ghost g, int blockwidth) {
+		
+		//gets the index of each ghost
+		int Xindex = (g.getX() - 25) / blockwidth;
+		int Yindex = (g.getY() - 50) / blockwidth;
+		
+		System.out.println(Xindex + " " + Yindex);
+		
+		
+		
+	}
+	
 	//aligns all ghosts to the nearest block
 	public void alignAll(int blockwidth) {
 		
@@ -153,6 +180,16 @@ public class Ghosts {
 //			g.setLocation(Xindex * blockwidth + 25, Yindex * blockwidth + 25);
 			
 		}
+		
+	}
+	
+	//aligns the given ghosts to the nearest block
+	public void align(Ghost g, int blockwidth) {
+		
+		int Xindex = (g.getX() - 25) / blockwidth;
+		int Yindex = (g.getY() - 50) / blockwidth;
+		
+		g.setLocation(Xindex * blockwidth + 25, Yindex * blockwidth + 50);
 		
 	}
 	
@@ -343,18 +380,23 @@ public class Ghosts {
 	//resets the ghost to its original location given the arraylist index of the ghost
 	public void returnToSpawn(Tile[][] field, int index, int blockwidth) {
 		
-		int spawnNum = 0;
+		int spawnNum = -1;
 		
 		for (int r = 0; r < field.length; r++) {
 			
 			for (int c = 0; c < field[0].length; c++) {
 				
 				if (field[r][c].getState() == Tile.GHOSTSPAWN) {
+					
 					spawnNum ++;
-				}
-				
-				if (spawnNum == index) {
-					ghosts.get(index).setLocation((r * blockwidth) + 25, (c * blockwidth) + 80);
+					
+					if (spawnNum == index) {
+						System.out.println("" + r * blockwidth + 25 + " " + c * blockwidth+ 50);
+						ghosts.get(index).setLocation(r * blockwidth + 25, c * blockwidth + 50);
+//						wallCollision(field, ghosts.get(index), blockwidth);
+						align(ghosts.get(index), blockwidth);
+						ghosts.get(index).setDirection(Ghost.STILL);
+					}
 				}
 				
 			}
