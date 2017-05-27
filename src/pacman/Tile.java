@@ -18,6 +18,9 @@ public class Tile {
 	//c press
 	public static final int GHOSTSPAWN = 6;
 	
+	//v press
+	public static final int POWERPELLET = 7;
+	
 	//creates a blank tile. default constructor
 	public Tile() {
 		this.state = 0;
@@ -48,8 +51,8 @@ public class Tile {
 		if (s < 0) {
 			this.state = BLANK;
 		}
-		else if (s > GHOSTSPAWN) {
-			this.state = GHOSTSPAWN;
+		else if (s > POWERPELLET) {
+			this.state = POWERPELLET;
 		}
 		else {
 			this.state = s;

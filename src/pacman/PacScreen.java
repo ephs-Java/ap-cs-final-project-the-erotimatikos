@@ -30,10 +30,11 @@ public class PacScreen extends JFrame implements Runnable {
 	//leaderboard for submitting scores
 	Leaderboard leaderboard;
 	
-	//queue field
+	//queue fields
 	Queue queue;
 	Queue tpwait;
 	Queue mouthQueue;
+	Queue powerQueue;
 	
 	//pacman field
 	Pacman pac;
@@ -43,6 +44,7 @@ public class PacScreen extends JFrame implements Runnable {
 	
 	//images
 	ImageIcon ghost;
+	ImageIcon ghostrunning;
 	ImageIcon pacmanclosed;
 	ImageIcon pacmanright;
 	ImageIcon pacmanleft;
@@ -66,6 +68,7 @@ public class PacScreen extends JFrame implements Runnable {
 	final int QUEUESIZE = 10;
 	final int TPQUEUE = 20;
 	final int MOUTHQUEUE = 3;
+	final int POWERQUEUE = 999999999;
 	
 	//width of each block
 	final int BLOCKWIDTH = 30;
@@ -103,12 +106,26 @@ public class PacScreen extends JFrame implements Runnable {
 				
 				checkMovement();
 				Thread.sleep(threadDelay);
+				
+				//makes the ghosts go the opposite direction
+				if (powerQueue.indexOf("RUN") >= 0) {
+					ghosts.runAway = true;
+					ghosts.ghostSpeed = 3;
+//					ghosts.alignAll(BLOCKWIDTH);
+				}
+				else {
+//					ghosts.alignAll(BLOCKWIDTH);
+					ghosts.runAway = false;
+					ghosts.ghostSpeed = 5;
+				}
+				
 				ghosts.updateAll(maze.maze, pac.getPacXindex(), pac.getPacYindex(), BLOCKWIDTH);
 				
 				//updates queues
 				queue.update();
 				tpwait.update();
 				mouthQueue.update();
+				powerQueue.update();
 				
 				if (lose()) {
 					Thread.sleep(2000);
@@ -153,6 +170,7 @@ public class PacScreen extends JFrame implements Runnable {
 		
 		//ghost image
 		ghost = new ImageIcon(IMAGESOURCE + "ghost.gif");
+		ghostrunning = new ImageIcon(IMAGESOURCE + "ghostrunning.gif");
 		
 		//pacman images
 		pacmanright = new ImageIcon(IMAGESOURCE + "pacmanright.gif");
@@ -220,8 +238,15 @@ public class PacScreen extends JFrame implements Runnable {
 		for (int i = 0; i < ghosts.length(); i++) {
 			int xdif = Math.abs(ghosts.get(i).getX() - pac.getPacmanX()) + BLOCKWIDTH / 2 + 1;
 			int ydif = Math.abs(ghosts.get(i).getY() - pac.getPacmanY()) + BLOCKWIDTH / 2 + 1;
+			
 			if (xdif < BLOCKWIDTH && ydif < BLOCKWIDTH) {
-				return true;
+				if (ghosts.runAway) {
+					ghosts.returnToSpawn(maze.maze, i, BLOCKWIDTH);
+//					ghosts.alignAll(BLOCKWIDTH);
+				}
+				else {
+					return true;
+				}
 			}
 		}
 		return false;
@@ -294,6 +319,29 @@ public class PacScreen extends JFrame implements Runnable {
 			maze.maze[pac.getPacXindex() + 1][pac.getPacYindex()].setState(Tile.BLANK);
 			mouthQueue.add("EAT");
 			score += 100;
+		}
+		
+		//checks for power pellets
+		if (maze.maze[pac.getPacXindex()][pac.getPacYindex() + 1].getState() == Tile.POWERPELLET && !yAligned) {
+			maze.maze[pac.getPacXindex()][pac.getPacYindex() + 1].setState(Tile.BLANK);
+			mouthQueue.add("EAT");
+			powerQueue.add("RUN");
+			ghosts.alignAll(BLOCKWIDTH);
+			score += 200;
+		}
+		if (maze.maze[pac.getPacXindex()][pac.getPacYindex()].getState() == Tile.POWERPELLET) {
+			maze.maze[pac.getPacXindex()][pac.getPacYindex()].setState(Tile.BLANK);
+			mouthQueue.add("EAT");
+			powerQueue.add("RUN");
+			ghosts.alignAll(BLOCKWIDTH);
+			score += 200;
+		}
+		if (maze.maze[pac.getPacXindex() + 1][pac.getPacYindex()].getState() == Tile.POWERPELLET && !xAligned) {
+			maze.maze[pac.getPacXindex() + 1][pac.getPacYindex()].setState(Tile.BLANK);
+			mouthQueue.add("EAT");
+			powerQueue.add("RUN");
+			ghosts.alignAll(BLOCKWIDTH);
+			score += 200;
 		}
 		
 		//checks for teleporters
@@ -425,6 +473,7 @@ public class PacScreen extends JFrame implements Runnable {
 		tpwait = new Queue(TPQUEUE);
 		queue = new Queue(QUEUESIZE);
 		mouthQueue = new Queue(MOUTHQUEUE);
+		powerQueue = new Queue (POWERQUEUE);
 		
 		//creates ghosts
 		ghosts = new Ghosts();
@@ -583,17 +632,14 @@ public class PacScreen extends JFrame implements Runnable {
 				queue.remove("UP");
 				queue.remove("DOWN,");
 				break;
-//			case KeyEvent.VK_PERIOD:
-//				level ++;
-//				setup();
-//				break;
-//			case KeyEvent.VK_COMMA:
-//				if (level > 1) {
-//					level --;
-//					setup();
-//				}
-//				break;
-			
+			case KeyEvent.VK_SPACE:
+				if (threadDelay == 50) {
+					threadDelay = 1;
+				}
+				else {
+					threadDelay = 50;
+				}
+				break;
 			}
 			
 		}
@@ -628,6 +674,11 @@ public class PacScreen extends JFrame implements Runnable {
 				}
 				else if (state == Tile.PILL) {
 					g.setColor(Color.white);
+					g.fillOval(xloc + BLOCKWIDTH * 3 /7,
+					yloc + BLOCKWIDTH * 3 / 7, BLOCKWIDTH / 4, BLOCKWIDTH / 4);
+				}
+				else if (state == Tile.POWERPELLET) {
+					g.setColor(Color.white);
 					g.fillOval(xloc + BLOCKWIDTH / 4,
 					yloc + BLOCKWIDTH / 4, BLOCKWIDTH / 2, BLOCKWIDTH / 2);
 				}
@@ -656,8 +707,14 @@ public class PacScreen extends JFrame implements Runnable {
 		//prints the ghosts
 		for (int i = 0; i < ghosts.length(); i++) {
 			g.setColor(Color.MAGENTA);
-			g.drawImage(ghost.getImage(), ghosts.get(i).getX() + 2, ghosts.get(i).getY() + 2
-					, BLOCKWIDTH, BLOCKWIDTH, this);
+			if (ghosts.runAway) {
+				g.drawImage(ghostrunning.getImage(), ghosts.get(i).getX() + 2, ghosts.get(i).getY() + 2
+						, BLOCKWIDTH, BLOCKWIDTH, this);
+			}
+			else {
+				g.drawImage(ghost.getImage(), ghosts.get(i).getX() + 2, ghosts.get(i).getY() + 2
+						, BLOCKWIDTH, BLOCKWIDTH, this);
+			}
 		}
 		
 		int dir = pac.getDirection();

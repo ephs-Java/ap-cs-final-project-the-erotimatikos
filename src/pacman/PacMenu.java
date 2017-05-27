@@ -65,6 +65,9 @@ public class PacMenu extends JFrame {
 	public PacMenu() throws IOException {
 		
 		username = JOptionPane.showInputDialog(null, "Enter your name here for the leaderboard: ");
+		if (username == null || username.equals("")) {
+			username = "Clint Eastwood";
+		}
 		formatName();
 		
 		//enables key and mouse input on the jframe
@@ -178,6 +181,12 @@ public class PacMenu extends JFrame {
 				if (yOffset > -levels.numLevels() * 15) {
 					yOffset -= SCROLLSPEED;					
 				}
+				break;
+				
+			case KeyEvent.VK_ENTER:
+				PacScreen scr = new PacScreen(levels.get(selectedIndex).toString(), username, selectedIndex);
+				Thread t1 = new Thread(scr);
+				t1.start();
 				break;
 			}
 			
@@ -328,8 +337,8 @@ public class PacMenu extends JFrame {
 				}
 				else if (state == Tile.PILL) {
 					g.setColor(Color.white);
-					g.fillOval(xloc + BLOCKWIDTH / 4,
-					yloc + BLOCKWIDTH / 4, BLOCKWIDTH / 2, BLOCKWIDTH / 2);
+					g.fillOval(xloc + BLOCKWIDTH * 3 /7,
+					yloc + BLOCKWIDTH * 3 / 7, BLOCKWIDTH / 4, BLOCKWIDTH / 4);
 				}
 				else if (state == Tile.SPAWN) {
 					g.setColor(Color.green);
@@ -350,6 +359,11 @@ public class PacMenu extends JFrame {
 					g.setColor(Color.red);
 					g.fillOval(xloc + BLOCKWIDTH / 4,
 							yloc + BLOCKWIDTH / 4, BLOCKWIDTH / 2, BLOCKWIDTH / 2);
+				}
+				else if (state == Tile.POWERPELLET) {
+					g.setColor(Color.white);
+					g.fillOval(xloc + BLOCKWIDTH / 4,
+					yloc + BLOCKWIDTH / 4, BLOCKWIDTH / 2, BLOCKWIDTH / 2);
 				}
 				
 				g.setColor(Color.blue);
