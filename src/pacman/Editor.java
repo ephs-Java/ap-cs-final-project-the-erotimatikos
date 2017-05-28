@@ -319,6 +319,16 @@ public class Editor extends JFrame {
 					e1.printStackTrace();
 				}
 				break;	
+				
+			case KeyEvent.VK_V:
+				maze.maze[blockX][blockY].setState(Tile.POWERPELLET);
+				try {
+					save();
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				break;
 			case KeyEvent.VK_H:
 				maze.fillBlankWithDots();
 				try {
@@ -365,8 +375,8 @@ public class Editor extends JFrame {
 				}
 				else if (state == Tile.PILL) {
 					g.setColor(Color.white);
-					g.fillOval(xloc + BLOCKWIDTH / 4,
-					yloc + BLOCKWIDTH / 4, BLOCKWIDTH / 2, BLOCKWIDTH / 2);
+					g.fillOval(xloc + BLOCKWIDTH * 3 /7,
+					yloc + BLOCKWIDTH * 3 / 7, BLOCKWIDTH / 4, BLOCKWIDTH / 4);
 				}
 				else if (state == Tile.SPAWN) {
 					g.setColor(Color.BLUE);
@@ -387,6 +397,11 @@ public class Editor extends JFrame {
 					g.setColor(Color.CYAN);
 					g.fillOval(xloc + BLOCKWIDTH / 4,
 							yloc + BLOCKWIDTH / 4, BLOCKWIDTH / 2, BLOCKWIDTH / 2);
+				}
+				else if (state == Tile.POWERPELLET) {
+					g.setColor(Color.white);
+					g.fillOval(xloc + BLOCKWIDTH / 4,
+					yloc + BLOCKWIDTH / 4, BLOCKWIDTH / 2, BLOCKWIDTH / 2);
 				}
 				g.setColor(Color.blue);
 				g.drawRect(xloc, yloc, BLOCKWIDTH, BLOCKWIDTH);
@@ -429,6 +444,10 @@ public class Editor extends JFrame {
 				break;
 			case Tile.GHOSTSPAWN:
 				statestring = "Ghost spawn";
+				break;
+			case Tile.POWERPELLET:
+				statestring = "Power pellet";
+				break;
 			}
 			
 		} catch(Exception e) {
@@ -450,9 +469,5 @@ public class Editor extends JFrame {
 		paintComponent(dbg);
 		g.drawImage(dbImage, 0, 0, this);
 	}
-	
-//	public static void main(String[] args) {
-//		Editor ed = new Editor();
-//	}
 		
 }
