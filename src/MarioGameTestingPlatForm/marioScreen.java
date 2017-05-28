@@ -27,6 +27,7 @@ public class marioScreen extends JFrame implements Runnable {
 	int x,y,yDirect,xDirect, tempX,tempY,endX,endY;
 	int marioJump = 0;
 	int level = 1;
+	int prevTime=0;
 
 	//Enemys will move on multiples of 3
 	int enemySpeedGovenor = 0;
@@ -37,14 +38,19 @@ public class marioScreen extends JFrame implements Runnable {
 	Image vicImage;
 
 	boolean isOut = false;
-
+	boolean loser = false;
 	boolean canJump = false;
 	boolean falling = true;
 	boolean victory = false;
-	int gravity = 6;
+
+	boolean win = false;
 	
-
-
+	int gravity = 6;
+	int numOfLives = 4;
+	
+	double time = 0;
+	
+	
 	public void falling(){
 		tempY = y;
 		if(Field.array[x/30][y/30+1].type == 1){
@@ -148,7 +154,7 @@ public class marioScreen extends JFrame implements Runnable {
 
 			try{
 			
-				
+				time+=.1;
 				if(enemySpeedGovenor % 3 == 0)
 					ene.updateAll(Field.array);
 				enemySpeedGovenor++;
@@ -161,7 +167,7 @@ public class marioScreen extends JFrame implements Runnable {
 				amIOut();
 				if(!victory)
 				isVictor();
-
+				
 				Thread.sleep(100);
 			
 
@@ -182,7 +188,13 @@ public class marioScreen extends JFrame implements Runnable {
 		
 	}
 	public void amIOut(){
+		if(ene.amIOut(x,y) && (Math.abs(prevTime - (int)time) > 1)){
+			prevTime = (int)time;
+			numOfLives--;
+	}
+	if(numOfLives < 1)
 		isOut = ene.amIOut(x,y);
+		
 		
 		
 	}
@@ -315,9 +327,13 @@ public class marioScreen extends JFrame implements Runnable {
 	
 	public void winner() throws InterruptedException{
 		 if(victory){
-			
 			 level++;
-			 if(level > 3){
+			 if(level >= 4){
+				
+				 if(level == 4){
+					 win = true;
+					 level = 1;
+				 } else
 				 level = 1;
 			 }
 			try {
@@ -358,6 +374,15 @@ public class marioScreen extends JFrame implements Runnable {
 	}
 	public void paintComponent(Graphics g) throws InterruptedException{
 		winner();
+	g.drawString("Number of lives left: " + numOfLives, 30, 615);
+	g.drawString("Time: " + ((int)(time)), 200, 615);
+		if(win){
+		
+		
+			g.drawImage(vicImage, 10, 10, this);
+		} else{
+			
+		
 	 if(!isOut){
 			for(int r = 0;r<rowLeng;r++){
 				for(int c = 0;c<colLeng;c++){
@@ -404,6 +429,7 @@ public class marioScreen extends JFrame implements Runnable {
 		else{
 			g.drawImage(gameover, 10,10, this);
 			
+		}
 		}
 		repaint();
 	}

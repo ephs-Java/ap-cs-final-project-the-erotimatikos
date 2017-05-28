@@ -164,7 +164,7 @@ public class marioEditor extends JFrame implements Runnable{
 			if(code == e.VK_L){
 
 				level++;
-				if(level > 3){
+				if(level > 4){
 					level=1;
 				}
 			}
@@ -246,6 +246,7 @@ public class marioEditor extends JFrame implements Runnable{
 
 
 		repaint();
+		
 	}
 
 
