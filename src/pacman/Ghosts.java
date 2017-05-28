@@ -14,7 +14,7 @@ public class Ghosts {
 	//1 in this number is the chance that a ghost will move randomly this turn
 	private int oppositechance = 20; 
 	
-	public int ghostSpeed = 5;
+	public int ghostSpeed = 6;
 	
 	//default constructor
 	public Ghosts() {
@@ -71,6 +71,27 @@ public class Ghosts {
 			//update the ghost location based on its direction
 			
 			update(g);
+			
+			//moves the ghost to the nearest block	
+			int xLeftover = (g.getX() - 25) % blockwidth;
+			int yLeftover = (g.getY() - 50) % blockwidth;
+			
+			//moving left
+			if (g.getDirection() == Ghost.LEFT && xLeftover < ghostSpeed) {
+				g.setLocation(g.getX() - xLeftover, g.getY());
+			}
+			//moving up
+			if (g.getDirection() == Ghost.UP && yLeftover < ghostSpeed) {
+				g.setLocation(g.getX(), g.getY() - yLeftover);
+			}
+			//moving right
+			if (g.getDirection() == Ghost.RIGHT && (blockwidth - xLeftover) < ghostSpeed) {
+				g.setLocation(g.getX() + (blockwidth - xLeftover), g.getY());
+			}
+			//moving down
+			if (g.getDirection() == Ghost.DOWN && (blockwidth - yLeftover) < ghostSpeed) {
+				g.setLocation(g.getX(), g.getY() + (blockwidth - yLeftover));
+			}
 			
 			
 			//if the ghost is not aligned, skip this ghost			
@@ -391,7 +412,6 @@ public class Ghosts {
 					spawnNum ++;
 					
 					if (spawnNum == index) {
-						System.out.println("" + r * blockwidth + 25 + " " + c * blockwidth+ 50);
 						ghosts.get(index).setLocation(r * blockwidth + 25, c * blockwidth + 50);
 //						wallCollision(field, ghosts.get(index), blockwidth);
 						align(ghosts.get(index), blockwidth);

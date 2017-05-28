@@ -11,8 +11,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -70,23 +72,19 @@ public class PacMenu extends JFrame {
 		}
 		formatName();
 		
+		updateLevels();
+		
 		//enables key and mouse input on the jframe
 		addKeyListener(new keyboard());
 		addMouseListener(new mouse());
 		addWindowListener(new window());
-		
-		//declares fields
-		levels = new Levels();
-		levels.addNumLevels();
 		
 		//creates leaderboard object
 		leaderboard = new Leaderboard();
 		
 		leaderboard.writeToFile();
 		
-		//adds the custom level manually
-		Level level = new Level("src/pacman/levels/custom.txt");
-		levels.add(level);
+		
 		
 		//loads the 2d array of the selected level
 		try {
@@ -101,6 +99,19 @@ public class PacMenu extends JFrame {
 		setTitle("Pac man menu");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+	}
+	
+	//updates the levels
+	public void updateLevels() {
+		
+		//declares fields
+		levels = new Levels();
+		levels.addNumLevels();
+		
+		//adds the custom level manually
+		Level level = new Level("src/pacman/levels/custom.txt");
+		levels.add(level);
 		
 	}
 	
@@ -144,6 +155,43 @@ public class PacMenu extends JFrame {
 		
 	}
 	
+	//saves the custom.txt file contents into the next available level 
+	//saves the current state into the custom.txt file
+	//saves the current state into the custom.txt file
+	public void save() throws FileNotFoundException{
+		
+		leaderboard.removeFromLevel(selectedIndex);
+		leaderboard.writeToFile();
+		
+		String newFile = levels.DIR + "level" + levels.lastNumLevel() + ".txt";
+		
+		File f = new File(newFile);
+		
+		try (BufferedWriter bw = new BufferedWriter(new FileWriter(f))) {
+			
+			String content = "";
+			
+			for (int c = 0; c < preview.maze[0].length; c++) {
+				for (int r = 0; r < preview.maze.length; r++) {
+					content += preview.maze[r][c].getState() + " ";
+				}
+				content += "\n";
+			}
+			
+			bw.write(content);
+			
+			// no need to close it.
+			//bw.close();
+			
+			
+		} catch (IOException e) {
+			
+			e.printStackTrace();
+			
+		}
+		
+	}
+	
 	//removes - and : from the name
 	public void formatName() {
 		
@@ -171,14 +219,14 @@ public class PacMenu extends JFrame {
 			
 			case KeyEvent.VK_UP:
 				//scrolling boundaries
-				if (yOffset < 100) {
+				if (yOffset < 70) {
 					yOffset += SCROLLSPEED;
 				}
 				break;
 				
 			case KeyEvent.VK_DOWN:
 				//scrolling boundaries
-				if (yOffset > -levels.numLevels() * 15) {
+				if (yOffset > -levels.numLevels() * 20) {
 					yOffset -= SCROLLSPEED;					
 				}
 				break;
@@ -205,7 +253,7 @@ public class PacMenu extends JFrame {
 //			System.out.println(mouseX + " " + mouseY);
 			
 			//checks if the user clicked one of the level buttons
-			if (mouseX > xOffset - 4 && mouseX < 220 + xOffset) {
+			if (mouseX > xOffset - 4 && mouseX < 50 + xOffset) {
 				
 				//gets the level
 				int level = (mouseY - (yOffset - 22)) / ROWSIZE;
@@ -239,10 +287,24 @@ public class PacMenu extends JFrame {
 			
 			//checks if the user clicked the edit button
 			else if (mouseX > SCREENX - 200 && mouseX < SCREENX - 100
-					&& mouseY > SCREENY - 120 && mouseY < SCREENY - 60) {
+					&& mouseY > 50 && mouseY < 110) {
 				
 				Editor ed = new Editor(levels.get(selectedIndex).toString(), selectedIndex);
 				
+			}
+			
+			//checks if the user clicked the export button for custom.txt
+			else if (mouseX > SCREENX - 200 && mouseX < SCREENX - 100
+					&& mouseY > 150 && mouseY < 210 && levels.neatToString(selectedIndex).equals("Custom  ")) {
+//				System.out.println("yeet");
+				try {
+					save();
+					updateLevels();
+					selectedIndex ++;
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 			
 		}
@@ -285,6 +347,8 @@ public class PacMenu extends JFrame {
 			int charLength = 8;
 			
 			String s = levels.get(i).toString();
+			s = levels.neatToString(i);
+			
 			g.setColor(Color.BLUE);
 			
 			//blue rectangle around text
@@ -306,23 +370,39 @@ public class PacMenu extends JFrame {
 		
 		//prints edit button
 		g.setColor(Color.blue);
-		g.fillRect(SCREENX - 200, SCREENY - 120, 100, 60);
+		g.fillRect(SCREENX - 200, 50, 100, 60);
 		
 		g.setColor(Color.BLACK);
 		//black rectangle around blue rectangle
-		g.drawRect(SCREENX - 200, SCREENY - 120, 100, 60);
+		g.drawRect(SCREENX - 200, 50, 100, 60);
 		
 		//white text
 		g.setColor(Color.WHITE);
-		g.drawString("EDIT", SCREENX - 180, SCREENY - 80);
+		g.drawString("EDIT", SCREENX - 180, 90);
+		
+		if (levels.neatToString(selectedIndex).equals("Custom  ")) {
+			
+			//prints edit button
+			g.setColor(Color.blue);
+			g.fillRect(SCREENX - 200, 150, 100, 60);
+			
+			g.setColor(Color.BLACK);
+			//black rectangle around blue rectangle
+			g.drawRect(SCREENX - 200, 150, 100, 60);
+			
+			//white text
+			g.setColor(Color.WHITE);
+			g.drawString("Export", SCREENX - 180, 190);
+			
+		}
 		
 		//prints small 2d array
 		g.setColor(Color.black);
-		g.fillRect(300, 50, BLOCKWIDTH * preview.maze.length, BLOCKWIDTH * preview.maze[0].length );
+		g.fillRect(150, 50, BLOCKWIDTH * preview.maze.length, BLOCKWIDTH * preview.maze[0].length );
 		for (int r = 0; r < preview.maze.length; r++) {
 			for (int c = 0; c < preview.maze[0].length; c++) {
 				
-				int xloc = 300 + r * BLOCKWIDTH;
+				int xloc = 150 + r * BLOCKWIDTH;
 				int yloc = 50 + c * BLOCKWIDTH;
 				
 				int state = preview.maze[r][c].getState();
@@ -375,7 +455,7 @@ public class PacMenu extends JFrame {
 		//prints the leaderboard
 		ArrayList<Leader> leaders = leaderboard.getLeadersFromLevel(selectedIndex);
 		
-		int leaderboardX = 300;
+		int leaderboardX = 150;
 		int leaderboardY = 370;
 		
 		for (int i = 0; i < leaders.size(); i++) {

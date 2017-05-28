@@ -1,8 +1,3 @@
-Clint Eastwood:5200-0
-Avery (the) Bartnik:4100-0
-µ2:2400-0
-Avery Bartnik:2300-0
-:1100-0
 Avery Bartnik:10000-1
 Aidan:7900-1
 Aidan:7900-1
@@ -11,24 +6,23 @@ Aidan:4800-1
 Aidan:4000-1
 Aidan:3900-1
 Avery Bartnik:3800-1
+Clint Eastwood:3700-1
 Aidan:3300-1
 Aidan:2300-1
 Aidan:2000-1
 Aidan:1800-1
 Aidan:1600-1
 Avery Bartnik:1600-1
+Clint Eastwood:1200-1
+Clint Eastwood:1100-1
 Aidan:600-1
 Avery Bartnik:600-1
-Avery Bartnik:15600-2
-Not Aidan:11900-2
-Not Aidan:10700-2
-Not Aidan:8700-2
-Not Aidan:3000-2
-Not Aidan:2300-2
-Not Aidan:1200-2
-Not Aidan:1200-2
-Not Aidan:600-2
+Avery Bartnik:17300-2
+Clint Eastwood:12500-2
+Avery Bartnik:3900-2
+Avery Bartnik:2400-2
 Avery Bartnik:3600-3
+Clint Eastwood:3000-3
 Avery Bartnik:900-4
 Avery Bartnik:700-4
 Avery Bartnik:600-4
@@ -99,6 +93,7 @@ Avery Bartnik:200-6
 Avery Bartnik:20000-7
 Avery Bartnik:16100-7
 Avery Bartnik:14800-7
+Avery Bartnik:13800-7
 Aidan:13100-7
 Avery Bartnik:12100-7
 Aidan:11500-7
@@ -113,3 +108,8 @@ Avery Bartnik:800-9
 Avery Bartnik:700-9
 Aidan:3200-10
 Aidan:3100-10
+Clint Eastwood:4500-12
+Avery Bartnik:4200-12
+Clint Eastwood:1000-12
+Avery Bartnik:300-12
+Avery Bartnik:17700-13

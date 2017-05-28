@@ -91,6 +91,13 @@ public class PacScreen extends JFrame implements Runnable {
 	//the thread delay
 	int threadDelay = 50;
 	
+	//holding a key direction, uses Pacman final ints for directions
+	int keyDirection;
+	
+	//points earned for eating a ghost, doubles with each ghost killed
+	final int GHOSTPOINTS = 100;
+	int currentGhostPoints = GHOSTPOINTS;
+	
 	//the thread
 	public void run() {
 		
@@ -118,6 +125,7 @@ public class PacScreen extends JFrame implements Runnable {
 					ghosts.runAway = false;
 					ghosts.ghostSpeed = 5;
 					ghosts.activateAll();
+					currentGhostPoints = GHOSTPOINTS;
 				}
 				
 				ghosts.updateAll(maze.maze, pac.getPacXindex(), pac.getPacYindex(), BLOCKWIDTH);
@@ -132,14 +140,15 @@ public class PacScreen extends JFrame implements Runnable {
 					Thread.sleep(2000);
 					setup();
 					Leader l = new Leader(PLAYERNAME, score, LEVEL);
-//					leaderboard.add(l);
+					leaderboard.add(l);
 					leaderboard.writeToFile();
+					keyDirection = Pacman.STOP;
 					score = 0;
 				}
 				if (maze.isVictory() && !exit) {
 					Thread.sleep(2000);
 					Leader l = new Leader(PLAYERNAME, score, LEVEL);
-//					leaderboard.add(l);
+					leaderboard.add(l);
 					leaderboard.writeToFile();
 					dispose();
 					exit = true;
@@ -240,10 +249,14 @@ public class PacScreen extends JFrame implements Runnable {
 			int xdif = Math.abs(ghosts.get(i).getX() - pac.getPacmanX()) + BLOCKWIDTH / 2 + 1;
 			int ydif = Math.abs(ghosts.get(i).getY() - pac.getPacmanY()) + BLOCKWIDTH / 2 + 1;
 			
-			if (xdif < BLOCKWIDTH && ydif < BLOCKWIDTH) {
+			if (xdif < BLOCKWIDTH && ydif < BLOCKWIDTH && ghosts.get(i).isActive) {
 				if (ghosts.runAway) {
 					ghosts.returnToSpawn(maze.maze, i, BLOCKWIDTH);
 					ghosts.get(i).isActive = false;
+					score += currentGhostPoints;
+//					System.out.println(currentGhostPoints);
+					currentGhostPoints *= 2;
+					
 //					ghosts.alignAll(BLOCKWIDTH);
 				}
 				else {
@@ -260,6 +273,34 @@ public class PacScreen extends JFrame implements Runnable {
 		
 		boolean xAligned = true;
 		boolean yAligned = true;
+		
+		//enables holding a direction constantly queueing in that direction
+		if (keyDirection != Pacman.STOP) {
+			if (keyDirection == Pacman.UP) {
+				queue.add("UP");
+				queue.remove("DOWN");
+//				queue.remove("LEFT");
+//				queue.remove("RIGHT");
+			}
+			 if (keyDirection == Pacman.LEFT) {
+				queue.add("LEFT");
+				queue.remove("RIGHT");
+//				queue.remove("UP");
+//				queue.remove("DOWN,");
+			}
+			if (keyDirection == Pacman.DOWN) {
+				queue.add("DOWN");
+				queue.remove("UP");
+//				queue.remove("LEFT");
+//				queue.remove("RIGHT");
+			}
+			if (keyDirection == Pacman.RIGHT) {
+				queue.add("RIGHT");
+				queue.remove("LEFT");
+//				queue.remove("UP");
+//				queue.remove("DOWN");
+			}
+		}
 		
 		int dir = pac.getDirection();
 		
@@ -328,21 +369,21 @@ public class PacScreen extends JFrame implements Runnable {
 			maze.maze[pac.getPacXindex()][pac.getPacYindex() + 1].setState(Tile.BLANK);
 			mouthQueue.add("EAT");
 			powerQueue.add("RUN");
-			ghosts.alignAll(BLOCKWIDTH);
+//			ghosts.alignAll(BLOCKWIDTH);
 			score += 200;
 		}
 		if (maze.maze[pac.getPacXindex()][pac.getPacYindex()].getState() == Tile.POWERPELLET) {
 			maze.maze[pac.getPacXindex()][pac.getPacYindex()].setState(Tile.BLANK);
 			mouthQueue.add("EAT");
 			powerQueue.add("RUN");
-			ghosts.alignAll(BLOCKWIDTH);
+//			ghosts.alignAll(BLOCKWIDTH);
 			score += 200;
 		}
 		if (maze.maze[pac.getPacXindex() + 1][pac.getPacYindex()].getState() == Tile.POWERPELLET && !xAligned) {
 			maze.maze[pac.getPacXindex() + 1][pac.getPacYindex()].setState(Tile.BLANK);
 			mouthQueue.add("EAT");
 			powerQueue.add("RUN");
-			ghosts.alignAll(BLOCKWIDTH);
+//			ghosts.alignAll(BLOCKWIDTH);
 			score += 200;
 		}
 		
@@ -424,6 +465,8 @@ public class PacScreen extends JFrame implements Runnable {
 //		System.out.println(pacXindex + " " + pacYindex);
 		boolean is1 = maze.maze[pacXindex][pacYindex].getState() == Tile.TELEPORTER;
 //		System.out.println(is1);
+		//subtracts 50 from score to prevent overuse of teleportation
+		score -= 50;
 		
 		int homeX = 0;
 		int homeY = 0;
@@ -608,35 +651,24 @@ public class PacScreen extends JFrame implements Runnable {
 //				break;
 			case KeyEvent.VK_UP:
 			case KeyEvent.VK_W:
-				queue.add("UP");
-				queue.remove("DOWN");
-				queue.remove("LEFT");
-				queue.remove("RIGHT");
+				keyDirection = Pacman.UP;
 				break;
 			case KeyEvent.VK_RIGHT:
 			case KeyEvent.VK_D:
-				queue.add("RIGHT");
-				queue.remove("LEFT");
-				queue.remove("UP");
-				queue.remove("DOWN");
+				keyDirection = Pacman.RIGHT;
 				break;
 			case KeyEvent.VK_DOWN:
 			case KeyEvent.VK_S:
-				queue.add("DOWN");
-				queue.remove("UP");
-				queue.remove("LEFT");
-				queue.remove("RIGHT");
+				keyDirection = Pacman.DOWN;
 				break;
 			case KeyEvent.VK_LEFT:
 			case KeyEvent.VK_A:
-				queue.add("LEFT");
-				queue.remove("RIGHT");
-				queue.remove("UP");
-				queue.remove("DOWN,");
+				keyDirection = Pacman.LEFT;
 				break;
 			case KeyEvent.VK_SPACE:
+				//speedup mode
 				if (threadDelay == 50) {
-					threadDelay = 1;
+//					threadDelay = 1;
 				}
 				else {
 					threadDelay = 50;
@@ -646,11 +678,12 @@ public class PacScreen extends JFrame implements Runnable {
 			
 		}
 		
-		public void keyReleased(KeyEvent e) {
-			
-			int key = e.getKeyCode();
-			
-		}
+//		public void keyReleased(KeyEvent e) {
+//			
+//			int key = e.getKeyCode();
+//			
+//			
+//		}
 		
 	}
 	
@@ -710,7 +743,8 @@ public class PacScreen extends JFrame implements Runnable {
 		for (int i = 0; i < ghosts.length(); i++) {
 			g.setColor(Color.MAGENTA);
 			if (!ghosts.get(i).isActive) {
-//				continue;
+				continue;
+				
 			}
 			if (ghosts.runAway) {
 				g.drawImage(ghostrunning.getImage(), ghosts.get(i).getX() + 2, ghosts.get(i).getY() + 2
