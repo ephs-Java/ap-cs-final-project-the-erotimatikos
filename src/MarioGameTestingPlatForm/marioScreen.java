@@ -12,6 +12,9 @@ import java.util.Scanner;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
+
 
 
 
@@ -28,7 +31,7 @@ public class marioScreen extends JFrame implements Runnable {
 	int marioJump = 0;
 	int level = 1;
 	int prevTime=0;
-
+	int once = 0;
 	//Enemys will move on multiples of 3
 	int enemySpeedGovenor = 0;
 	Image brick;
@@ -38,7 +41,7 @@ public class marioScreen extends JFrame implements Runnable {
 	Image vicImage;
 
 	boolean isOut = false;
-	boolean loser = false;
+	boolean stopTime = false;
 	boolean canJump = false;
 	boolean falling = true;
 	boolean victory = false;
@@ -154,6 +157,7 @@ public class marioScreen extends JFrame implements Runnable {
 
 			try{
 			
+				if(!stopTime)
 				time+=.1;
 				if(enemySpeedGovenor % 3 == 0)
 					ene.updateAll(Field.array);
@@ -193,6 +197,7 @@ public class marioScreen extends JFrame implements Runnable {
 			numOfLives--;
 	}
 	if(numOfLives < 1)
+		stopTime = true;
 		isOut = ene.amIOut(x,y);
 		
 		
@@ -318,7 +323,7 @@ public class marioScreen extends JFrame implements Runnable {
 		dbg = dbImage.getGraphics();
 		try {
 			paintComponent(dbg);
-		} catch (InterruptedException e) {
+		} catch (InterruptedException | FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -372,7 +377,7 @@ public class marioScreen extends JFrame implements Runnable {
 			
 		}
 	}
-	public void paintComponent(Graphics g) throws InterruptedException{
+	public void paintComponent(Graphics g) throws InterruptedException, FileNotFoundException{
 		winner();
 	g.drawString("Number of lives left: " + numOfLives, 30, 615);
 	g.drawString("Time: " + ((int)(time)), 200, 615);
@@ -380,6 +385,18 @@ public class marioScreen extends JFrame implements Runnable {
 		
 		
 			g.drawImage(vicImage, 10, 10, this);
+			
+			if(once == 0){
+				once++;
+			String inputString = JOptionPane.showInputDialog(null, "Enter your name for the leaderboard");
+		      
+	        System.out.println("User input: " + inputString);
+	        Leader me = new Leader(inputString,(int)time);
+	        advLeaderboard board = new advLeaderboard();
+	        board.addLeader(me);
+	        board.writeLeaderboard();
+	       JOptionPane.showMessageDialog(null,board.dog());
+			}
 		} else{
 			
 		
