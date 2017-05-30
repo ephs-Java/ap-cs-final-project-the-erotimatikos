@@ -41,7 +41,7 @@ public class marioEditor extends JFrame implements Runnable{
 
 		x = 90;
 		y=540;
-		ImageIcon brickk = new ImageIcon("src/MarioGame/brick.png");
+		ImageIcon brickk = new ImageIcon("src/MarioGameTestingPlatForm/brick.png");
 		brick = brickk.getImage();
 
 		addKeyListener(new AL());
