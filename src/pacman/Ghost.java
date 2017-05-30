@@ -6,7 +6,7 @@ public class Ghost {
 	private int x;
 	private int y;
 	private int speed;
-	private boolean isActive;
+	public boolean isActive;
 	
 	//fields for which direction the ghost is moving in
 //	public boolean movingUp;
@@ -26,6 +26,7 @@ public class Ghost {
 	
 	//constructor with a x and y location of the ghost
 	public Ghost(int xloc, int yloc) {
+		isActive = true;
 		this.direction = 0;
 		this.x = xloc;
 		this.y = yloc;

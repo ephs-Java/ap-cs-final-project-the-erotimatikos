@@ -21,29 +21,29 @@ public class marioEditor extends JFrame implements Runnable{
 
 	field Field = new field();
 
-	
+
 	private Graphics dbg;;
 	private Image dbImage;
-	
+
 	//35 r by 20c
 	int screenX = 1050,screenY = 630, rowLeng = Field.rowLeng, colLeng = Field.colLeng ;
 	int x,y,yDirect,xDirect,cordX,cordY;
-	
+
 	Image brick;
-int level = 1;
+	int level = 1;
 	public static void main(String[] args){
 		marioEditor editor = new marioEditor();
 		Thread t = new Thread(editor);
 		t.start();
 	}
-	
+
 	public marioEditor(){
-		
+
 		x = 90;
 		y=540;
-	ImageIcon brickk = new ImageIcon("src/MarioGame/brick.png");
-	brick = brickk.getImage();
-		
+		ImageIcon brickk = new ImageIcon("src/MarioGame/brick.png");
+		brick = brickk.getImage();
+
 		addKeyListener(new AL());
 		setTitle("MarioGame");
 		setSize(screenX,screenY);
@@ -61,53 +61,53 @@ int level = 1;
 				Thread.sleep(100);
 				cordX = x/30;
 				cordY = y /30;
-				
+
 				move();
-				
+
 			}
 			catch(Exception e){
 				System.out.println("Error");
 				System.out.println(e.getMessage());
-	 }
-		
-	}
+			}
+
+		}
 	}
 	public void importer() throws FileNotFoundException{
 		brick[][] ne = new brick[rowLeng][colLeng]; //Creates a new arraylist of Strings called allWords
 		//scan in the words, one on each line
 		Scanner input = new Scanner(new File("src/MarioGameTestingPlatForm/level"+ level + ".txt"));
-		
+
 		for(int c = 0;c<colLeng;c++){
-		for(int r = 0;r<rowLeng;r++){
-		
+			for(int r = 0;r<rowLeng;r++){
+
 				int typer = input.nextInt();
 				ne[r][c] = new brick(typer);
 			}
-			
+
 		}
-		
-		
-		
-			
-		
-	
-	Field.array = ne;
-	
+
+
+
+
+
+
+		Field.array = ne;
+
 	}
 
 	public void export() throws FileNotFoundException{
-		
-			
-			PrintStream output = new PrintStream(new File("src/MarioGameTestingPlatForm/level"+ level + ".txt")); 
-			for(int c = 0; c < colLeng;c++){
+
+
+		PrintStream output = new PrintStream(new File("src/MarioGameTestingPlatForm/level"+ level + ".txt")); 
+		for(int c = 0; c < colLeng;c++){
 			for(int r = 0;r < rowLeng; r++){
-					output.println(Field.array[r][c].type);
-				}
+				output.println(Field.array[r][c].type);
 			}
+		}
 	}
-		public void move(){
-	
-			
+	public void move(){
+
+
 		x+= xDirect;
 		y+= yDirect;
 		if(y>570){
@@ -116,7 +116,7 @@ int level = 1;
 		if(y<0){
 			y=0;
 		}
-		
+
 	}
 	public void setXDirect(int n){
 		xDirect = n;
@@ -124,22 +124,22 @@ int level = 1;
 	public void setYDirect(int n){
 		yDirect = n;
 	}
-	
+
 	public class AL extends KeyAdapter{
-		
+
 		public void keyPressed(KeyEvent e){
 			int code = e.getKeyCode();
-		
+
 			if(code == e.VK_LEFT){
 				setXDirect(-30);
-			
-		}
-		if(x<=1020){
-			if(code == e.VK_RIGHT){
-				setXDirect(30);
+
 			}
-		}
-		
+			if(x<=1020){
+				if(code == e.VK_RIGHT){
+					setXDirect(30);
+				}
+			}
+
 			if(code == e.VK_UP){
 				setYDirect(-30);
 			}
@@ -147,7 +147,7 @@ int level = 1;
 				setYDirect(30);
 			}
 			if(code == e.VK_SPACE){
-				
+
 				Field.array[cordX][cordY].type++;
 				if(Field.array[cordX][cordY].type >=4){
 					Field.array[cordX][cordY].type = 0;
@@ -164,7 +164,7 @@ int level = 1;
 			if(code == e.VK_L){
 
 				level++;
-				if(level > 3){
+				if(level > 4){
 					level=1;
 				}
 			}
@@ -191,8 +191,8 @@ int level = 1;
 		}
 		public void keyReleased(KeyEvent e){
 			int code = e.getKeyCode();
-	if(code == e.VK_LEFT){
-		setXDirect(0);
+			if(code == e.VK_LEFT){
+				setXDirect(0);
 			}
 			if(code == e.VK_RIGHT){
 				setXDirect(0);
@@ -203,10 +203,10 @@ int level = 1;
 			if(code == e.VK_DOWN){
 				setYDirect(0);
 			}
-			
+
 		}
 	}
-	
+
 	public void paint(Graphics g){
 		dbImage = createImage(getWidth(), getHeight());
 		dbg = dbImage.getGraphics();
@@ -214,51 +214,42 @@ int level = 1;
 		g.drawImage(dbImage, 0, 0, this);
 	}
 	public void paintComponent(Graphics g){
-		
-			for(int r = 0;r<rowLeng;r++){
-				for(int c = 0;c<colLeng;c++){
-					if(Field.array[r][c].getType() == 0){
-						g.setColor(Color.red);
-					
+
+		for(int r = 0;r<rowLeng;r++){
+			for(int c = 0;c<colLeng;c++){
+				if(Field.array[r][c].getType() == 0){
+					g.setColor(Color.red);
+
 					g.fillRect(r*30, c*30, 30,30);
 					g.setColor(Color.BLACK);
 					g.drawRect(r*30, c*30, 30, 30);
-					}
-					if(Field.array[r][c].getType() == 1){
-						g.drawImage(brick,r *30,c*30, this);
-					}
-					if(Field.array[r][c].getType() == 9){
-						g.setColor(Color.GREEN);
-						g.fillRect(r*30, c*30, 30, 30);
-					}
-					if(Field.array[r][c].getType() == 6){
-						g.setColor(Color.YELLOW);
-						g.fillRect(r*30, c*30, 30, 30);
-					}
-					if(Field.array[r][c].getType() == 7){
-						g.setColor(Color.blue);
-						g.fillRect(r*30, c*30, 30, 30);
-					}
+				}
+				if(Field.array[r][c].getType() == 1){
+					g.drawImage(brick,r *30,c*30, this);
+				}
+				if(Field.array[r][c].getType() == 9){
+					g.setColor(Color.GREEN);
+					g.fillRect(r*30, c*30, 30, 30);
+				}
+				if(Field.array[r][c].getType() == 6){
+					g.setColor(Color.YELLOW);
+					g.fillRect(r*30, c*30, 30, 30);
+				}
+				if(Field.array[r][c].getType() == 7){
+					g.setColor(Color.blue);
+					g.fillRect(r*30, c*30, 30, 30);
 				}
 			}
+		}
 		g.setColor(Color.blue);
 		g.drawRect(x, y, 30, 30);
-	
-//		if(Field.array[cordX][cordY].type == 0){
-//			g.drawString("Type: Nothing",30,615);
-//		}
-//		else if(Field.array[cordX][cordY].type == 1){
-//			g.drawString("Type: Brick",30,615);
-//		}
-//	
-//		
-//		if(Field.array[cordX][cordY].type == 9){
-//			g.drawString("Type: enemy",30,615);
-//		}
+
+
 		repaint();
+		
 	}
-	
-	
-	
+
+
+
 
 }
