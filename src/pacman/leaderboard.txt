@@ -1,12 +1,15 @@
+Clint Eastwood:5200-0
 Adam:5100-0
 Adam:4200-0
 Dan:3850-0
 Adam:3250-0
 Dan:1500-0
+Clint Eastwood:1300-0
 Adam:1150-0
 Adam:1100-0
 Adam:950-0
 Adam:900-0
+Clint Eastwood:900-0
 Adam:800-0
 Dan:700-0
 Dan:500-0
@@ -180,15 +183,23 @@ Aidan:3200-10
 Aidan:3100-10
 Clint Eastwood:4500-12
 Avery Bartnik:4200-12
+Clint Eastwood:1900-12
+Clint Eastwood:1200-12
 Clint Eastwood:1200-12
 Clint Eastwood:1000-12
 Adam:1000-12
 Adam:900-12
 Clint Eastwood:800-12
+Clint Eastwood:700-12
+Clint Eastwood:600-12
 Clint Eastwood:600-12
 Adam:500-12
+Clint Eastwood:500-12
+Clint Eastwood:500-12
 Adam:400-12
+Clint Eastwood:400-12
 Avery Bartnik:300-12
 Clint Eastwood:300-12
+Clint Eastwood:200-12
 Avery Bartnik:17700-13
 Avery Bartnik:4750-20

@@ -95,10 +95,10 @@ public class Levels {
 		Level l = levels.get(index);
 		String levelstring = l.toString();
 		
-		int startIndex = levelstring.indexOf(DIR) + DIR.length() + 1;
+		int startIndex = levelstring.indexOf(DIR) + DIR.length();
 		
 		//custom.txt
-		if (levelstring.substring(startIndex - 1).equalsIgnoreCase("custom.txt")) {
+		if (levelstring.substring(startIndex).equalsIgnoreCase("custom.txt")) {
 			return "Custom  ";
 		}
 		//first letter uppercase, "L"
