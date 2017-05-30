@@ -103,7 +103,8 @@ public class mouse extends MouseAdapter {
 			MOUSEX=0;
 			MOUSEY=0;
 			try {
-				PacMenu josh= new PacMenu();
+				System.out.println("Pac man");
+				PacMenu avery= new PacMenu();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

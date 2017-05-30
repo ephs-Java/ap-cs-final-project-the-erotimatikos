@@ -108,9 +108,9 @@ public class PacScreen extends JFrame implements Runnable {
 				//exits the game
 				if (exit) {
 					dispose();
-					break;
+//					break;
 				}
-				
+				System.out.println(FILEPATH);
 				checkMovement();
 				Thread.sleep(threadDelay);
 				

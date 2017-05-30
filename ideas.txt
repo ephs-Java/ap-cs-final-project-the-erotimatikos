@@ -1,4 +1,2 @@
-add isFlagged property to tiles
-add win condition
-change getbomb
-DONE add constant variable for bomb chance
+make booleans for which game is running in menu so it can't be ran multiple times
+change menu games to not be exit on close so they don't quit the menu itself

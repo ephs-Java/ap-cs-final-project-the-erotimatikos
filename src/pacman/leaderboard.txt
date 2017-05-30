@@ -15,6 +15,8 @@ Dan:700-0
 Dan:500-0
 Dan:400-0
 Adam:400-0
+Avery Bartnik:0-0
+Avery Bartnik:0-0
 Avery Bartnik:10000-1
 Aidan:7900-1
 Aidan:7900-1
@@ -34,6 +36,7 @@ Clint Eastwood:1200-1
 Clint Eastwood:1100-1
 Aidan:600-1
 Avery Bartnik:600-1
+Avery Bartnik:0-1
 Avery Bartnik:17300-2
 Clint Eastwood:12500-2
 Avery Bartnik:3900-2
@@ -202,4 +205,9 @@ Avery Bartnik:300-12
 Clint Eastwood:300-12
 Clint Eastwood:200-12
 Avery Bartnik:17700-13
+Avery Bartnik:5000-20
 Avery Bartnik:4750-20
+Avery Bartnik:4650-20
+Avery Bartnik:3650-20
+Avery Bartnik:1000-20
+Avery Bartnik:700-20
