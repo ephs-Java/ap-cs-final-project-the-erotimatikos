@@ -388,14 +388,14 @@ public class marioScreen extends JFrame implements Runnable {
 			
 			if(once == 0){
 				once++;
-			String inputString = JOptionPane.showInputDialog(null, "Enter your name for the leaderboard");
-		      
-//	        System.out.println("User input: " + inputString);
-	        Leader me = new Leader(inputString,(int)time);
-	        advLeaderboard board = new advLeaderboard();
-	        board.addLeader(me);
-	        board.writeLeaderboard();
-	       JOptionPane.showMessageDialog(null,board.dog());
+//			String inputString = JOptionPane.showInputDialog(null, "Enter your name for the leaderboard");
+//		      
+////	        System.out.println("User input: " + inputString);
+//	        Leader me = new Leader(inputString,(int)time);
+//	        advLeaderboard board = new advLeaderboard();
+//	        board.addLeader(me);
+//	        board.writeLeaderboard();
+//	       JOptionPane.showMessageDialog(null,board.dog());
 			}
 		} else{
 			
