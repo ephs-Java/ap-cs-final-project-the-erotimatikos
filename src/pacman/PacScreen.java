@@ -142,7 +142,7 @@ public class PacScreen extends JFrame implements Runnable {
 					if (score < 0) {score = 0;}
 					Leader l = new Leader(PLAYERNAME, score, LEVEL);
 					leaderboard.add(l);
-					leaderboard.writeToFile();
+//					leaderboard.writeToFile();
 					keyDirection = Pacman.STOP;
 					score = 0;
 				}
@@ -150,7 +150,7 @@ public class PacScreen extends JFrame implements Runnable {
 					Thread.sleep(2000);
 					Leader l = new Leader(PLAYERNAME, score, LEVEL);
 					leaderboard.add(l);
-					leaderboard.writeToFile();
+//					leaderboard.writeToFile();
 					dispose();
 					exit = true;
 //					level ++;
