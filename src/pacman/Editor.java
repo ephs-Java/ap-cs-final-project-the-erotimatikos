@@ -394,7 +394,7 @@ public class Editor extends JFrame {
 							yloc + BLOCKWIDTH / 4, BLOCKWIDTH / 2, BLOCKWIDTH / 2);
 				}
 				else if (state == Tile.GHOSTSPAWN) {
-					g.setColor(Color.CYAN);
+					g.setColor(Color.red);
 					g.fillOval(xloc + BLOCKWIDTH / 4,
 							yloc + BLOCKWIDTH / 4, BLOCKWIDTH / 2, BLOCKWIDTH / 2);
 				}

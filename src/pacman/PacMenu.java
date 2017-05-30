@@ -30,7 +30,7 @@ public class PacMenu extends JFrame {
 	//leaderboard object
 	Leaderboard leaderboard;
 	
-	//sets blockwidth to 15
+	//sets blockwidth to 20
 	int BLOCKWIDTH = 20;
 	
 	//x and y offset of the strings from the point (0, 0) on the jframe	
@@ -221,13 +221,15 @@ public class PacMenu extends JFrame {
 				//scrolling boundaries
 				if (yOffset < 70) {
 					yOffset += SCROLLSPEED;
+//					System.out.println(yOffset);
 				}
 				break;
 				
 			case KeyEvent.VK_DOWN:
 				//scrolling boundaries
-				if (yOffset > -levels.numLevels() * 20) {
-					yOffset -= SCROLLSPEED;					
+				if (yOffset > -levels.numLevels() * 30) {
+					yOffset -= SCROLLSPEED;		
+//					System.out.println(yOffset);
 				}
 				break;
 				
