@@ -156,7 +156,7 @@ public class marioScreen extends JFrame implements Runnable {
 		while(true){
 
 			try{
-			
+			System.out.println("mmmmmmm");
 				if(!stopTime)
 				time+=.1;
 				if(enemySpeedGovenor % 3 == 0)
