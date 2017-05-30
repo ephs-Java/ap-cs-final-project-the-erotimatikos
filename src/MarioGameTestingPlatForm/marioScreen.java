@@ -115,14 +115,14 @@ public class marioScreen extends JFrame implements Runnable {
 		importer();
 		enemyFinder(); 
 		
-		ImageIcon brickk = new ImageIcon("src/MarioGame/brick.png");
+		ImageIcon brickk = new ImageIcon("src/MarioGameTestingPlatForm/brick.png");
 		brick = brickk.getImage();
 
 
-		ImageIcon goom = new ImageIcon("src/MarioGame/goomb.png");
+		ImageIcon goom = new ImageIcon("src/MarioGameTestingPlatForm/goomb.png");
 		goomba = goom.getImage();
 
-		ImageIcon mar = new ImageIcon("src/MarioGame/mario.png");
+		ImageIcon mar = new ImageIcon("src/MarioGameTestingPlatForm/mario.png");
 		mario = mar.getImage();
 
 		ImageIcon over = new ImageIcon("src/MarioGameTestingPlatForm/GameOver.png");
