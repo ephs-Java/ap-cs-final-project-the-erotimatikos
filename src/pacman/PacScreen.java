@@ -108,9 +108,9 @@ public class PacScreen extends JFrame implements Runnable {
 				//exits the game
 				if (exit) {
 					dispose();
-//					break;
+					break;
 				}
-				System.out.println(FILEPATH);
+				
 				checkMovement();
 				Thread.sleep(threadDelay);
 				
@@ -334,18 +334,22 @@ public class PacScreen extends JFrame implements Runnable {
 		if (dir == pac.LEFT && maze.maze[pac.getPacXindex()][pac.getPacYindex()].getState() == Tile.WALL) {
 			pac.setDirection(pac.STOP);
 			pac.setPacmanX(25 + pac.getPacXindex() * BLOCKWIDTH + BLOCKWIDTH);
+			queue.reset();
 		}
 		if (dir == pac.RIGHT && maze.maze[pac.getPacXindex() + 1][pac.getPacYindex()].getState() == Tile.WALL) {
 			pac.setDirection(pac.STOP);
 			pac.setPacmanX(25 + pac.getPacXindex() * BLOCKWIDTH);
+			queue.reset();
 		}
 		if (dir == pac.UP && maze.maze[pac.getPacXindex()][pac.getPacYindex()].getState() == Tile.WALL) {
 			pac.setDirection(pac.STOP);
 			pac.setPacmanY(50 + pac.getPacYindex() * BLOCKWIDTH + BLOCKWIDTH);
+			queue.reset();
 		}
 		if (dir == pac.DOWN && maze.maze[pac.getPacXindex()][pac.getPacYindex() + 1].getState() == Tile.WALL) {
 			pac.setDirection(pac.STOP);
 			pac.setPacmanY(50 + pac.getPacYindex() * BLOCKWIDTH);
+			queue.reset();
 		}
 		
 		//checks for pills

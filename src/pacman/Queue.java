@@ -47,6 +47,16 @@ public class Queue {
 		}
 	}
 	
+	//removes everything from the queue
+	public void reset() {
+		
+		for (int i = 0; i < queue.size(); i++) {
+			queue.remove(i);
+			nums.remove(i);
+		}
+		
+	}
+	
 	//reurns the index of the string in the arraylist, if it exists
 	public int indexOf(String s) {
 		
