@@ -25,7 +25,7 @@ public class BrickScreen extends JFrame implements Runnable{
 	private int BRICKH, BRICKW;
 	private boolean done;
 	private Image dbImage;
-	private Image title, paddle, end, ball;
+	private Image title, paddle, end, ball, mario;
 	private Graphics dbg;
 	private boolean finaldone;
 	private int ballx, bally;

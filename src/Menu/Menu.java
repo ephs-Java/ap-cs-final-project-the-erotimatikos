@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import javax.swing.ImageIcon;
@@ -12,6 +13,7 @@ import javax.swing.JFrame;
 
 import Brickbreak.BrickScreen;
 import FlappyBird.FlappyScreen;
+import MarioGame.marioScreen;
 import RetroPong.Pong;
 import TicTackToe.Screen;
 import minesweeper.MineScreen;
@@ -19,7 +21,7 @@ import pacman.PacMenu;
 public class Menu extends JFrame implements Runnable {
     private int SCREENX, SCREENY;
 	private Image dbImage;
-	private Image minesweeper, flappy, pong, tic, pac, breakout;
+	private Image minesweeper, flappy, pong, tic, pac, breakout, mario;
 	private Graphics dbg;
     private int MOUSEX, MOUSEY;
 	public Menu() {
@@ -37,16 +39,18 @@ public class Menu extends JFrame implements Runnable {
 		pac= image4.getImage();
 		ImageIcon image5= new ImageIcon("src/Menu/breakout_boost_ios.png");
 		breakout= image5.getImage();
+		ImageIcon image6= new ImageIcon("src/Menu/mario.png");
+		mario= image6.getImage();
 		}
 		addMouseListener(new mouse());
-		SCREENX= 1000;
-		SCREENY= 1000;
+		SCREENX= 1380;
+		SCREENY= 3000;
 		setTitle("Game library");
 		setBackground(Color.darkGray);
 		setVisible(true);
 		setSize(SCREENX, SCREENY);
 		setResizable(false);
-	
+	    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		//everything beyond here is images.
 	}
 public class mouse extends MouseAdapter {
@@ -73,7 +77,7 @@ public class mouse extends MouseAdapter {
 		g.drawImage(dbImage, 0, 0, this);
 	}
 	
-	public void gameStarter(){
+	public void gameStarter() throws FileNotFoundException{
 		if ((MOUSEX>50 && MOUSEX<270) && (MOUSEY>50 && MOUSEY<270)){
 			MineScreen josh= new MineScreen();
 			MOUSEX=0;
@@ -114,6 +118,13 @@ public class mouse extends MouseAdapter {
 			MOUSEY=0;
 			BrickScreen ok= new BrickScreen();
 		}
+		if ((MOUSEX>1100 && MOUSEX<1320) && (MOUSEY>50 && MOUSEY<270)){
+			marioScreen ok= new marioScreen();
+			Thread t = new Thread(ok);
+			t.start();
+			MOUSEX=0;
+			MOUSEY=0;
+		}
 	}
 	
 	public void paintComponent(Graphics g) throws InterruptedException {
@@ -121,6 +132,7 @@ public class mouse extends MouseAdapter {
 		g.setColor(Color.WHITE);
 		g.fillRect(55, 55, 200, 190);
 		g.drawImage(minesweeper, 70, 60, this);
+		//
 		g.setColor(Color.black);
 		g.fillRect(400, 50, 210, 200);
 		g.setColor(Color.WHITE);
@@ -150,6 +162,14 @@ public class mouse extends MouseAdapter {
 		g.setColor(Color.WHITE);
 		g.fillRect(755, 305, 200, 190);
 		g.drawImage(breakout, 770 , 310, this);
+		//
+		g.setColor(Color.black);
+		g.fillRect(1100, 50, 210, 200);
+		g.setColor(Color.WHITE);
+		g.fillRect(1105, 55, 200, 190);
+		g.drawImage(mario, 1118, 63, this);
+		
+		
 	}
 	
 	
