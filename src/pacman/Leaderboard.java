@@ -63,11 +63,24 @@ public class Leaderboard {
 	//given the toString of a leader, returns the leader that it once represented
 	public Leader stringToLeader(String s) {
 		
+		//gets rid of '-' character
+//		String message = "";
+//		for (int i = 0; i < s.length(); i++) {
+//			if (s.charAt(i) != '-') {
+//				message += s.charAt(i);
+//			}
+//			else {
+//				message += ';';
+//			}
+//		}
+//		System.out.println(message);
+//		s = message;
+		
 		String name = s.substring(0, s.indexOf(':'));
 		
-		int level = Integer.parseInt(s.substring(s.indexOf(':') + 1, s.indexOf('-')));
+		int level = Integer.parseInt(s.substring(s.indexOf(':') + 1, s.indexOf(';')));
 		
-		int score = Integer.parseInt(s.substring(s.indexOf('-') + 1));
+		int score = Integer.parseInt(s.substring(s.indexOf(';') + 1));
 		
 		Leader l = new Leader(name, level, score);
 		return l;

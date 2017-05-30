@@ -30,7 +30,7 @@ public class Leader {
 	
 	//returns string leader information
 	public String toString() {
-		return name  + ":" + score + "-" + level;
+		return name  + ":" + score + ";" + level;
 	}
 
 	
