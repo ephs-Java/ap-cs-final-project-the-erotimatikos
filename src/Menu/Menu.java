@@ -13,8 +13,9 @@ import javax.swing.JFrame;
 
 import Brickbreak.BrickScreen;
 import FlappyBird.FlappyScreen;
-import MarioGame.marioScreen;
+import MarioGameTestingPlatForm.marioScreen;
 import RetroPong.Pong;
+import Runner.screen;
 import TicTackToe.Screen;
 import minesweeper.MineScreen;
 import pacman.PacMenu;
@@ -24,6 +25,7 @@ public class Menu extends JFrame implements Runnable {
 	private Image minesweeper, flappy, pong, tic, pac, breakout, mario;
 	private Graphics dbg;
     private int MOUSEX, MOUSEY;
+	private Image runner;
 	public Menu() {
 		// TODO Auto-generated constructor stub
 		for(int i=0; i<6; i++){
@@ -41,12 +43,14 @@ public class Menu extends JFrame implements Runnable {
 		breakout= image5.getImage();
 		ImageIcon image6= new ImageIcon("src/Menu/mario.png");
 		mario= image6.getImage();
+		ImageIcon image7= new ImageIcon("src/Menu/run.png");
+		runner= image7.getImage();
 		}
 		addMouseListener(new mouse());
 		SCREENX= 1380;
 		SCREENY= 3000;
 		setTitle("Game library");
-		setBackground(Color.darkGray);
+		setBackground(Color.blue);
 		setVisible(true);
 		setSize(SCREENX, SCREENY);
 		setResizable(false);
@@ -120,8 +124,15 @@ public class mouse extends MouseAdapter {
 			BrickScreen ok= new BrickScreen();
 		}
 		if ((MOUSEX>1100 && MOUSEX<1320) && (MOUSEY>50 && MOUSEY<270)){
-			marioScreen ok= new marioScreen();
-			Thread t = new Thread(ok);
+			marioScreen game = new marioScreen();
+			Thread t = new Thread(game);
+			t.start();
+			MOUSEX=0;
+			MOUSEY=0;
+		}
+		if ((MOUSEX>1100 && MOUSEX<1320) && (MOUSEY>150 && MOUSEY<500)){
+			screen game = new screen();
+			Thread t = new Thread(game);
 			t.start();
 			MOUSEX=0;
 			MOUSEY=0;
@@ -169,7 +180,12 @@ public class mouse extends MouseAdapter {
 		g.setColor(Color.WHITE);
 		g.fillRect(1105, 55, 200, 190);
 		g.drawImage(mario, 1118, 63, this);
-		
+		//
+		g.setColor(Color.black);
+		g.fillRect(1100, 300, 210, 200);
+		g.setColor(Color.WHITE);
+		g.fillRect(1105, 305, 200, 190);
+		g.drawImage(runner, 1120 , 310, this);
 		
 	}
 	
