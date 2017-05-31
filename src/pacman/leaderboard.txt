@@ -171,11 +171,3 @@ Avery Bartnik:1700;16
 Clint Eastwood:1700;16
 Avery Bartnik:1100;16
 Clint Eastwood:100;16
-Clint Eastwood:1200;17
-Avery Bartnik:1200;17
-Avery Bartnik:5000;20
-Avery Bartnik:4750;20
-Avery Bartnik:4650;20
-Avery Bartnik:3650;20
-Avery Bartnik:1000;20
-Avery Bartnik:700;20

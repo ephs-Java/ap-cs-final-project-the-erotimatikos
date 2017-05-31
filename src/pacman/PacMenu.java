@@ -227,9 +227,11 @@ public class PacMenu extends JFrame {
 				
 			case KeyEvent.VK_DOWN:
 				//scrolling boundaries
-				if (yOffset > -levels.numLevels() * 30) {
-					yOffset -= SCROLLSPEED;		
-//					System.out.println(yOffset);
+				if (levels.numLevels() > 8) {
+					if (yOffset > 480 - levels.numLevels() * ROWSIZE) {
+						yOffset -= SCROLLSPEED;		
+//						System.out.println(yOffset);
+					}
 				}
 				break;
 				
