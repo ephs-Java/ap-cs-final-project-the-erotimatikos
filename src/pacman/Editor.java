@@ -365,44 +365,56 @@ public class Editor extends JFrame {
 				
 				int state = maze.maze[r][c].getState();
 				
-				if (state == Tile.WALL) {
+				switch (state) {
+				
+				case Tile.WALL:
 					g.setColor(Color.blue);
 					g.fillRect(xloc, yloc, BLOCKWIDTH, BLOCKWIDTH);
-				}
-				else if (state == Tile.BLANK) {
+					break;
+					
+				case Tile.BLANK:
 					g.setColor(Color.black);
 					g.fillRect(xloc, yloc, BLOCKWIDTH, BLOCKWIDTH);
-				}
-				else if (state == Tile.PILL) {
+					break;
+					
+				case Tile.PILL:
 					g.setColor(Color.white);
 					g.fillOval(xloc + BLOCKWIDTH * 3 /7,
 					yloc + BLOCKWIDTH * 3 / 7, BLOCKWIDTH / 4, BLOCKWIDTH / 4);
-				}
-				else if (state == Tile.SPAWN) {
+					break;
+				
+				case Tile.SPAWN:
 					g.setColor(Color.BLUE);
 					g.fillOval(xloc + BLOCKWIDTH / 4,
 							yloc + BLOCKWIDTH / 4, BLOCKWIDTH / 2, BLOCKWIDTH / 2);
-				}
-				else if (state == Tile.TELEPORTER) {
+					break;
+					
+				case Tile.TELEPORTER:
 					g.setColor(Color.yellow);
 					g.fillOval(xloc + BLOCKWIDTH / 4,
 							yloc + BLOCKWIDTH / 4, BLOCKWIDTH / 2, BLOCKWIDTH / 2);
-				}
-				else if (state == Tile.TELEPORTER2) {
+					break;
+					
+				case Tile.TELEPORTER2:
 					g.setColor(Color.MAGENTA);
 					g.fillOval(xloc + BLOCKWIDTH / 4,
 							yloc + BLOCKWIDTH / 4, BLOCKWIDTH / 2, BLOCKWIDTH / 2);
-				}
-				else if (state == Tile.GHOSTSPAWN) {
+					break;
+					
+				case Tile.GHOSTSPAWN:
 					g.setColor(Color.red);
 					g.fillOval(xloc + BLOCKWIDTH / 4,
 							yloc + BLOCKWIDTH / 4, BLOCKWIDTH / 2, BLOCKWIDTH / 2);
-				}
-				else if (state == Tile.POWERPELLET) {
+					break;
+					
+				case Tile.POWERPELLET:
 					g.setColor(Color.white);
 					g.fillOval(xloc + BLOCKWIDTH / 4,
 					yloc + BLOCKWIDTH / 4, BLOCKWIDTH / 2, BLOCKWIDTH / 2);
+					break;
+					
 				}
+				
 				g.setColor(Color.blue);
 				g.drawRect(xloc, yloc, BLOCKWIDTH, BLOCKWIDTH);
 				
