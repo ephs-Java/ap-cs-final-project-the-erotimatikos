@@ -280,7 +280,7 @@ public class BrickScreen extends JFrame implements Runnable{
 			while(!start){
 				fillBricks();
 			    ballchangey= -4;
-				Thread.sleep(50);
+				Thread.sleep(500);
 			}
 		    Thread.sleep(2000);
 			while(true){

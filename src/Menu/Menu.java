@@ -1,6 +1,7 @@
 package Menu;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
@@ -26,6 +27,9 @@ public class Menu extends JFrame implements Runnable {
 	private Graphics dbg;
     private int MOUSEX, MOUSEY;
 	private Image runner;
+	private Image credit;
+	private Font creditFont= new Font("Courier", 62, Font.PLAIN);
+	private boolean creditsequence= false;
 	public Menu() {
 		// TODO Auto-generated constructor stub
 		for(int i=0; i<6; i++){
@@ -45,6 +49,8 @@ public class Menu extends JFrame implements Runnable {
 		mario= image6.getImage();
 		ImageIcon image7= new ImageIcon("src/Menu/run.png");
 		runner= image7.getImage();
+		ImageIcon image8= new ImageIcon("src/Menu/credits.png");
+		credit= image8.getImage();
 		}
 		addMouseListener(new mouse());
 		SCREENX= 1380;
@@ -62,7 +68,6 @@ public class mouse extends MouseAdapter {
 		public void mousePressed(MouseEvent e) {
 			MOUSEX = e.getX();
 			MOUSEY = e.getY();
-			System.out.println(MOUSEX + " , "+MOUSEY);
 		}
 }
 	public void paint(Graphics g) {
@@ -80,8 +85,8 @@ public class mouse extends MouseAdapter {
 		
 		g.drawImage(dbImage, 0, 0, this);
 	}
-	
 	public void gameStarter() throws FileNotFoundException{
+		if (!creditsequence){
 		if ((MOUSEX>50 && MOUSEX<270) && (MOUSEY>50 && MOUSEY<270)){
 			MineScreen josh= new MineScreen();
 			MOUSEX=0;
@@ -111,7 +116,7 @@ public class mouse extends MouseAdapter {
 			MOUSEX=0;
 			MOUSEY=0;
 			try {
-				System.out.println("Pac man");
+				
 				PacMenu avery= new PacMenu();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -121,7 +126,10 @@ public class mouse extends MouseAdapter {
 		if ((MOUSEX>750 && MOUSEX<970) && (MOUSEY>150 && MOUSEY<500)){
 			MOUSEX=0;
 			MOUSEY=0;
-			BrickScreen ok= new BrickScreen();
+		    BrickScreen ping= new BrickScreen();
+	         Thread t2= new Thread(ping);
+	         t2.start();
+			
 		}
 		if ((MOUSEX>1100 && MOUSEX<1320) && (MOUSEY>50 && MOUSEY<270)){
 			marioScreen game = new marioScreen();
@@ -137,9 +145,14 @@ public class mouse extends MouseAdapter {
 			MOUSEX=0;
 			MOUSEY=0;
 		}
+		if ((MOUSEX>580 && MOUSEX<780) && (MOUSEY>580 && MOUSEY<630)){
+			creditsequence= true;
+		}
+		}
 	}
-	
 	public void paintComponent(Graphics g) throws InterruptedException {
+		int counter= 0;
+		if (!creditsequence){
 		g.fillRect(50, 50, 210, 200);
 		g.setColor(Color.WHITE);
 		g.fillRect(55, 55, 200, 190);
@@ -186,26 +199,50 @@ public class mouse extends MouseAdapter {
 		g.setColor(Color.WHITE);
 		g.fillRect(1105, 305, 200, 190);
 		g.drawImage(runner, 1120 , 310, this);
-		
+		//
+		g.setColor(Color.black);
+		g.fillRect(580, 580, 200, 50);
+		g.drawImage(credit, 580 , 580, this);
+		}
+		else {
+			g.setColor(Color.black);
+			g.fillRect(0, 0, SCREENX, SCREENY);
+			g.setFont(creditFont);
+			g.setColor(Color.white);
+			try{
+			g.drawString("Josh", 10, 10);
+			g.fillOval(300, 300, 50, 50);
+			}
+			catch(Exception e){
+				System.out.println("WORK.");
+			}
+			g.setColor(Color.black);
+			g.fillRect(580, 580, 200, 50);
+			g.drawImage(credit, 580 , 580, this);
+		}
+		repaint();
 	}
-	
-	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 			Menu test= new Menu();
 			Thread t1= new Thread(test);
 			t1.start();
 	}
-
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
 		try{
 			while(true){
+				if (creditsequence){
+					Thread.sleep(300);
+				}
+				if (!creditsequence){
 				gameStarter();
 				Thread.sleep(3);
 			}
+			}
 		}
+			
 		catch(Exception e) {
 				
 			System.out.println("Error");
