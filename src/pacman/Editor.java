@@ -365,6 +365,7 @@ public class Editor extends JFrame {
 				
 				int state = maze.maze[r][c].getState();
 				
+				//draws grid graphics
 				switch (state) {
 				
 				case Tile.WALL:
@@ -435,6 +436,7 @@ public class Editor extends JFrame {
 		String statestring = "";
 		
 		try {
+			//cursor info in the bottom left corner
 			switch(maze.maze[blockX][blockY].getState()) {
 			case Tile.BLANK:
 				statestring = "Blank";
@@ -463,7 +465,7 @@ public class Editor extends JFrame {
 			}
 			
 		} catch(Exception e) {
-//			System.out.println("cannot draw statestring");
+			//prevents the program from drawing a nonexistent statestring
 			repaint();
 		}
 		

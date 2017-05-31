@@ -1,4 +1,5 @@
-make left and up wall hitboxes consistent
+make more levels
+add a level author feature
 update wall graphics
 add sound
 create AI that does actual pathfinding
