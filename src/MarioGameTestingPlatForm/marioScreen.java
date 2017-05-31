@@ -39,6 +39,7 @@ public class marioScreen extends JFrame implements Runnable {
 	Image mario;
 	Image gameover;
 	Image vicImage;
+	Image lifes;
 
 	boolean isOut = false;
 	boolean stopTime = false;
@@ -48,7 +49,7 @@ public class marioScreen extends JFrame implements Runnable {
 
 	boolean win = false;
 	
-	int gravity = 6;
+	int gravity = 5;
 	int numOfLives = 4;
 	
 	double time = 0;
@@ -75,29 +76,51 @@ public class marioScreen extends JFrame implements Runnable {
 	
 	public void jumping(){
 	
-		tempY = y;
+//		tempY = y;
+//		if(Field.array[x/30][y/30+1].type == 1){
+//		canJump = true;
+//		}
+//		else{
+//			canJump =false;
+//		}
+//		if(canJump && (Field.array[x/30][y/30-2].type != 1 && Field.array[x/30][y/30-1].type != 1)){
+//			tempY -= 60;
+//			canJump = false;
+//		}
+//		else if(Field.array[x/30][y/30-1].type != 1 && canJump){
+//			tempY-= 30;
+//		}
 		if(Field.array[x/30][y/30+1].type == 1){
-		canJump = true;
-		}
-		else{
-			canJump =false;
-		}
-		if(canJump && (Field.array[x/30][y/30-2].type != 1 && Field.array[x/30][y/30-1].type != 1)){
-			tempY -= 60;
+			canJump = true;
+		}else{
 			canJump = false;
 		}
-		else if(Field.array[x/30][y/30-1].type != 1 && canJump){
-			tempY-= 30;
+		for(int i = 0;i<Field.brickList.size();i++){
+			if(Field.brickList.get(i).xB == x/30 && (Field.brickList.get(i).yB ==( y/30 - 2) &&Field.brickList.get(i).yB ==(y/30 - 1))){
+				if(Field.brickList.get(i).xB != (x/30 ) && Field.brickList.get(i).yB != (y/30 -1))
+				canJump = false;
+			}
+			
 		}
+		if(canJump && Field.array[x/30][y/30-2].type !=1 && Field.array[x/30][y/30-1].type !=1 && Field.array[x/30][y/30-3].type !=1){
+			y -= 85;
+		}
+		else if(canJump && Field.array[x/30][y/30-2].type !=1 && Field.array[x/30][y/30-1].type !=1){
+				y -= 65;
+			}
+			else if(canJump && Field.array[x/30][y/30-1].type !=1){
+				y-= 30;
+			}
+		
 		
 		
 		
 
-		if(Field.array[x/30][tempY/30].type != 1&&Field.array[(tempX + 15)/30][(15+ tempY)/30].type != 1){
-		
-			y = tempY;
-			
-		}
+//		if(Field.array[x/30][tempY/30].type != 1&&Field.array[(tempX + 15)/30][(15+ tempY)/30].type != 1){
+//		
+//			y = tempY;
+//			
+//		}
 	}
 
 	
@@ -130,6 +153,9 @@ public class marioScreen extends JFrame implements Runnable {
 		
 		ImageIcon victorious = new ImageIcon("src/MarioGameTestingPlatForm/Victory.png");
 		vicImage = victorious.getImage();
+		
+		ImageIcon heart = new ImageIcon("src/MarioGameTestingPlatForm/lives.png");
+		lifes = heart.getImage();
 		
 		addKeyListener(new AL());
 		setTitle("MarioGame");
@@ -228,7 +254,7 @@ public class marioScreen extends JFrame implements Runnable {
 		tempX+= xDirect;
 		tempY += yDirect;
 
-		if(Field.array[tempX/30][tempY/30].type != 1 &&Field.array[(tempX + 15)/30][(15+ tempY)/30].type != 1){
+		if(Field.array[tempX/30][tempY/30].type != 1 &&Field.array[(tempX + 20)/30][(20+ tempY)/30].type != 1){
 			y = tempY;
 			x = tempX;
 		}
@@ -379,8 +405,28 @@ public class marioScreen extends JFrame implements Runnable {
 	}
 	public void paintComponent(Graphics g) throws InterruptedException, FileNotFoundException{
 		winner();
-	g.drawString("Number of lives left: " + numOfLives, 30, 615);
-	g.drawString("Time: " + ((int)(time)), 200, 615);
+	g.drawString("Number of lives left: ", 30, 615);
+	if(numOfLives == 4){
+		g.drawImage(lifes, 190, 605, this);
+		g.drawImage(lifes, 230, 605, this);
+		g.drawImage(lifes, 270, 605, this);
+		g.drawImage(lifes, 310, 605, this);
+	}
+	else if(numOfLives == 3){
+		g.drawImage(lifes, 190, 605, this);
+		g.drawImage(lifes, 230, 605, this);
+		g.drawImage(lifes, 270, 605, this);
+		
+	}
+	else if(numOfLives == 2){
+		g.drawImage(lifes, 190, 605, this);
+		g.drawImage(lifes, 230, 605, this);
+	}
+	else if(numOfLives == 1){
+		g.drawImage(lifes, 190, 605, this);
+
+	}
+	g.drawString("Time: " + ((int)(time)), 400, 615);
 		if(win){
 		
 		
