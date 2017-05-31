@@ -86,6 +86,8 @@ public class Queue {
 	//also removes things over the buffer size
 	public void update() {
 		for (int i = 0; i < nums.size(); i++) {
+//			System.out.println(nums.get(i));
+//			System.out.println(buffer + "yeet");
 			nums.set(i, nums.get(i) + 1);
 			if (nums.get(i) >= buffer) {
 				remove(i);

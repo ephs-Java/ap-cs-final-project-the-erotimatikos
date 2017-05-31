@@ -192,13 +192,13 @@ public class PacMenu extends JFrame {
 		
 	}
 	
-	//removes - and : from the name
+	//removes - and ; from the name
 	public void formatName() {
 		
 		String newName = "";
 		for (int i = 0; i < username.length(); i++) {
 			char lett = username.charAt(i);
-			if (lett != ':' && lett != '-') {
+			if (lett != ':' && lett != ';') {
 				newName += lett;
 			}
 		}

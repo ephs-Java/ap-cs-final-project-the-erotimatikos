@@ -1,9 +1,15 @@
 Clint Eastwood:5200;0
+Avery Bartnik:5150;0
 Adam:5100;0
+Avery Bartnik:4800;0
 Adam:4200;0
+Avery Bartnik:4200;0
 Dan:3850;0
 Adam:3250;0
+Avery Bartnik:1600;0
 Dan:1500;0
+Avery Bartnik:1500;0
+Avery Bartnik:1500;0
 Clint Eastwood:1300;0
 Adam:1150;0
 Adam:1100;0
@@ -17,6 +23,7 @@ Dan:400;0
 Adam:400;0
 Avery Bartnik:0;0
 Avery Bartnik:0;0
+Avery Bartnik:10800;1
 Avery Bartnik:10000;1
 Aidan:7900;1
 Aidan:7900;1
@@ -39,8 +46,16 @@ Avery Bartnik:600;1
 Avery Bartnik:0;1
 Avery Bartnik:17300;2
 Clint Eastwood:12500;2
+Avery Bartnik:4400;2
+Clint Eastwood:3950;2
 Avery Bartnik:3900;2
+Clint Eastwood:3650;2
+Avery Bartnik:3250;2
 Avery Bartnik:2400;2
+Clint Eastwood:1900;2
+Avery Bartnik:1100;2
+Avery Bartnik:900;2
+yayeetya:300;2
 Avery Bartnik:3600;3
 Clint Eastwood:3000;3
 Clint Eastwood:-50;4
@@ -144,6 +159,20 @@ Avery Bartnik:300;12
 Clint Eastwood:300;12
 Clint Eastwood:200;12
 Avery Bartnik:17700;13
+Avery Bartnik:5450;16
+Clint Eastwood:4350;16
+Avery Bartnik:4250;16
+Clint Eastwood:4250;16
+Avery Bartnik:3850;16
+Avery Bartnik:3750;16
+Clint Eastwood:2300;16
+Avery Bartnik:2100;16
+Avery Bartnik:1700;16
+Clint Eastwood:1700;16
+Avery Bartnik:1100;16
+Clint Eastwood:100;16
+Clint Eastwood:1200;17
+Avery Bartnik:1200;17
 Avery Bartnik:5000;20
 Avery Bartnik:4750;20
 Avery Bartnik:4650;20

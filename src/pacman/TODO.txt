@@ -1,0 +1,5 @@
+make left and up wall hitboxes consistent
+update wall graphics
+add sound
+create AI that does actual pathfinding
+if possible, enable server leaderboards for the game
