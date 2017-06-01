@@ -82,7 +82,7 @@ public class FlappyScreen extends JFrame implements Runnable{
 		setVisible(true);
 		setSize(SCREENX, SCREENY);
 		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		//initiation of all sprites with a "theme" variable, allowing possible later sprite customization
 		if (theme.equals("normal")){
 		ImageIcon image0 = new ImageIcon("src/Flappybird/background.png");

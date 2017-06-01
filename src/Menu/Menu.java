@@ -303,9 +303,10 @@ public class Menu extends JFrame implements Runnable {
 				ballLocX = 250;
 				ballMomx= 3;
 			}
+			
+			g.drawImage(click, 5, 25, this);
 			g.setColor(Color.white);
 			g.fillOval(ballLocX, ballLocY, ballsize, ballsize);
-			g.drawImage(click, 5, 25, this);
 		}
 		repaint();
 	}
@@ -405,10 +406,7 @@ public class Menu extends JFrame implements Runnable {
 				ballMomx --; 
 			}
 		 }
-		 if (ballLocX < 105 && ballLocY < 175){
-			 ballMomx = -ballMomx;
-			 ballMom= -ballMom;
-		 }
+		
 	}
     public void CreditMove(){
     	creditLoc -= 1; 
