@@ -1,5 +1,4 @@
 package Menu;
-
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -8,10 +7,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-
+import java.util.Random;
+import javax.sound.sampled.*;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-
 import Brickbreak.BrickScreen;
 import FlappyBird.FlappyScreen;
 import MarioGameTestingPlatForm.marioScreen;
@@ -26,13 +25,32 @@ public class Menu extends JFrame implements Runnable {
 	private Image minesweeper, flappy, pong, tic, pac, breakout, mario;
 	private Graphics dbg;
     private int MOUSEX, MOUSEY;
+    private int creditLoc= 580;
+    private int ballMom= 5;
+    private int ballsize= 25; 
+    private int ballLocY;
 	private Image runner;
 	private Image credit;
 	private Font creditFont= new Font("Courier", 62, Font.PLAIN);
 	private boolean creditsequence= false;
+	private Image ms;
+	private Image f;
+	private Image Ashton;
+	private Image Avery;
+	private Image M;
+	private Image P;
+	private Image created;
+	private Image Josh;
+	private int  ballMomx= 3;
+	private int ballLocX = 250;
+	private Image man;
+	private Image T;
+	private Image bout;
+	private boolean exit;
+	private Image click;
+	
 	public Menu() {
 		// TODO Auto-generated constructor stub
-		for(int i=0; i<6; i++){
 		ImageIcon image0= new ImageIcon("src/Menu/minesweeper.png");
 		minesweeper= image0.getImage();
 		ImageIcon image1= new ImageIcon("src/Menu/Flappy_Bird_icon.png");
@@ -49,28 +67,54 @@ public class Menu extends JFrame implements Runnable {
 		mario= image6.getImage();
 		ImageIcon image7= new ImageIcon("src/Menu/run.png");
 		runner= image7.getImage();
+		// CREDIT IMAGES
 		ImageIcon image8= new ImageIcon("src/Menu/credits.png");
 		credit= image8.getImage();
-		}
+		ImageIcon image9= new ImageIcon("src/Menu/ms.png");
+		ms= image9.getImage();
+		ImageIcon image10= new ImageIcon("src/Menu/flappybird.png");
+		f= image10.getImage();
+		ImageIcon image11= new ImageIcon("src/Menu/ashton.png");
+		Ashton = image11.getImage();
+		ImageIcon image13= new ImageIcon("src/Menu/avery.png");
+		Avery= image13.getImage();
+		ImageIcon image14= new ImageIcon("src/Menu/M.png");
+		M= image14.getImage();
+		ImageIcon image15= new ImageIcon("src/Menu/p.png");
+		P= image15.getImage();
+		ImageIcon image16= new ImageIcon("src/Menu/created.png");
+		created= image16.getImage();
+		ImageIcon image17= new ImageIcon("src/Menu/josh.png");
+		Josh= image17.getImage();
+		ImageIcon image18= new ImageIcon("src/Menu/pman.png");
+		man= image18.getImage();
+		ImageIcon image19= new ImageIcon("src/Menu/tag.png");
+    	T= image19.getImage();
+		ImageIcon image20= new ImageIcon("src/Menu/bout.png");
+		bout= image20.getImage();
+		ImageIcon image21= new ImageIcon("src/Menu/ex.png");
+		click= image21.getImage();
 		addMouseListener(new mouse());
-		SCREENX= 1380;
-		SCREENY= 3000;
+		SCREENX= 1370;
+		SCREENY= 700;
 		setTitle("Game library");
 		setBackground(Color.blue);
 		setVisible(true);
 		setSize(SCREENX, SCREENY);
 		setResizable(false);
 	    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	    
 		//everything beyond here is images.
 	}
-public class mouse extends MouseAdapter {
-		
+    public class mouse extends MouseAdapter {
 		public void mousePressed(MouseEvent e) {
 			MOUSEX = e.getX();
 			MOUSEY = e.getY();
 		}
+		
 }
-	public void paint(Graphics g) {
+
+    public void paint(Graphics g) {
 		//dbimage serves for constantly updating images.
 		//dbimage works by creating and printing a blank image, erasing previous paint that continously updates.
 		dbImage = createImage(getWidth(), getHeight());
@@ -147,7 +191,16 @@ public class mouse extends MouseAdapter {
 		}
 		if ((MOUSEX>580 && MOUSEX<780) && (MOUSEY>580 && MOUSEY<630)){
 			creditsequence= true;
+			MOUSEX=0;
+			MOUSEY=0;
 		}
+		}
+		if (creditsequence) {
+			if ((MOUSEX>5 && MOUSEX<105) && (MOUSEY>25 && MOUSEY<125)){
+				exit= true;
+				MOUSEX=0;
+				MOUSEY=0;
+			}
 		}
 	}
 	public void paintComponent(Graphics g) throws InterruptedException {
@@ -209,16 +262,50 @@ public class mouse extends MouseAdapter {
 			g.fillRect(0, 0, SCREENX, SCREENY);
 			g.setFont(creditFont);
 			g.setColor(Color.white);
-			try{
-			g.drawString("Josh", 10, 10);
-			g.fillOval(300, 300, 50, 50);
-			}
-			catch(Exception e){
-				System.out.println("WORK.");
-			}
 			g.setColor(Color.black);
 			g.fillRect(580, 580, 200, 50);
-			g.drawImage(credit, 580 , 580, this);
+			g.drawImage(credit, 580 ,creditLoc, this);
+			//MINESWEEPER
+			g.drawImage(ms, 380 ,creditLoc+ 200, this);
+			g.drawImage(created, 380 ,creditLoc + 400, this);
+			g.drawImage(Avery, 580 ,creditLoc + 550, this);
+			g.drawImage(Ashton, 380 ,creditLoc+ 750, this);
+			g.drawImage(Josh, 580 ,creditLoc + 950, this);
+			// PONG 
+			g.drawImage(P, 380 ,creditLoc+ 1200, this);
+			g.drawImage(created, 380 ,creditLoc + 1400, this);
+			g.drawImage(Josh, 580 ,creditLoc + 1550, this);
+			// PACMAN
+			g.drawImage(man, 380 ,creditLoc+ 1900, this);
+			g.drawImage(created, 380 ,creditLoc + 2100, this);
+			g.drawImage(Avery, 580 ,creditLoc + 2250, this);
+			// MARIO
+			g.drawImage(M, 380 ,creditLoc+ 2500, this);
+			g.drawImage(created, 380 ,creditLoc + 2700, this);
+			g.drawImage(Ashton, 580 ,creditLoc + 2850, this);
+			// FLAPPY BIRD
+			g.drawImage(f, 380 ,creditLoc+ 3100, this);
+			g.drawImage(created, 380 ,creditLoc + 3300, this);
+			g.drawImage(Josh, 580 ,creditLoc + 3450, this);
+			// Tag
+			g.drawImage(T , 380 ,creditLoc+ 3700, this);
+			g.drawImage(created, 380 ,creditLoc + 3900, this);
+			g.drawImage(Ashton, 580 ,creditLoc + 4050, this);
+			// BREAKOUT
+			g.drawImage(bout, 380 ,creditLoc+ 4300, this);
+			g.drawImage(created, 380 ,creditLoc + 4400, this);
+			g.drawImage(Josh, 580 ,creditLoc + 4550, this);
+			// 
+			if (creditLoc + 5000 < 0   || exit){
+				creditsequence= false;
+				creditLoc= 580;
+				ballMom= 5;
+				ballLocX = 250;
+				ballMomx= 3;
+			}
+			g.setColor(Color.white);
+			g.fillOval(ballLocX, ballLocY, ballsize, ballsize);
+			g.drawImage(click, 5, 25, this);
 		}
 		repaint();
 	}
@@ -233,11 +320,16 @@ public class mouse extends MouseAdapter {
 		// TODO Auto-generated method stub
 		try{
 			while(true){
+				gameStarter();
 				if (creditsequence){
-					Thread.sleep(300);
+					
+					CreditMove();
+					coolBall();
+					ballMove();
+					Thread.sleep(10);
 				}
 				if (!creditsequence){
-				gameStarter();
+
 				Thread.sleep(3);
 			}
 			}
@@ -252,5 +344,79 @@ public class mouse extends MouseAdapter {
 		
 		
 	}
+	public void coolBall(){
+		ballLocY += ballMom;
+		ballLocX += ballMomx;
+	}
+	public void ballMove(){
+		Random rand= new Random();
+		int a = rand.nextInt(4) + 1;
+	
+		if (ballLocY + ballsize> SCREENY){
+			ballLocY = SCREENY- (ballsize + 7);
+			ballMom = -ballMom;
+			coolBall();
+			if ( a == 1){
+				ballMom ++;
+				ballMomx --; 
+			}
+			else {
+				ballMomx++;
+				ballMomx --; 
+			}
+		}
+		if (ballLocY < 10){
+			ballLocY = 10;
 
+			ballMom = -ballMom;
+			coolBall();
+			if ( a == 1){
+				ballMom ++;
+				ballMomx --; 
+			}
+			else {
+				ballMomx++;
+				ballMomx --; 
+			}
+		}
+		 if (ballLocX < 0){
+			 ballLocX= 1;
+			 ballMomx = -ballMomx;
+			coolBall();
+			if ( a == 1){
+				ballMom ++;
+				ballMomx --; 
+			}
+			else {
+				ballMomx++;
+				ballMomx --; 
+			}
+		 }
+		 if (ballLocX+ ballsize > SCREENX){
+			 ballLocX= SCREENX - (ballsize + 1);
+			 ballMomx = -ballMomx;
+			coolBall();
+			if ( a == 1){
+				ballMom ++;
+				ballMomx --; 
+			}
+			else {
+				ballMomx++;
+				ballMomx --; 
+			}
+		 }
+		 if (ballLocX < 105 && ballLocY < 175){
+			 ballMomx = -ballMomx;
+			 ballMom= -ballMom;
+		 }
+	}
+    public void CreditMove(){
+    	creditLoc -= 1; 
+    	try {
+			Thread.sleep(1);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
 }
