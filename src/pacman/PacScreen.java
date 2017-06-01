@@ -717,6 +717,27 @@ public class PacScreen extends JFrame implements Runnable {
 	//class that handles key input
 	public class keyboard extends KeyAdapter {
 		
+		public void keyReleased(KeyEvent e) {
+			
+			int key = e.getKeyCode();
+			
+			switch (key) {
+			
+			case KeyEvent.VK_LEFT:
+			case KeyEvent.VK_RIGHT:
+			case KeyEvent.VK_DOWN:
+			case KeyEvent.VK_UP:
+			case KeyEvent.VK_W:
+			case KeyEvent.VK_A:
+			case KeyEvent.VK_S:
+			case KeyEvent.VK_D:
+				keyDirection = Pacman.STOP;
+				break;
+				
+			}
+			
+		}
+		
 		public void keyPressed(KeyEvent e) {
 			
 			int key = e.getKeyCode();
@@ -760,25 +781,6 @@ public class PacScreen extends JFrame implements Runnable {
 			
 		}
 		
-		public void keyReleased(KeyEvent e) {
-			
-			int key = e.getKeyCode();
-			
-			switch (key) {
-			
-			case KeyEvent.VK_LEFT:
-			case KeyEvent.VK_RIGHT:
-			case KeyEvent.VK_DOWN:
-			case KeyEvent.VK_UP:
-			case KeyEvent.VK_W:
-			case KeyEvent.VK_A:
-			case KeyEvent.VK_S:
-			case KeyEvent.VK_D:
-				keyDirection = Pacman.STOP;
-				
-			}
-			
-		}
 		
 	}
 	
@@ -840,9 +842,22 @@ public class PacScreen extends JFrame implements Runnable {
 		//prints the ghosts
 		for (int i = 0; i < ghosts.length(); i++) {
 			g.setColor(Color.MAGENTA);
+			//flashes the ghosts
+//			System.out.println(powerQueue.get(powerQueue.indexOf("RUN")));
+			if (powerQueue.indexOf("RUN") != -1 && ghosts.runAway && 
+					powerQueue.get(powerQueue.indexOf("RUN")) > POWERQUEUE - POWERQUEUE / 4) {
+				if (powerQueue.get(powerQueue.indexOf("RUN")) % 2 == 0) {
+					g.drawImage(ghostrunning.getImage(), ghosts.get(i).getX() + 2, ghosts.get(i).getY() + 2
+							, BLOCKWIDTH, BLOCKWIDTH, this);
+				}
+				else {
+					g.drawImage(ghost.getImage(), ghosts.get(i).getX() + 2, ghosts.get(i).getY() + 2
+							, BLOCKWIDTH, BLOCKWIDTH, this);
+				}
+				continue;
+			}
 			if (!ghosts.get(i).isActive) {
 				continue;
-				
 			}
 			if (ghosts.runAway) {
 				g.drawImage(ghostrunning.getImage(), ghosts.get(i).getX() + 2, ghosts.get(i).getY() + 2

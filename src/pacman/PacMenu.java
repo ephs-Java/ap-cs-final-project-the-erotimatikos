@@ -82,7 +82,9 @@ public class PacMenu extends JFrame {
 		//creates leaderboard object
 		leaderboard = new Leaderboard();
 		
+		leaderboard.trim();
 		leaderboard.writeToFile();
+		
 		
 		
 		

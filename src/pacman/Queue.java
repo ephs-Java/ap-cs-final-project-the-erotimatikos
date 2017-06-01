@@ -96,6 +96,13 @@ public class Queue {
 //		System.out.println("sasdf");
 	}
 	
+	public int get(int index) {
+		if (index < 0 || index >= nums.size()) {
+			return -1;
+		}
+		return nums.get(index);
+	}
+	
 	public String toString() {
 		
 		String message = "";

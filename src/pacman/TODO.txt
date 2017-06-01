@@ -1,3 +1,4 @@
+make the ghosts flash when the power pellet is about to run out
 make more levels
 add a level author feature
 update wall graphics

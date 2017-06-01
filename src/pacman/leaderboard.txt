@@ -3,59 +3,16 @@ Avery Bartnik:5150;0
 Adam:5100;0
 Avery Bartnik:4800;0
 Adam:4200;0
-Avery Bartnik:4200;0
-Dan:3850;0
-Adam:3250;0
-Avery Bartnik:1600;0
-Dan:1500;0
-Avery Bartnik:1500;0
-Avery Bartnik:1500;0
-Clint Eastwood:1300;0
-Adam:1150;0
-Adam:1100;0
-Adam:950;0
-Adam:900;0
-Clint Eastwood:900;0
-Adam:800;0
-Dan:700;0
-Dan:500;0
-Dan:400;0
-Adam:400;0
-Avery Bartnik:0;0
-Avery Bartnik:0;0
 Avery Bartnik:10800;1
 Avery Bartnik:10000;1
 Aidan:7900;1
 Aidan:7900;1
 Aidan:6400;1
-Aidan:4800;1
-Aidan:4000;1
-Aidan:3900;1
-Avery Bartnik:3800;1
-Clint Eastwood:3700;1
-Aidan:3300;1
-Aidan:2300;1
-Aidan:2000;1
-Aidan:1800;1
-Aidan:1600;1
-Avery Bartnik:1600;1
-Clint Eastwood:1200;1
-Clint Eastwood:1100;1
-Aidan:600;1
-Avery Bartnik:600;1
-Avery Bartnik:0;1
 Avery Bartnik:17300;2
 Clint Eastwood:12500;2
 Avery Bartnik:4400;2
 Clint Eastwood:3950;2
 Avery Bartnik:3900;2
-Clint Eastwood:3650;2
-Avery Bartnik:3250;2
-Avery Bartnik:2400;2
-Clint Eastwood:1900;2
-Avery Bartnik:1100;2
-Avery Bartnik:900;2
-yayeetya:300;2
 Avery Bartnik:3600;3
 Clint Eastwood:3000;3
 Clint Eastwood:-50;4
@@ -69,94 +26,56 @@ Avery Bartnik:900;6
 Dan:900;6
 Adam:800;6
 Adam:800;6
-Adam:800;6
-Dad:700;6
-Adam:700;6
-Aidan:600;6
-Avery Bartnik:600;6
-Dan:600;6
-Dan:600;6
-Adam:600;6
-Avery Bartnik:400;6
-Adam:400;6
-Adam:400;6
-Aidan:200;6
-Aidan:200;6
-Dad:200;6
-Dad:200;6
-Dad:200;6
-Dad:200;6
-Dad:200;6
-Dad:200;6
-Avery Bartnik:200;6
-Avery Bartnik:200;6
-Avery Bartnik:200;6
-Avery Bartnik:200;6
-Avery Bartnik:200;6
-Dan:200;6
-Dan:200;6
-Dan:200;6
-Dan:200;6
-Dan:200;6
-Dan:200;6
-Adam:200;6
-Adam:200;6
-Adam:200;6
-Adam:200;6
-Adam:200;6
-Adam:200;6
-Adam:200;6
-Adam:200;6
-Adam:200;6
-Adam:200;6
-Adam:200;6
-Adam:200;6
-Adam:200;6
-Adam:200;6
-Adam:200;6
-Adam:200;6
-Adam:200;6
-Adam:200;6
-Dan:100;6
-Adam:100;6
+Avery Bartnik:20300;7
 Avery Bartnik:20000;7
 Avery Bartnik:16100;7
 Avery Bartnik:14800;7
 Avery Bartnik:13800;7
-Aidan:13100;7
-Avery Bartnik:12200;7
-Avery Bartnik:12100;7
-Aidan:11500;7
-Avery Bartnik:5100;7
-Avery Bartnik:3900;7
-Avery Bartnik:3500;7
-Avery Bartnik:2400;7
-Aidan:500;8
-Aidan:200;8
 Avery Bartnik:8300;9
+Avery Bartnik:4950;9
+Avery Bartnik:900;9
 Avery Bartnik:800;9
-Avery Bartnik:700;9
-Aidan:3200;10
-Aidan:3100;10
+Avery Bartnik:800;9
+Avery Bartnik:3500;10
+Avery Bartnik:3500;10
+Avery Bartnik:3400;10
+Avery Bartnik:3300;10
+Avery Bartnik:3300;10
 Clint Eastwood:4500;12
 Avery Bartnik:4200;12
+Avery Bartnik:4100;12
 Clint Eastwood:1900;12
+Avery Bartnik:1300;12
 Clint Eastwood:1200;12
-Clint Eastwood:1200;12
-Clint Eastwood:1000;12
-Adam:1000;12
-Adam:900;12
-Clint Eastwood:800;12
-Clint Eastwood:700;12
-Clint Eastwood:600;12
-Clint Eastwood:600;12
-Adam:500;12
-Clint Eastwood:500;12
-Clint Eastwood:500;12
-Adam:400;12
-Clint Eastwood:400;12
-Avery Bartnik:300;12
-Clint Eastwood:300;12
-Clint Eastwood:200;12
 Avery Bartnik:17700;13
+Avery Bartnik:5700;14
+Avery Bartnik:5500;14
+Not Aidan:4950;14
+Not Aidan:4750;14
+Not Aidan:4550;14
+Avery Bartnik:26500;15
+Clint Eastwood:17300;15
+Clint Eastwood:1200;15
+Avery Bartnik:1000;15
+Avery Bartnik:11350;16
 Avery Bartnik:7100;16
+Avery Bartnik:7050;16
+Avery Bartnik:4400;16
+Avery Bartnik:4200;16
+Avery Bartnik:1100;17
+Avery Bartnik:1000;17
+Avery Bartnik:1000;17
+Avery Bartnik:1000;17
+Avery Bartnik:900;17
+Avery Bartnik:1000;18
+Avery Bartnik:700;18
+Avery Bartnik:500;18
+Avery Bartnik:0;18
+Avery Bartnik:0;18
+Avery Bartnik:8500;19
+Avery Bartnik:5500;19
+Avery Bartnik:150;21
+Avery Bartnik:50;21
+Avery Bartnik:-50;21
+Avery Bartnik:-50;21
+Avery Bartnik:450;22

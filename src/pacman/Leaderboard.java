@@ -157,6 +157,37 @@ public class Leaderboard {
 		
 	}
 	
+	//removes scores that are not in the top 5
+	public void trim() {
+		
+		sort();
+		
+//		System.out.println(leaders.size() + "\n" + this + "\n\n\n");
+		
+		int leadersFromLevel = 0;
+		int currentLevel = 0;
+		
+		for (int i = 0; i < leaders.size(); i++) {
+			
+			Leader l = leaders.get(i);
+			
+			if (l.getLevel() != currentLevel) {
+				currentLevel ++;
+				leadersFromLevel = 0;
+			}
+			
+			leadersFromLevel ++;
+			
+			if (leadersFromLevel > 5) {
+				leaders.remove(i);
+				i--;
+			}
+			
+		}
+//		System.out.println(leaders.size() + "\n" + this);
+		
+	}
+	
 	//checks for leaderboard.txt and creates it if it is gone
 	private void checkForFile() throws IOException {
 		
