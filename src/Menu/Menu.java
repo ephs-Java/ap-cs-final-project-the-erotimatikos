@@ -293,8 +293,8 @@ public class Menu extends JFrame implements Runnable {
 			g.drawImage(Ashton, 580 ,creditLoc + 4050, this);
 			// BREAKOUT
 			g.drawImage(bout, 380 ,creditLoc+ 4300, this);
-			g.drawImage(created, 380 ,creditLoc + 4400, this);
-			g.drawImage(Josh, 580 ,creditLoc + 4550, this);
+			g.drawImage(created, 380 ,creditLoc + 4500, this);
+			g.drawImage(Josh, 580 ,creditLoc + 4650, this);
 			// 
 			if (creditLoc + 5000 < 0   || exit){
 				creditsequence= false;
