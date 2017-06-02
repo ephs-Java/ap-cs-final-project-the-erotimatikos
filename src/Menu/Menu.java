@@ -136,7 +136,7 @@ public class Menu extends JFrame implements Runnable {
 			MOUSEX=0;
 			MOUSEY=0;
 		}
-		if ((MOUSEX>400 && MOUSEX<620) && (MOUSEY>50 && MOUSEY<270)){
+		else if ((MOUSEX>400 && MOUSEX<620) && (MOUSEY>50 && MOUSEY<270)){
 			MOUSEX=0;
 			MOUSEY=0;
 			FlappyScreen josh= new FlappyScreen();
@@ -144,30 +144,32 @@ public class Menu extends JFrame implements Runnable {
 			t1.start();
 			
 		}
-		if ((MOUSEX>750 && MOUSEX<970) && (MOUSEY>50 && MOUSEY<270)){
+		else if ((MOUSEX>750 && MOUSEX<970) && (MOUSEY>50 && MOUSEY<270)){
 			MOUSEX=0;
 			MOUSEY=0;
 			Screen ok= new Screen();
 		}
-		if ((MOUSEX>50 && MOUSEX<270) && (MOUSEY>150 && MOUSEY<500)){
+		else if ((MOUSEX>50 && MOUSEX<270) && (MOUSEY>150 && MOUSEY<500)){
 			MOUSEX=0;
 			MOUSEY=0;
 			Pong josh= new Pong();
 			Thread t1= new Thread(josh);
 			t1.start();
 		}
-		if ((MOUSEX>400 && MOUSEX<620) && (MOUSEY>150 && MOUSEY<500)){
+		else if ((MOUSEX>400 && MOUSEX<620) && (MOUSEY>150 && MOUSEY<500)){
 			MOUSEX=0;
 			MOUSEY=0;
 			try {
 				
 				PacMenu avery= new PacMenu();
+				Thread pacThread = new Thread(avery);
+				pacThread.start();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-		if ((MOUSEX>750 && MOUSEX<970) && (MOUSEY>150 && MOUSEY<500)){
+		else if ((MOUSEX>750 && MOUSEX<970) && (MOUSEY>150 && MOUSEY<500)){
 			MOUSEX=0;
 			MOUSEY=0;
 		    BrickScreen ping= new BrickScreen();
@@ -175,21 +177,21 @@ public class Menu extends JFrame implements Runnable {
 	         t2.start();
 			
 		}
-		if ((MOUSEX>1100 && MOUSEX<1320) && (MOUSEY>50 && MOUSEY<270)){
+		else if ((MOUSEX>1100 && MOUSEX<1320) && (MOUSEY>50 && MOUSEY<270)){
 			marioScreen game = new marioScreen();
 			Thread t = new Thread(game);
 			t.start();
 			MOUSEX=0;
 			MOUSEY=0;
 		}
-		if ((MOUSEX>1100 && MOUSEX<1320) && (MOUSEY>150 && MOUSEY<500)){
+		else if ((MOUSEX>1100 && MOUSEX<1320) && (MOUSEY>150 && MOUSEY<500)){
 			screen game = new screen();
 			Thread t = new Thread(game);
 			t.start();
 			MOUSEX=0;
 			MOUSEY=0;
 		}
-		if ((MOUSEX>580 && MOUSEX<780) && (MOUSEY>580 && MOUSEY<630)){
+		else if ((MOUSEX>580 && MOUSEX<780) && (MOUSEY>580 && MOUSEY<630)){
 			creditsequence= true;
 			MOUSEX=0;
 			MOUSEY=0;

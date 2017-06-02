@@ -4,3 +4,7 @@ update wall graphics
 add menu music
 create AI that does actual pathfinding
 if possible, enable server leaderboards for the game
+
+
+Presentation
+Teach the class about something (JFrame?)
