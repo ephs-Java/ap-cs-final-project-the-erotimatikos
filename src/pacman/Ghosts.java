@@ -69,7 +69,6 @@ public class Ghosts {
 //			System.out.println(bestPathLength(field, g, pacX, pacY, blockwidth));
 			
 			//update the ghost location based on its direction
-			
 			update(g);
 			
 			//moves the ghost to the nearest block	
@@ -93,6 +92,8 @@ public class Ghosts {
 				g.setLocation(g.getX(), g.getY() + (blockwidth - yLeftover));
 			}
 			
+			//checks for wall collision
+			wallCollision(field, g, blockwidth);
 			
 			//if the ghost is not aligned, skip this ghost			
 			if ((g.getX() - 25) % blockwidth != 0) {
@@ -174,9 +175,35 @@ public class Ghosts {
 		int Xindex = (g.getX() - 25) / blockwidth;
 		int Yindex = (g.getY() - 50) / blockwidth;
 		
-		System.out.println(Xindex + " " + Yindex);
+		//finds out how far the ghost is from being aligned
+		int xLeftover = (g.getX() - 25) % blockwidth;
+		int yLeftover = (g.getY() - 50) % blockwidth;
 		
+//		System.out.println(Xindex + " " + Yindex);
 		
+		int dir = g.getDirection();
+		
+		//left collision
+		if (dir == Ghost.LEFT && field[Xindex][Yindex].getState() == Tile.WALL) {
+			g.setLocation(g.getX() + (blockwidth - xLeftover), g.getY());
+//			System.out.println("WALL");
+		}
+		//up collision
+		else if (dir == Ghost.UP && field[Xindex][Yindex].getState() == Tile.WALL) {
+			g.setLocation(g.getX(), g.getY() + (blockwidth - yLeftover));
+//			System.out.println("WALL");
+		}
+		//right collision
+		else if (dir == Ghost.RIGHT && field[Xindex + 1][Yindex].getState() == Tile.WALL) {
+			g.setLocation(g.getX() - xLeftover, g.getY());
+//			System.out.println("WALL");
+		}
+		//down collision
+		else if (dir == Ghost.DOWN && field[Xindex][Yindex + 1].getState() == Tile.WALL) {
+			g.setLocation(g.getX(), g.getY() - yLeftover);
+//			System.out.println("WALL");
+		}
+//		g.setLocation(x, y);
 		
 	}
 	

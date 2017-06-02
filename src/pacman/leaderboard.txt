@@ -82,4 +82,7 @@ Avery Bartnik:150;21
 Avery Bartnik:50;21
 Avery Bartnik:-50;21
 Avery Bartnik:-50;21
+Avery Bartnik:-50;21
+Avery Bartnik:700;22
 Clint Eastwood:800;23
+Avery Bartnik:800;23
