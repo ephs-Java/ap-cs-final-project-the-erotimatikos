@@ -24,6 +24,8 @@ import javax.swing.JOptionPane;
 
 public class PacMenu extends JFrame {
 	
+//	String MENUMUSIC = "src/pacman/sound/MenuMusic.wav";
+	
 	//maze preview field
 	Maze preview;
 	
@@ -63,6 +65,9 @@ public class PacMenu extends JFrame {
 	//levels field
 	Levels levels;
 	
+	//music field
+	Sound snd = new Sound();
+	
 	//main constructor
 	public PacMenu() throws IOException {
 		
@@ -100,7 +105,9 @@ public class PacMenu extends JFrame {
 		setVisible(true);
 		setTitle("Pac man menu");
 		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		
+//		snd.play(MENUMUSIC);
 		
 	}
 	
@@ -320,6 +327,12 @@ public class PacMenu extends JFrame {
 	//detects when window is activated
 	public class window extends WindowAdapter {
 		
+		public void windowDeactivated(WindowEvent e) {
+			
+			
+			
+		}
+		
 		public void windowActivated(WindowEvent e) {
 			
 			try {
@@ -327,6 +340,12 @@ public class PacMenu extends JFrame {
 				((PacMenu) e.getWindow()).load(levels.get(selectedIndex).toString());
 				leaderboard = new Leaderboard();
 //				leaderboard.writeToFile();
+//				snd.playCompleted = true;
+//				snd.playCompleted = false;
+				
+//				snd = new Sound();
+//				snd.play(MENUMUSIC);
+				
 			} catch(Exception exception) {
 				exception.printStackTrace();
 			}

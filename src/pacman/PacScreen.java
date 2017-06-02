@@ -20,6 +20,9 @@ public class PacScreen extends JFrame implements Runnable {
 	//easy toggling of leaderboard
 	private boolean SAVESCORES = true;
 	
+	//sound field for sfx
+	Sound snd = new Sound();
+	
 	//double buffering variables
 	Image dbImage;
 	Graphics dbg;
@@ -44,6 +47,7 @@ public class PacScreen extends JFrame implements Runnable {
 	
 	//path to the images
 	final String IMAGESOURCE = "src/pacman/images/";
+	final String SOUNDSOURCE = "src/pacman/sound/";
 	
 	//images
 	ImageIcon ghost;
@@ -429,11 +433,19 @@ public class PacScreen extends JFrame implements Runnable {
 			
 			maze.maze[pac.getPacXindex()][pac.getPacYindex() + 1].setState(Tile.BLANK);
 			mouthQueue.add("EAT");
+//			snd.start();
+			snd.play(SOUNDSOURCE + "pellet.wav");
+//			snd.t = null;
+//			snd = new Sound();
 			score += 100;
 		}
 		if (maze.maze[pac.getPacXindex()][pac.getPacYindex()].getState() == Tile.PILL) {
 			maze.maze[pac.getPacXindex()][pac.getPacYindex()].setState(Tile.BLANK);
 			mouthQueue.add("EAT");
+//			snd.start();
+			snd.play(SOUNDSOURCE + "pellet.wav");
+//			snd.t = null;
+//			snd = new Sound();
 			score += 100;
 		}
 		if (maze.maze[pac.getPacXindex() + 1][pac.getPacYindex()].getState() == Tile.PILL 
@@ -441,6 +453,10 @@ public class PacScreen extends JFrame implements Runnable {
 			
 			maze.maze[pac.getPacXindex() + 1][pac.getPacYindex()].setState(Tile.BLANK);
 			mouthQueue.add("EAT");
+//			snd.start();
+			snd.play(SOUNDSOURCE + "pellet.wav");
+//			snd = new Sound();
+//			snd.t = null;
 			score += 100;
 		}
 		
@@ -451,6 +467,7 @@ public class PacScreen extends JFrame implements Runnable {
 			maze.maze[pac.getPacXindex()][pac.getPacYindex() + 1].setState(Tile.BLANK);
 			mouthQueue.add("EAT");
 			powerQueue.add("RUN");
+			snd.play(SOUNDSOURCE + "powerPellet.wav");
 //					ghosts.alignAll(BLOCKWIDTH);
 			score += 200;
 		}
@@ -458,6 +475,7 @@ public class PacScreen extends JFrame implements Runnable {
 			maze.maze[pac.getPacXindex()][pac.getPacYindex()].setState(Tile.BLANK);
 			mouthQueue.add("EAT");
 			powerQueue.add("RUN");
+			snd.play(SOUNDSOURCE + "powerPellet.wav");
 //					ghosts.alignAll(BLOCKWIDTH);
 			score += 200;
 		}
@@ -467,6 +485,7 @@ public class PacScreen extends JFrame implements Runnable {
 			maze.maze[pac.getPacXindex() + 1][pac.getPacYindex()].setState(Tile.BLANK);
 			mouthQueue.add("EAT");
 			powerQueue.add("RUN");
+			snd.play(SOUNDSOURCE + "powerPellet.wav");
 //					ghosts.alignAll(BLOCKWIDTH);
 			score += 200;
 		}
@@ -568,6 +587,7 @@ public class PacScreen extends JFrame implements Runnable {
 					updateVars();
 					checkWallCollision();
 					tpwait.add("teleport");
+					snd.play(SOUNDSOURCE + "teleport.wav");
 					return;
 				}
 				else if (maze.maze[r][c].getState() == Tile.TELEPORTER2 && (r != pacXindex || c != pacYindex) && !is1
@@ -577,6 +597,7 @@ public class PacScreen extends JFrame implements Runnable {
 					updateVars();
 					checkWallCollision();
 					tpwait.add("teleport2");
+					snd.play(SOUNDSOURCE + "teleport.wav");
 					return;
 				}
 				
