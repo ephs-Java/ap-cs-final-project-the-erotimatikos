@@ -9,7 +9,7 @@ import javax.sound.sampled.DataLine;
 import javax.sound.sampled.SourceDataLine;
 
 public class Sound {
-
+	
     private final int BUFFER_SIZE = 128000;
     private File soundFile;
     private AudioInputStream audioStream;
@@ -21,7 +21,7 @@ public class Sound {
      * @param filename the name of the file that is going to be played
      */
     public void play(String filename){
-
+    	
     	try {
     	    File yourFile = new File(filename);
     	    AudioInputStream stream;
