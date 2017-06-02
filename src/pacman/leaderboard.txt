@@ -13,6 +13,9 @@ Avery Bartnik:4400;2
 Clint Eastwood:3950;2
 Avery Bartnik:3600;3
 Clint Eastwood:3000;3
+Avery Bartnik:700;4
+Avery Bartnik:50;4
+Avery Bartnik:50;4
 Clint Eastwood:-50;4
 Avery (the) Bartnik:11600;5
 Dan:4850;5
@@ -73,14 +76,13 @@ Avery Bartnik:0;18
 Avery Bartnik:0;18
 Avery Bartnik:15500;19
 Avery Bartnik:14700;19
+Avery Bartnik:10600;19
 Avery Bartnik:9000;19
 Avery Bartnik:8500;19
-Avery Bartnik:7500;19
 Avery Bartnik:19200;20
 Avery Bartnik:150;21
 Avery Bartnik:150;21
 Avery Bartnik:50;21
-Avery Bartnik:-50;21
 Avery Bartnik:-50;21
 Avery Bartnik:-50;21
 Avery Bartnik:700;22
