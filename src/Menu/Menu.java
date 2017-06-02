@@ -293,8 +293,8 @@ public class Menu extends JFrame implements Runnable {
 			g.drawImage(Ashton, 580 ,creditLoc + 4050, this);
 			// BREAKOUT
 			g.drawImage(bout, 380 ,creditLoc+ 4300, this);
-			g.drawImage(created, 380 ,creditLoc + 4400, this);
-			g.drawImage(Josh, 580 ,creditLoc + 4550, this);
+			g.drawImage(created, 380 ,creditLoc + 4500, this);
+			g.drawImage(Josh, 580 ,creditLoc + 4650, this);
 			// 
 			if (creditLoc + 5000 < 0   || exit){
 				creditsequence= false;
@@ -303,9 +303,10 @@ public class Menu extends JFrame implements Runnable {
 				ballLocX = 250;
 				ballMomx= 3;
 			}
+			
+			g.drawImage(click, 5, 25, this);
 			g.setColor(Color.white);
 			g.fillOval(ballLocX, ballLocY, ballsize, ballsize);
-			g.drawImage(click, 5, 25, this);
 		}
 		repaint();
 	}
@@ -405,10 +406,7 @@ public class Menu extends JFrame implements Runnable {
 				ballMomx --; 
 			}
 		 }
-		 if (ballLocX < 105 && ballLocY < 175){
-			 ballMomx = -ballMomx;
-			 ballMom= -ballMom;
-		 }
+		
 	}
     public void CreditMove(){
     	creditLoc -= 1; 

@@ -24,10 +24,16 @@ public class screen extends JFrame implements Runnable{
 	private boolean winner = false;
 	
 	boolean gameOver = false;
-	Image tanker;
 	public int counter = 0;
+	boolean startScreen = true;
 	int time = 0;
+	
+Image monster;
+Image kim;
 
+	
+	
+	
 	public void run(){
 		try{
 
@@ -103,6 +109,17 @@ time++;
 				setYDir(4);
 			}
 			
+							
+			if(code == e.VK_R){
+				startScreen = false;
+
+				gameOver = false;
+				x = 50;
+				y = 50;
+				enemy.x = 150;
+				enemy.y = 150;
+				counter = 0;
+			}
 			
 			
 		}
@@ -126,8 +143,12 @@ time++;
 	
 	public screen(){
 		
-		ImageIcon tank = new ImageIcon("src/practice/bigTank.png");
-		tanker = tank.getImage();
+		ImageIcon mon = new ImageIcon("src/Runner/monster.png");
+		monster = mon.getImage();
+		
+		ImageIcon kimj = new ImageIcon("src/Runner/kimJonUn.png");
+		kim = kimj.getImage();
+		
 		
 		enemy =  new player();
 		
@@ -152,25 +173,34 @@ time++;
 		paintComponent(dbg);
 		g.drawImage(dbImage, 0, 0, this);
 	}
-	
+	Font big = new Font("Arial",Font.BOLD,32);
 	public void paintComponent(Graphics g) {
+		
+		if(startScreen == true){
+			g.drawString("The goal is to use the arrow keys to avoid the monster for as long as you can.", 10, 80);
+			g.drawString("Click R to start",20,100);
+		g.setFont(big);
+		g.drawString("Welcome to Runner", 50, 50);
+		}else{
 		int first = 0;
 		if(!gameOver){
-		g.drawRect(x, y, 10, 10);
+		g.drawImage(kim,x, y,this);
 		
 			
-			g.drawRect(enemy.x, enemy.y, 10, 10);
 			
+			g.drawImage(monster, enemy.x,enemy.y, this);
 		
 		
-			g.drawRect(enemy.x, enemy.y, 10, 10);
+	
 		
 		}else{
 		Font big = new Font("Arial",Font.BOLD,30);
 		g.drawString("GAME OVER", 100, 100);
 		g.drawString("You have lasted " + (time / 100) + " Seconds", 100, 120);
-		}
+		g.drawString("Click \"R\" to restart", 100, 190);
 		
+		}
+		}
 		repaint(); //Causes it to refresh once it reaches this point
 		
 	}

@@ -42,7 +42,7 @@ public class Pong extends JFrame implements Runnable{
 		// TODO Auto-generated constructor stub
 		addKeyListener( new AL()); 
 		addMouseListener( new mouse());
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		SCREENX= 700;
 		SCREENY= 500;
 		setTitle("Pong");

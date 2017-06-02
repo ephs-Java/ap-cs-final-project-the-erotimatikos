@@ -37,12 +37,12 @@ public class BrickScreen extends JFrame implements Runnable{
 	public BrickScreen() {
 		// TODO Auto-generated constructor stub
 		addKeyListener( new AL()); 
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		SCREENX= 600;
 		SCREENY= 700;
 		setTitle("Brick Break");
 		setVisible(true);
 		setSize(SCREENX, SCREENY);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setResizable(false);
 	    paddlex= SCREENX/2- 60;
 	    BRICKH= 25;
