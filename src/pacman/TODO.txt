@@ -1,6 +1,6 @@
 make more levels
 add a level author feature
 update wall graphics
-add sound
+add menu music
 create AI that does actual pathfinding
 if possible, enable server leaderboards for the game

@@ -8,6 +8,8 @@ public class Runner {
 		
 		try {
 			PacMenu pacmenu = new PacMenu();
+			Thread t1 = new Thread(pacmenu);
+			t1.start();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -5,6 +5,8 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -48,6 +50,8 @@ public class PacScreen extends JFrame implements Runnable {
 	//path to the images
 	final String IMAGESOURCE = "src/pacman/images/";
 	final String SOUNDSOURCE = "src/pacman/sound/";
+	
+	final String GAMEMUSIC = SOUNDSOURCE + "MenuMusic.wav";
 	
 	//images
 	ImageIcon ghost;
@@ -111,6 +115,9 @@ public class PacScreen extends JFrame implements Runnable {
 		try {
 			
 			while (true) {
+				
+				//refreshes the screen
+				repaint();
 				
 				//exits the game
 				if (exit) {
@@ -805,6 +812,23 @@ public class PacScreen extends JFrame implements Runnable {
 		
 	}
 	
+	//handles music with closing and opening the windows
+	public class window extends WindowAdapter {
+		
+		public void windowActivated(WindowEvent e) {
+			
+			
+			
+		}
+		
+		public void windowDeactivated(WindowEvent e) {
+			
+			
+			
+		}
+		
+	}
+	
 	//paints stuff to the screen
 	public void paintComponent(Graphics g) {
 
@@ -911,16 +935,18 @@ public class PacScreen extends JFrame implements Runnable {
 		else {
 			g.drawImage(pacmanclosed.getImage(), pac.getPacmanX()
 					, pac.getPacmanY(), BLOCKWIDTH, BLOCKWIDTH, this);
+//			repaint();
 		}
 		if (mouthQueue.indexOf("EAT") != -1) {
 			g.drawImage(pacmanclosed.getImage(), pac.getPacmanX()
 					, pac.getPacmanY(), BLOCKWIDTH, BLOCKWIDTH, this);
+			repaint();
 		}
 		
 		g.setColor(Color.white);
 		g.drawString("Score: " + score, 100, screenY - 10);
 		
-		repaint();
+//		repaint();
 		
 	}	
 	

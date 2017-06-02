@@ -22,9 +22,12 @@ import java.util.Scanner;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-public class PacMenu extends JFrame {
+public class PacMenu extends JFrame implements Runnable {
 	
-//	String MENUMUSIC = "src/pacman/sound/MenuMusic.wav";
+	String MENUMUSIC = "src/pacman/sound/MenuMusic.wav";
+	
+	//if the menu is the active window
+	private boolean isActive = true;
 	
 	//maze preview field
 	Maze preview;
@@ -68,6 +71,29 @@ public class PacMenu extends JFrame {
 	//music field
 	Sound snd = new Sound();
 	
+	//thread
+	public void run() {
+		
+		try {
+			
+			while (true) {
+				
+				Thread.sleep(34);
+				if (!isActive) {
+					Thread.sleep(1000);
+					continue;
+				}
+				
+				repaint();
+				
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
 	//main constructor
 	public PacMenu() throws IOException {
 		
@@ -107,7 +133,7 @@ public class PacMenu extends JFrame {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
-//		snd.play(MENUMUSIC);
+		snd.play(MENUMUSIC);
 		
 	}
 	
@@ -329,11 +355,14 @@ public class PacMenu extends JFrame {
 		
 		public void windowDeactivated(WindowEvent e) {
 			
-			
+			isActive = false;
+			snd.stop();
 			
 		}
 		
 		public void windowActivated(WindowEvent e) {
+			
+			isActive = true;
 			
 			try {
 //				System.out.println("window activated");
@@ -344,7 +373,7 @@ public class PacMenu extends JFrame {
 //				snd.playCompleted = false;
 				
 //				snd = new Sound();
-//				snd.play(MENUMUSIC);
+				snd.play(MENUMUSIC);
 				
 			} catch(Exception exception) {
 				exception.printStackTrace();
@@ -381,11 +410,13 @@ public class PacMenu extends JFrame {
 				g.setColor(Color.GREEN);
 			}
 			
-			g.fillRect(xOffset - 5, i * ROWSIZE + yOffset - (ROWSIZE  / 2), s.length() * charLength, ROWSIZE - 2);
+			g.fillRect(xOffset - 5, i * ROWSIZE + yOffset - (ROWSIZE  / 2), 
+					s.length() * charLength, ROWSIZE - 2);
 			
 			g.setColor(Color.BLACK);
 			//black rectangle around blue rectangle
-			g.drawRect(xOffset - 5 - 1, i * ROWSIZE + yOffset - (ROWSIZE  / 2) - 1, s.length() * charLength - 1, ROWSIZE - 1);
+			g.drawRect(xOffset - 5 - 1, i * ROWSIZE + yOffset - (ROWSIZE  / 2) - 1,
+					s.length() * charLength - 1, ROWSIZE - 1);
 			
 			//white text
 			g.setColor(Color.WHITE);
@@ -496,7 +527,7 @@ public class PacMenu extends JFrame {
 		}
 //		System.out.println(leaders);
 		
-		repaint();
+//		repaint();
 		
 	}
 	
