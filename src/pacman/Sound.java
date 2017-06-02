@@ -6,20 +6,11 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.DataLine;
-import javax.sound.sampled.SourceDataLine;
 
 public class Sound {
 	
-    private final int BUFFER_SIZE = 128000;
-    private File soundFile;
-    private AudioInputStream audioStream;
-    private AudioFormat audioFormat;
-    private SourceDataLine sourceLine;
     private Clip clip;
     
-    /**
-     * @param filename the name of the file that is going to be played
-     */
     public void play(String filename){
     	
     	try {
@@ -27,7 +18,6 @@ public class Sound {
     	    AudioInputStream stream;
     	    AudioFormat format;
     	    DataLine.Info info;
-//    	    Clip clip;
 
     	    stream = AudioSystem.getAudioInputStream(yourFile);
     	    format = stream.getFormat();
@@ -37,7 +27,7 @@ public class Sound {
     	    clip.start();
     	}
     	catch (Exception e) {
-    	    //whatevers
+    		System.out.println("Sound error");
     	}
     }
     

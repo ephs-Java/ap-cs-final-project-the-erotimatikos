@@ -475,6 +475,7 @@ public class PacScreen extends JFrame implements Runnable {
 			mouthQueue.add("EAT");
 			powerQueue.add("RUN");
 			snd.play(SOUNDSOURCE + "powerPellet.wav");
+//			ghosts.alignAll(BLOCKWIDTH);
 //					ghosts.alignAll(BLOCKWIDTH);
 			score += 200;
 		}
