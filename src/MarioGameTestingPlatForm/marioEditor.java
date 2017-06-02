@@ -30,6 +30,7 @@ public class marioEditor extends JFrame implements Runnable{
 	int x,y,yDirect,xDirect,cordX,cordY;
 
 	Image brick;
+	Image brickBreak;
 	int level = 1;
 	public static void main(String[] args){
 		marioEditor editor = new marioEditor();
@@ -44,6 +45,9 @@ public class marioEditor extends JFrame implements Runnable{
 		ImageIcon brickk = new ImageIcon("src/MarioGameTestingPlatForm/brick.png");
 		brick = brickk.getImage();
 
+		ImageIcon brickbreakk = new ImageIcon("src/MarioGameTestingPlatForm/breakBrick.jpg");
+		brickBreak = brickbreakk.getImage();
+		
 		addKeyListener(new AL());
 		setTitle("MarioGame");
 		setSize(screenX,screenY);
@@ -161,10 +165,14 @@ public class marioEditor extends JFrame implements Runnable{
 
 				Field.array[cordX][cordY].type = 6;
 			}
+			if(code == e.VK_B){
+
+				Field.array[cordX][cordY].type = 11;
+			}
 			if(code == e.VK_L){
 				
 				level++;
-				if(level > 4){
+				if(level > 5){
 					level=1;
 				}
 				try {
@@ -244,6 +252,9 @@ public class marioEditor extends JFrame implements Runnable{
 				if(Field.array[r][c].getType() == 7){
 					g.setColor(Color.blue);
 					g.fillRect(r*30, c*30, 30, 30);
+				}
+				if(Field.array[r][c].getType() == 11){
+					g.drawImage(brickBreak,r *30,c*30, this);
 				}
 			}
 		}

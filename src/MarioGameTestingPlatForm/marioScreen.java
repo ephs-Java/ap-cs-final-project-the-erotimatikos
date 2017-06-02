@@ -14,6 +14,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import pacman.Sound;
+
 
 
 
@@ -40,17 +42,19 @@ public class marioScreen extends JFrame implements Runnable {
 	Image gameover;
 	Image vicImage;
 	Image lifes;
-
+	Image brickBreak;
+	
+	boolean onceforendsong = false;
 	boolean isOut = false;
 	boolean stopTime = false;
 	boolean canJump = false;
 	boolean falling = true;
 	boolean victory = false;
-
+Sound snd;
 	boolean win = false;
 	
 	int gravity = 5;
-	int numOfLives = 4;
+	int numOfLives = 500;
 	
 	double time = 0;
 	
@@ -104,12 +108,15 @@ public class marioScreen extends JFrame implements Runnable {
 		}
 		if(canJump && Field.array[x/30][y/30-2].type !=1 && Field.array[x/30][y/30-1].type !=1 && Field.array[x/30][y/30-3].type !=1){
 			y -= 85;
+			snd.play("src/MarioGameTestingPlatForm/Mario Jump.wav/");
 		}
 		else if(canJump && Field.array[x/30][y/30-2].type !=1 && Field.array[x/30][y/30-1].type !=1){
 				y -= 65;
+				snd.play("src/MarioGameTestingPlatForm/Mario Jump.wav/");
 			}
 			else if(canJump && Field.array[x/30][y/30-1].type !=1){
 				y-= 30;
+				snd.play("src/MarioGameTestingPlatForm/Mario Jump.wav/");
 			}
 		
 		
@@ -121,6 +128,7 @@ public class marioScreen extends JFrame implements Runnable {
 //			y = tempY;
 //			
 //		}
+	
 	}
 
 	
@@ -156,6 +164,12 @@ public class marioScreen extends JFrame implements Runnable {
 		
 		ImageIcon heart = new ImageIcon("src/MarioGameTestingPlatForm/lives.png");
 		lifes = heart.getImage();
+		
+		ImageIcon brickbreakk = new ImageIcon("src/MarioGameTestingPlatForm/breakBrick.jpg");
+		brickBreak = brickbreakk.getImage();
+		
+		 snd = new Sound();
+		
 		
 		addKeyListener(new AL());
 		setTitle("MarioGame");
@@ -207,6 +221,7 @@ public class marioScreen extends JFrame implements Runnable {
 				System.out.println(e.getMessage());
 				e.printStackTrace();
 			}
+			repaint();
 
 		}
 	}
@@ -221,6 +236,7 @@ public class marioScreen extends JFrame implements Runnable {
 		if(ene.amIOut(x,y) && (Math.abs(prevTime - (int)time) > 1)){
 			prevTime = (int)time;
 			numOfLives--;
+			snd.play("src/MarioGameTestingPlatForm/Super Mario 2 - Die.wav/");
 	}
 	if(numOfLives < 1){
 		stopTime = true;
@@ -253,11 +269,19 @@ public class marioScreen extends JFrame implements Runnable {
 
 		tempX+= xDirect;
 		tempY += yDirect;
-
-		if(Field.array[tempX/30][tempY/30].type != 1 &&Field.array[(tempX + 20)/30][(20+ tempY)/30].type != 1){
+		if(Field.array[((int)(tempX)/30)][((int)(tempY)/30)].type != 11 &&Field.array[(tempX + 20)/30][(20+ tempY)/30].type != 11){
+			
+		
+		if(Field.array[tempX/30][tempY/30].type == 11){
+			Field.array[tempX/30][tempY/30].type = 0;
+			
+			
+		}}
+		 if(Field.array[tempX/30][tempY/30].type != 1 &&Field.array[(tempX + 20)/30][(20+ tempY)/30].type != 1){
 			y = tempY;
 			x = tempX;
 		}
+		
 	}
 	
 
@@ -358,7 +382,9 @@ public class marioScreen extends JFrame implements Runnable {
 	
 	public void winner() throws InterruptedException{
 		 if(victory){
+				snd.play("src/MarioGameTestingPlatForm/Win Stage.wav/");
 			 level++;
+			 
 			 if(level >= 5){
 				
 				 if(level == 5){
@@ -449,7 +475,9 @@ public class marioScreen extends JFrame implements Runnable {
 	 if(!isOut){
 			for(int r = 0;r<rowLeng;r++){
 				for(int c = 0;c<colLeng;c++){
-
+					if(Field.array[r][c].getType() == 11){
+						g.drawImage(brickBreak,r *30,c*30, this);
+					}
 
 					if(Field.array[r][c].getType() == 0){
 						g.setColor(Color.cyan);
@@ -491,10 +519,12 @@ public class marioScreen extends JFrame implements Runnable {
 	
 		else{
 			g.drawImage(gameover, 10,10, this);
-			
+			if(!onceforendsong){
+				onceforendsong = true;
+			snd.play("src/MarioGameTestingPlatForm/Super Mario 3 - Game Over.wav/");
+			}
 		}
 		}
-		repaint();
 	}
 
 }

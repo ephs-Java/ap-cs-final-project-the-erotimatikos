@@ -25,12 +25,12 @@ Image passe;
  Image dbImage;
  Graphics dbg;
 
-String user = "";
-String pass = "";
+String user = " ";
+String pass = " ";
 boolean usern = true;
 int mouseX;
 int mouseY;
-String star = "";
+String star = " ";
 	
 	public MouseScreen(){
 		addKeyListener(new AL());
@@ -88,7 +88,7 @@ public class AL extends KeyAdapter{
 			else{
 				if(user.length() < 36){
 				pass += "" + (e.getKeyChar());
-				System.out.print(pass);
+				
 				}
 			}
 			
@@ -121,7 +121,7 @@ public class AL extends KeyAdapter{
 	
 	public void paintComponent(Graphics g){
 		star = "";
-		for(int i = 0;i<pass.length();i++){
+		for(int i = 1;i<pass.length();i++){
 			star+= "*";
 		}
 		if(usern){
