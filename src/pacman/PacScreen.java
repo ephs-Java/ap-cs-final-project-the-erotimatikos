@@ -56,6 +56,8 @@ public class PacScreen extends JFrame implements Runnable {
 	final String POWERPELLET = SOUNDSOURCE + "powerPellet.wav";
 	final String TELEPORT = SOUNDSOURCE + "teleport.wav";
 	final String GAMEMUSIC = SOUNDSOURCE + "MenuMusic.wav";
+	final String VICTORY =  SOUNDSOURCE  + "Victory.wav";
+	final String DEFEAT = SOUNDSOURCE + "Defeat.wav";
 	
 	//images
 	ImageIcon ghost;
@@ -159,7 +161,8 @@ public class PacScreen extends JFrame implements Runnable {
 //				System.out.println("yeet2");
 				
 				if (lose()) {
-					Thread.sleep(2000);
+					snd.play(DEFEAT);
+					Thread.sleep(4000);
 					setup();
 //					if (score < 0) {score = 0;}
 					if (SAVESCORES) {
@@ -171,6 +174,7 @@ public class PacScreen extends JFrame implements Runnable {
 					score = 0;
 				}
 				if (maze.isVictory() && !exit) {
+					snd.play(VICTORY);
 					Thread.sleep(2000);
 					if (SAVESCORES) {
 						Leader l = new Leader(PLAYERNAME, score, LEVEL);

@@ -133,7 +133,7 @@ public class PacMenu extends JFrame implements Runnable {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
-		snd.play(MENUMUSIC);
+//		snd.play(MENUMUSIC);
 		
 	}
 	
@@ -356,7 +356,7 @@ public class PacMenu extends JFrame implements Runnable {
 		public void windowDeactivated(WindowEvent e) {
 			
 			isActive = false;
-			snd.stop();
+//			snd.stop();
 			
 		}
 		
@@ -373,7 +373,7 @@ public class PacMenu extends JFrame implements Runnable {
 //				snd.playCompleted = false;
 				
 //				snd = new Sound();
-				snd.play(MENUMUSIC);
+//				snd.play(MENUMUSIC);
 				
 			} catch(Exception exception) {
 				exception.printStackTrace();
