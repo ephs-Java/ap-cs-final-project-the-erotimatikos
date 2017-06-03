@@ -20,7 +20,7 @@ import javax.swing.JFrame;
 public class PacScreen extends JFrame implements Runnable {
 	
 	//easy toggling of leaderboard
-	private boolean SAVESCORES = false;
+	private boolean SAVESCORES = true;
 	
 	//sound field for sfx
 	Sound snd = new Sound();

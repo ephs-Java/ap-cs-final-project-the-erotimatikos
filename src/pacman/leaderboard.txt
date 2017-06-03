@@ -68,7 +68,7 @@ Avery Bartnik:1100;17
 Avery Bartnik:1000;17
 Avery Bartnik:1000;17
 Avery Bartnik:1000;17
-Avery Bartnik:900;17
+Not Aidan:1000;17
 Avery Bartnik:1000;18
 Avery Bartnik:700;18
 Avery Bartnik:500;18
