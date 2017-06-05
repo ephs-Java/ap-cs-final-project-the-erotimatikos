@@ -29,12 +29,5 @@ public class Video1 extends JFrame{
 		g.fillRect(4,5, 100, 100);
 		
 		
-		
-		
-		
-		//
-		
-		
-		
 	}
 }

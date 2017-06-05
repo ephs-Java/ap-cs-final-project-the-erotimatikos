@@ -1,4 +1,5 @@
 package pacman;
+//-273.15˚C
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -20,7 +21,7 @@ import javax.swing.JFrame;
 public class PacScreen extends JFrame implements Runnable {
 	
 	//easy toggling of leaderboard
-	private boolean SAVESCORES = false;
+	private boolean SAVESCORES = true;
 	
 	//sound field for sfx
 	Sound snd = new Sound();
@@ -56,6 +57,8 @@ public class PacScreen extends JFrame implements Runnable {
 	final String POWERPELLET = SOUNDSOURCE + "powerPellet.wav";
 	final String TELEPORT = SOUNDSOURCE + "teleport.wav";
 	final String GAMEMUSIC = SOUNDSOURCE + "MenuMusic.wav";
+	final String VICTORY =  SOUNDSOURCE  + "Victory.wav";
+	final String DEFEAT = SOUNDSOURCE + "Defeat.wav";
 	
 	//images
 	ImageIcon ghost;
@@ -159,7 +162,8 @@ public class PacScreen extends JFrame implements Runnable {
 //				System.out.println("yeet2");
 				
 				if (lose()) {
-					Thread.sleep(2000);
+					snd.play(DEFEAT);
+					Thread.sleep(4000);
 					setup();
 //					if (score < 0) {score = 0;}
 					if (SAVESCORES) {
@@ -171,6 +175,7 @@ public class PacScreen extends JFrame implements Runnable {
 					score = 0;
 				}
 				if (maze.isVictory() && !exit) {
+					snd.play(VICTORY);
 					Thread.sleep(2000);
 					if (SAVESCORES) {
 						Leader l = new Leader(PLAYERNAME, score, LEVEL);
@@ -227,13 +232,14 @@ public class PacScreen extends JFrame implements Runnable {
 		
 		//keyboard listener
 		addKeyListener(new keyboard());
+		addWindowListener(new window());
 		
 		//sets the properties of the screen
 		setTitle("Pac-Man");
 		setVisible(true);
 		setSize(screenX, screenY);
 		setResizable(false);
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setBackground(Color.black);
 		
 	}
@@ -819,6 +825,11 @@ public class PacScreen extends JFrame implements Runnable {
 	
 	//handles music with closing and opening the windows
 	public class window extends WindowAdapter {
+		
+		public void windowClosing(WindowEvent e) {
+			
+			exit = true;
+		}
 		
 		public void windowActivated(WindowEvent e) {
 			

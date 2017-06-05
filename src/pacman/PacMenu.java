@@ -1,6 +1,5 @@
 package pacman;
-
-//-273.15˚C
+//3433 lines total
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -131,9 +130,9 @@ public class PacMenu extends JFrame implements Runnable {
 		setVisible(true);
 		setTitle("Pac man menu");
 		setResizable(false);
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		snd.play(MENUMUSIC);
+//		snd.play(MENUMUSIC);
 		
 	}
 	
@@ -356,7 +355,7 @@ public class PacMenu extends JFrame implements Runnable {
 		public void windowDeactivated(WindowEvent e) {
 			
 			isActive = false;
-			snd.stop();
+//			snd.stop();
 			
 		}
 		
@@ -373,7 +372,7 @@ public class PacMenu extends JFrame implements Runnable {
 //				snd.playCompleted = false;
 				
 //				snd = new Sound();
-				snd.play(MENUMUSIC);
+//				snd.play(MENUMUSIC);
 				
 			} catch(Exception exception) {
 				exception.printStackTrace();

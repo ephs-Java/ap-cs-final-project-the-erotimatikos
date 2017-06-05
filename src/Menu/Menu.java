@@ -19,6 +19,7 @@ import Runner.screen;
 import TicTackToe.Screen;
 import minesweeper.MineScreen;
 import pacman.PacMenu;
+import pacman.Sound;
 public class Menu extends JFrame implements Runnable {
     private int SCREENX, SCREENY;
 	private Image dbImage;
@@ -32,8 +33,10 @@ public class Menu extends JFrame implements Runnable {
 	private Image runner;
 	private Image credit;
 	private Font creditFont= new Font("Courier", 62, Font.PLAIN);
+	Sound creditmusic = new Sound();
 	private boolean creditsequence= false;
 	private Image ms;
+	private boolean alex= false;
 	private Image f;
 	private Image Ashton;
 	private Image Avery;
@@ -48,7 +51,6 @@ public class Menu extends JFrame implements Runnable {
 	private Image bout;
 	private boolean exit;
 	private Image click;
-	
 	public Menu() {
 		// TODO Auto-generated constructor stub
 		ImageIcon image0= new ImageIcon("src/Menu/minesweeper.png");
@@ -110,10 +112,15 @@ public class Menu extends JFrame implements Runnable {
 		public void mousePressed(MouseEvent e) {
 			MOUSEX = e.getX();
 			MOUSEY = e.getY();
+			try {
+				gameStarter();
+			} catch (FileNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 		
 }
-
     public void paint(Graphics g) {
 		//dbimage serves for constantly updating images.
 		//dbimage works by creating and printing a blank image, erasing previous paint that continously updates.
@@ -191,6 +198,7 @@ public class Menu extends JFrame implements Runnable {
 		}
 		if ((MOUSEX>580 && MOUSEX<780) && (MOUSEY>580 && MOUSEY<630)){
 			creditsequence= true;
+			creditmusic.play("src/Menu/music.wav");
 			MOUSEX=0;
 			MOUSEY=0;
 		}
@@ -198,6 +206,7 @@ public class Menu extends JFrame implements Runnable {
 		if (creditsequence) {
 			if ((MOUSEX>5 && MOUSEX<105) && (MOUSEY>25 && MOUSEY<125)){
 				exit= true;
+                
 				MOUSEX=0;
 				MOUSEY=0;
 			}
@@ -296,17 +305,18 @@ public class Menu extends JFrame implements Runnable {
 			g.drawImage(created, 380 ,creditLoc + 4500, this);
 			g.drawImage(Josh, 580 ,creditLoc + 4650, this);
 			// 
+			
 			if (creditLoc + 5000 < 0   || exit){
 				creditsequence= false;
+			    creditmusic.stop();
 				creditLoc= 580;
 				ballMom= 5;
 				ballLocX = 250;
 				ballMomx= 3;
+				exit= false;
 			}
 			
 			g.drawImage(click, 5, 25, this);
-			g.setColor(Color.white);
-			g.fillOval(ballLocX, ballLocY, ballsize, ballsize);
 		}
 		repaint();
 	}
@@ -321,8 +331,10 @@ public class Menu extends JFrame implements Runnable {
 		// TODO Auto-generated method stub
 		try{
 			while(true){
-				gameStarter();
+				
 				if (creditsequence){
+				
+				
 					
 					CreditMove();
 					coolBall();
@@ -330,7 +342,8 @@ public class Menu extends JFrame implements Runnable {
 					Thread.sleep(10);
 				}
 				if (!creditsequence){
-
+		
+                
 				Thread.sleep(3);
 			}
 			}
@@ -357,7 +370,7 @@ public class Menu extends JFrame implements Runnable {
 			ballLocY = SCREENY- (ballsize + 7);
 			ballMom = -ballMom;
 			coolBall();
-			if ( a == 1){
+			if (a == 1){
 				ballMom ++;
 				ballMomx --; 
 			}

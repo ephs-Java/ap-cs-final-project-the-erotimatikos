@@ -54,7 +54,7 @@ Sound snd;
 	boolean win = false;
 	
 	int gravity = 5;
-	int numOfLives = 500;
+	int numOfLives = 4;
 	
 	double time = 0;
 	
@@ -71,10 +71,13 @@ Sound snd;
 			tempY+= gravity;
 			
 		}
+		if(Field.array[((int)(tempX)/30)][((int)(tempY)/30)].type != 11 &&Field.array[(tempX + 20)/30][(20+ tempY)/30].type != 11){//new
+			
+			
 		if(Field.array[x/30][tempY/30].type != 1 &&Field.array[(tempX + 15)/30][(15+ tempY)/30].type != 1){
 			y = tempY;
 		
-		}
+		}}
 		
 	}
 	
@@ -269,15 +272,17 @@ Sound snd;
 
 		tempX+= xDirect;
 		tempY += yDirect;
-		if(Field.array[((int)(tempX)/30)][((int)(tempY)/30)].type != 11 &&Field.array[(tempX + 20)/30][(20+ tempY)/30].type != 11){
-			
-		
-		if(Field.array[tempX/30][tempY/30].type == 11){
-			Field.array[tempX/30][tempY/30].type = 0;
-			
-			
-		}}
-		 if(Field.array[tempX/30][tempY/30].type != 1 &&Field.array[(tempX + 20)/30][(20+ tempY)/30].type != 1){
+
+		if(Field.array[((int)(tempX)/30)][((int)(tempY)/30)].type != 11 &&Field.array[(tempX + 20)/30][(20+ tempY)/30].type != 11){//new
+
+
+			if(Field.array[tempX/30][tempY/30].type == 11){
+				Field.array[tempX/30][tempY/30].type = 0;
+
+			}
+		}
+		if(Field.array[((int)(tempX)/30)][((int)(tempY)/30)].type != 11 &&Field.array[(tempX + 20)/30][(20+ tempY)/30].type != 11) //new
+		if(Field.array[tempX/30][tempY/30].type != 1 &&Field.array[(tempX + 20)/30][(20+ tempY)/30].type != 1){
 			y = tempY;
 			x = tempX;
 		}
@@ -320,7 +325,9 @@ Sound snd;
 
 			if(code == e.VK_DOWN){
 
-				setYDirect(30);
+				if(Field.array[x/30][y/30 + 1].type == 11){//new
+					Field.array[x/30][y/30 + 1].type = 0;//new
+				}
 			}
 			if(code == e.VK_I){
 				try {

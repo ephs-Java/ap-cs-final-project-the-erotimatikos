@@ -27,7 +27,7 @@ public class Sound {
     	    clip.start();
     	}
     	catch (Exception e) {
-    		System.out.println("Sound error");
+//    		System.out.println("Sound error");
     	}
     }
     
