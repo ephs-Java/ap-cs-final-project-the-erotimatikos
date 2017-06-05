@@ -3,8 +3,6 @@ Avery Bartnik:5150;0
 Clint Eastwood:5150;0
 Avery Bartniik:5150;0
 Clint Eastwood:5150;0
-Avery Bartnik:5100;0
-Avery Bartnik:700;0
 Avery Bartnik:10600;1
 Avery Bartnik:3200;1
 Avery Bartnik:1700;1
@@ -30,18 +28,13 @@ Avery Bartnik:900;6
 Dan:900;6
 Adam:800;6
 Adam:800;6
-Avery Bartnik:800;6
-Avery Bartnik:300;6
-Avery Bartnik:200;6
-Avery Bartnik:200;6
-Avery Bartnik:200;6
-Avery Bartnik:200;6
-Avery Bartnik:200;6
 Avery Bartnik:20300;7
 Avery Bartnik:20300;7
 Avery Bartnik:20000;7
 Avery Bartnik:16100;7
 Avery Bartnik:14800;7
+Jack Sweeney:0;8
+Jack Sweeney:0;8
 Avery Bartnik:8300;9
 Avery Bartnik:4950;9
 Avery Bartnik:900;9
@@ -52,6 +45,8 @@ Avery Bartnik:3500;10
 Avery Bartnik:3400;10
 Avery Bartnik:3300;10
 Avery Bartnik:3300;10
+Jack Sweeney:17500;11
+Jack Sweeney:9900;11
 Avery Bartnik:2200;11
 Avery Bartnik:4500;12
 Avery Bartnik:4200;12
