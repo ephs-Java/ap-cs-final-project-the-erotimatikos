@@ -51,6 +51,8 @@ public class Menu extends JFrame implements Runnable {
 	private Image bout;
 	private boolean exit;
 	private Image click;
+	private Image noise;
+	private Image tm;
 	public Menu() {
 		// TODO Auto-generated constructor stub
 		ImageIcon image0= new ImageIcon("src/Menu/minesweeper.png");
@@ -96,6 +98,10 @@ public class Menu extends JFrame implements Runnable {
 		bout= image20.getImage();
 		ImageIcon image21= new ImageIcon("src/Menu/ex.png");
 		click= image21.getImage();
+		ImageIcon image22= new ImageIcon("src/Menu/treadmill.png");
+		tm= image22.getImage();
+		ImageIcon image23= new ImageIcon("src/Menu/sound.png");
+		noise= image23.getImage();
 		addMouseListener(new mouse());
 		SCREENX= 1370;
 		SCREENY= 700;
@@ -304,8 +310,15 @@ public class Menu extends JFrame implements Runnable {
 			g.drawImage(bout, 380 ,creditLoc+ 4300, this);
 			g.drawImage(created, 380 ,creditLoc + 4500, this);
 			g.drawImage(Josh, 580 ,creditLoc + 4650, this);
-			// 
-			
+			// Sound
+			g.drawImage(noise, 380 ,creditLoc+ 4900, this);
+			g.drawImage(created, 380 ,creditLoc + 5100, this);
+			g.drawImage(Avery, 580 ,creditLoc + 4250, this);
+			//TREADMILL
+			g.drawImage(tm, 380 ,creditLoc+ 4900, this);
+			g.drawImage(created, 380 ,creditLoc + 5100, this);
+			g.drawImage(Ashton, 580 ,creditLoc + 4250, this);
+			//
 			if (creditLoc + 5000 < 0   || exit){
 				creditsequence= false;
 			    creditmusic.stop();
@@ -318,7 +331,7 @@ public class Menu extends JFrame implements Runnable {
 			
 			g.drawImage(click, 5, 25, this);
 		}
-		repaint();
+	
 	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -339,12 +352,12 @@ public class Menu extends JFrame implements Runnable {
 					CreditMove();
 					coolBall();
 					ballMove();
+					repaint();
 					Thread.sleep(10);
 				}
 				if (!creditsequence){
-		
-                
-				Thread.sleep(3);
+				repaint();
+				Thread.sleep(1000);
 			}
 			}
 		}
@@ -424,6 +437,7 @@ public class Menu extends JFrame implements Runnable {
     public void CreditMove(){
     	creditLoc -= 1; 
     	try {
+    		
 			Thread.sleep(1);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
