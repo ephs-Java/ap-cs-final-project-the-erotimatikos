@@ -1,5 +1,5 @@
 package pacman;
-//3433 lines total
+//3434 lines total
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -23,7 +23,7 @@ import javax.swing.JOptionPane;
 
 public class PacMenu extends JFrame implements Runnable {
 	
-	String MENUMUSIC = "src/pacman/sound/MenuMusic.wav";
+//	String MENUMUSIC = "src/pacman/sound/MenuMusic.wav";
 	
 	//if the menu is the active window
 	private boolean isActive = true;
@@ -226,7 +226,7 @@ public class PacMenu extends JFrame implements Runnable {
 		
 	}
 	
-	//removes - and ; from the name
+	//removes : and ; from the name
 	public void formatName() {
 		
 		String newName = "";
@@ -373,6 +373,7 @@ public class PacMenu extends JFrame implements Runnable {
 				
 //				snd = new Sound();
 //				snd.play(MENUMUSIC);
+				Thread.sleep(500);
 				
 			} catch(Exception exception) {
 				exception.printStackTrace();
