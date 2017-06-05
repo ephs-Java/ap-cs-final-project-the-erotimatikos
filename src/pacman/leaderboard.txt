@@ -3,8 +3,8 @@ Avery Bartnik:5150;0
 Clint Eastwood:5150;0
 Avery Bartniik:5150;0
 Clint Eastwood:5150;0
-Adam:5100;0
-Clint Eastwood:500;0
+Avery Bartnik:5100;0
+Avery Bartnik:700;0
 Avery Bartnik:10600;1
 Avery Bartnik:3200;1
 Avery Bartnik:1700;1
@@ -16,24 +16,32 @@ Clint Eastwood:3950;2
 Avery Bartnik:3600;3
 Clint Eastwood:3000;3
 Avery Bartnik:700;4
+Avery Bartnik:550;4
+Avery Bartnik:450;4
 Avery Bartnik:50;4
 Avery Bartnik:50;4
-Clint Eastwood:-50;4
 Avery (the) Bartnik:11600;5
+Avery Bartnik:6950;5
+Avery Bartnik:6650;5
+Avery Bartnik:6350;5
 Dan:4850;5
-Dan:2150;5
-Dan:1350;5
-Dan:1350;5
 Adam:1300;6
 Avery Bartnik:900;6
 Dan:900;6
 Adam:800;6
 Adam:800;6
+Avery Bartnik:800;6
+Avery Bartnik:300;6
+Avery Bartnik:200;6
+Avery Bartnik:200;6
+Avery Bartnik:200;6
+Avery Bartnik:200;6
+Avery Bartnik:200;6
+Avery Bartnik:20300;7
 Avery Bartnik:20300;7
 Avery Bartnik:20000;7
 Avery Bartnik:16100;7
 Avery Bartnik:14800;7
-Avery Bartnik:13800;7
 Avery Bartnik:8300;9
 Avery Bartnik:4950;9
 Avery Bartnik:900;9
@@ -44,12 +52,12 @@ Avery Bartnik:3500;10
 Avery Bartnik:3400;10
 Avery Bartnik:3300;10
 Avery Bartnik:3300;10
+Avery Bartnik:2200;11
 Avery Bartnik:4500;12
 Avery Bartnik:4200;12
 Avery Bartnik:4100;12
 Clint Eastwood:1900;12
 Avery Bartnik:1600;12
-Avery Bartnik:1300;12
 Avery Bartnik:18250;13
 Avery Bartnik:17700;13
 Avery Bartnik:5700;14
@@ -74,20 +82,23 @@ Not Aidan:1000;17
 Avery Bartnik:1000;18
 Avery Bartnik:700;18
 Avery Bartnik:500;18
+Avery Bartnik:300;18
 Avery Bartnik:0;18
-Avery Bartnik:0;18
+Avery Bartnik:18600;19
 Clint Eastwood:15600;19
 Avery Bartnik:15500;19
 Avery Bartnik:14700;19
 Avery Bartnik:10600;19
-Avery Bartnik:9000;19
-Avery Bartnik:8500;19
 Avery Bartnik:19200;20
 Avery Bartnik:150;21
 Avery Bartnik:150;21
 Avery Bartnik:50;21
 Avery Bartnik:-50;21
 Avery Bartnik:-50;21
-Avery Bartnik:700;22
+Avery Bartnik:1100;22
+Avery Bartnik:1100;22
+Avery Bartnik:1100;22
+Avery Bartnik:1100;22
+Avery Bartnik:950;22
 Clint Eastwood:800;23
 Avery Bartnik:800;23

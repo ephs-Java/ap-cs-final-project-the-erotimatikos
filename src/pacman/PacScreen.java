@@ -1,4 +1,5 @@
 package pacman;
+//-273.15˚C
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -231,13 +232,14 @@ public class PacScreen extends JFrame implements Runnable {
 		
 		//keyboard listener
 		addKeyListener(new keyboard());
+		addWindowListener(new window());
 		
 		//sets the properties of the screen
 		setTitle("Pac-Man");
 		setVisible(true);
 		setSize(screenX, screenY);
 		setResizable(false);
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setBackground(Color.black);
 		
 	}
@@ -823,6 +825,11 @@ public class PacScreen extends JFrame implements Runnable {
 	
 	//handles music with closing and opening the windows
 	public class window extends WindowAdapter {
+		
+		public void windowClosing(WindowEvent e) {
+			
+			exit = true;
+		}
 		
 		public void windowActivated(WindowEvent e) {
 			
