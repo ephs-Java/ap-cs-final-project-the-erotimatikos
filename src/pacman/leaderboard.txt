@@ -3,6 +3,7 @@ Avery Bartnik:5150;0
 Clint Eastwood:5150;0
 Avery Bartniik:5150;0
 Clint Eastwood:5150;0
+Avery Bartnik:850;0
 Avery Bartnik:10600;1
 Avery Bartnik:3200;1
 Avery Bartnik:1700;1
@@ -95,3 +96,4 @@ Avery Bartnik:1100;22
 Avery Bartnik:1100;22
 Avery Bartnik:1100;22
 Avery Bartnik:950;22
+Avery Bartnik:300;22
