@@ -1,6 +1,7 @@
 package MarioGameTestingPlatForm;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.KeyAdapter;
@@ -22,20 +23,31 @@ import pacman.Sound;
 
 public class marioScreen extends JFrame implements Runnable {
 
+	//Creates a 2d array of the field
 	field Field = new field();
+	//creates all goobas
 	enemys ene = new enemys();
 
+	
+	//used for double buffering
 	private Graphics dbg;;
 	private Image dbImage;
+	
 	//35 r by 20c
 	int screenX = 1050,screenY = 630, rowLeng = Field.rowLeng, colLeng = Field.colLeng ;
 	int x,y,yDirect,xDirect, tempX,tempY,endX,endY;
+	//number of jumps
 	int marioJump = 0;
+	//Level that you are on
 	int level = 1;
 	int prevTime=0;
+	
+	//Varibale used to run method once
 	int once = 0;
 	//Enemys will move on multiples of 3
 	int enemySpeedGovenor = 0;
+	
+	//Images
 	Image brick;
 	Image goomba;
 	Image mario;
@@ -44,21 +56,34 @@ public class marioScreen extends JFrame implements Runnable {
 	Image lifes;
 	Image brickBreak;
 	
+	//ending song
 	boolean onceforendsong = false;
+	//Checks to see if you lose
 	boolean isOut = false;
+	//Time that you finish the game
 	boolean stopTime = false;
+	
+	//prevents double jumping
 	boolean canJump = false;
+	
+	//Lets you fall
 	boolean falling = true;
 	boolean victory = false;
-Sound snd;
+	//Creates a new sound
+	Sound snd;
 	boolean win = false;
+	boolean startscreen= true;
 	
+	//how fast you fall
 	int gravity = 5;
+	
+	//number of lives
 	int numOfLives = 4;
 	
+	//time
 	double time = 0;
 	
-	
+	//Creates gravity in the game
 	public void falling(){
 		tempY = y;
 		if(Field.array[x/30][y/30+1].type == 1){
@@ -83,20 +108,7 @@ Sound snd;
 	
 	public void jumping(){
 	
-//		tempY = y;
-//		if(Field.array[x/30][y/30+1].type == 1){
-//		canJump = true;
-//		}
-//		else{
-//			canJump =false;
-//		}
-//		if(canJump && (Field.array[x/30][y/30-2].type != 1 && Field.array[x/30][y/30-1].type != 1)){
-//			tempY -= 60;
-//			canJump = false;
-//		}
-//		else if(Field.array[x/30][y/30-1].type != 1 && canJump){
-//			tempY-= 30;
-//		}
+//Lets the users jump
 		if(Field.array[x/30][y/30+1].type == 1){
 			canJump = true;
 		}else{
@@ -122,21 +134,12 @@ Sound snd;
 				snd.play("src/MarioGameTestingPlatForm/Mario Jump.wav/");
 			}
 		
-		
-		
-		
-
-//		if(Field.array[x/30][tempY/30].type != 1&&Field.array[(tempX + 15)/30][(15+ tempY)/30].type != 1){
-//		
-//			y = tempY;
-//			
-//		}
 	
 	}
 
 	
 
-
+// Main method that starts the thread
 	public static void main(String[] args) throws FileNotFoundException{
 		marioScreen game = new marioScreen();
 		Thread t = new Thread(game);
@@ -145,13 +148,14 @@ Sound snd;
 
 
 	public marioScreen() throws FileNotFoundException{
-
+		//Imports the level
 		importer();
+		//Gets coordinate position for enemys
 		enemyFinder(); 
 		
+		//Imports all of the images
 		ImageIcon brickk = new ImageIcon("src/MarioGameTestingPlatForm/brick.png");
 		brick = brickk.getImage();
-
 
 		ImageIcon goom = new ImageIcon("src/MarioGameTestingPlatForm/goomb.png");
 		goomba = goom.getImage();
@@ -173,8 +177,9 @@ Sound snd;
 		
 		 snd = new Sound();
 		
-		
+		//Adds key input
 		addKeyListener(new AL());
+		//Creates the window
 		setTitle("MarioGame");
 		setSize(screenX,screenY);
 		setResizable(false);
@@ -186,32 +191,42 @@ Sound snd;
 	
 	
 	public void run(){
-		
+		//Finds coordinates for bricks
 		Field.brickHunter();
+		//Finds mario start location
 		Field.getStart();
+		//Finds mario end location
 		Field.getEnd();
+		
+		//Position of end location
 		endX = Field.endX;
 		endY =Field.endY;
 		
-		
+		//Where mario starts
 		x = Field.startX;
 		y= Field.startY;
 		while(true){
 
 			try{
-		
+		//Creates time
 				if(!stopTime)
 				time+=.1;
+				//Speed of enemys
 				if(enemySpeedGovenor % 3 == 0)
 					ene.updateAll(Field.array);
 				enemySpeedGovenor++;
 
-				
+				//gravity
 				falling();
 				
+				//Player movement
 				move();
+				
+				//Checks to see if player is out
 				if(!isOut)
 				amIOut();
+				
+				//checks to see if there is a winner
 				if(!victory)
 				isVictor();
 				
@@ -230,11 +245,14 @@ Sound snd;
 	}
 	
 	public void isVictor(){
+		//Checks to see if you win
 		if(endX == x && endY == y){
 			victory = true;
 		}
 		
 	}
+	
+	//checks to see if your out
 	public void amIOut(){
 		if(ene.amIOut(x,y) && (Math.abs(prevTime - (int)time) > 1)){
 			prevTime = (int)time;
@@ -248,7 +266,7 @@ Sound snd;
 		
 		
 	}
-
+//Imports new fields
 	public void importer() throws FileNotFoundException{
 		brick[][] ne = new brick[rowLeng][colLeng]; //Creates a new arraylist of Strings called allWords
 		//scan in the words, one on each line
@@ -265,7 +283,7 @@ Sound snd;
 		Field.array = ne;
 
 	}
-
+//Controls all of marios movement
 	public void move(){
 		tempX = x;
 		tempY = y;
@@ -289,15 +307,19 @@ Sound snd;
 		
 	}
 	
-
+//used in mario movement
 	public void setXDirect(int n){
 		xDirect = n;
 	}
+	//used in mario movement
 	public void setYDirect(int n){
 		yDirect = n;
 
 	}
 
+	
+	
+	//Takes in user input
 	public class AL extends KeyAdapter{
 
 		public void keyPressed(KeyEvent e){
@@ -313,6 +335,10 @@ Sound snd;
 			if(code == e.VK_LEFT){
 
 				setXDirect(-30);
+			}
+			if(code == e.VK_SPACE){
+				time = 0;
+				startscreen = false;
 			}
 			if(code == e.VK_RIGHT && code != e.VK_DOWN){
 
@@ -362,7 +388,7 @@ Sound snd;
 	}
 
 
-
+//Find coordinates for eneyms
 	public void enemyFinder(){
 		for(int c = 0;c<colLeng;c++){
 			for(int r = 0;r<rowLeng;r++){
@@ -375,6 +401,8 @@ Sound snd;
 
 		}
 	}
+	
+	//part of double buffering
 	public void paint(Graphics g){
 		dbImage = createImage(getWidth(), getHeight());
 		dbg = dbImage.getGraphics();
@@ -386,7 +414,7 @@ Sound snd;
 		}
 		g.drawImage(dbImage, 0, 0, this);
 	}
-	
+	//Checks to see if the player won the level, if so, level changes
 	public void winner() throws InterruptedException{
 		 if(victory){
 				snd.play("src/MarioGameTestingPlatForm/Win Stage.wav/");
@@ -435,9 +463,39 @@ Sound snd;
 			// g.drawImage(vicImage, 10,10, this);
 			
 		}
+		 
 	}
+	//Creates fonts used in the start screen
+	Font big = new Font("Arial", Font.BOLD,100);
+	Font itl = new Font("Arial", Font.ITALIC,50);
+
 	public void paintComponent(Graphics g) throws InterruptedException, FileNotFoundException{
+		//Decides if you have won the game
 		winner();
+		
+		//Start screen
+		if(startscreen){
+			
+			g.drawImage(goomba, 80, 200, this);
+			g.drawString("Goomba", 80, 250);
+			g.drawImage(brickBreak, 80, 350, this);
+			g.drawString("Breakable Brick", 60, 390);
+			g.drawString("Can jump though, and break by hitting down arrow", 60, 405);
+			g.drawImage(brick, 900, 200, this);
+			g.drawString("Regular Brick: ",780,250);
+					g.drawString("cant be jumped through or broken", 800, 265);
+			
+			g.drawString("Welcome to mario game. Use arrow keys to move. Do not touch the goombas", 200, 220);
+			g.drawString("They will take away one of your 4 lives. Your goal is to get to the Blue brick", 200, 240);
+			g.drawString("Currently there are 4 levels. To access the level editor go to MarioEditor", 200, 260);
+			g.drawString("You have one second of invincibility between goombe hits", 200, 280);
+			g.setFont(big);
+			g.drawString("Mario Game", 200, 200);
+			g.setFont(itl);
+			g.drawString("Click Space to begin", 200, 500);
+		}
+		else{
+			//Displays the number of lives/hearts remaining
 	g.drawString("Number of lives left: ", 30, 615);
 	if(numOfLives == 4){
 		g.drawImage(lifes, 190, 605, this);
@@ -460,6 +518,8 @@ Sound snd;
 
 	}
 	g.drawString("Time: " + ((int)(time)), 400, 615);
+	
+	//Sees if you win
 		if(win){
 		
 		
@@ -467,18 +527,18 @@ Sound snd;
 			
 			if(once == 0){
 				once++;
-//			String inputString = JOptionPane.showInputDialog(null, "Enter your name for the leaderboard");
-//		      
-////	        System.out.println("User input: " + inputString);
-//	        Leader me = new Leader(inputString,(int)time);
-//	        advLeaderboard board = new advLeaderboard();
-//	        board.addLeader(me);
-//	        board.writeLeaderboard();
-//	       JOptionPane.showMessageDialog(null,board.dog());
+			String inputString = JOptionPane.showInputDialog(null, "Enter your name for the leaderboard");
+		      
+//	        System.out.println("User input: " + inputString);
+	        Leader me = new Leader(inputString,(int)time);
+	        advLeaderboard board = new advLeaderboard();
+	        board.addLeader(me);
+	        board.writeLeaderboard();
+	       JOptionPane.showMessageDialog(null,board.dog());
 			}
 		} else{
 			
-		
+		//Checks to make sure your in
 	 if(!isOut){
 			for(int r = 0;r<rowLeng;r++){
 				for(int c = 0;c<colLeng;c++){
@@ -532,6 +592,7 @@ Sound snd;
 			}
 		}
 		}
+	}
 	}
 
 }
