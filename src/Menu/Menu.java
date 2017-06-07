@@ -175,6 +175,8 @@ public class Menu extends JFrame implements Runnable {
 			try {
 				
 				PacMenu avery= new PacMenu();
+				Thread t1 = new Thread(avery);
+				t1.start();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

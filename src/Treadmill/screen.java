@@ -10,7 +10,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-
+//avery was here
 
 
 public class screen extends JFrame implements Runnable {
@@ -253,7 +253,7 @@ public class screen extends JFrame implements Runnable {
 		paintComponent(dbg);
 		g.drawImage(dbImage, 0, 0, this);
 	}
-	
+	 
 	
 	public void paintComponent(Graphics g){
 	
