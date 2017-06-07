@@ -15,10 +15,9 @@ import java.awt.event.MouseEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
-import minesweeper.MineScreen.Mouse;
-import practice.Video7.AL;
 
-public class MouseScreen extends JFrame{
+
+public class AdminPrompt extends JFrame{
 Image screen;
 Image passe;
 
@@ -32,7 +31,7 @@ int mouseX;
 int mouseY;
 String star = " ";
 	
-	public MouseScreen(){
+	public AdminPrompt(){
 		addKeyListener(new AL());
 		addMouseListener(new Mouse());
 		ImageIcon creen = new ImageIcon("src/RobotMouse/Screenshot 2017-06-01 11.57.24.png");
@@ -109,7 +108,7 @@ public class AL extends KeyAdapter{
 		}
 	}
 	public static void main(String[] args){
-		new MouseScreen(); //Runs program
+		new AdminPrompt(); //Runs program
 	}
 	
 	public void paint(Graphics g){
